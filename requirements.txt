@@ -1,0 +1,20 @@
+--extra-index-url https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@seequent.jfrog.io/artifactory/api/pypi/evo-converters-packages-pypi-local/simple
+aiohttp
+build
+evo-client-common>=2.0.1
+evo-object-client>=2.0.0
+mypy
+nest-asyncio
+numpy
+omf>=1.0.1
+omf-python>=0.2
+pandas
+pre-commit
+pyarrow
+pytest
+pytest-asyncio
+ruff
+seequent-geoscience-object-schemas>=2024.11
+resqpy==4.18.10
+scipy
+requests-mock

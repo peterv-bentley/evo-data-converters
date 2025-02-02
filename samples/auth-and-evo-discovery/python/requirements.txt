@@ -1,0 +1,5 @@
+authlib
+ipykernel
+ipython
+PyJWT
+requests

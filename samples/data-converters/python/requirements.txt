@@ -1,0 +1,2 @@
+--extra-index-url https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@seequent.jfrog.io/artifactory/api/pypi/evo-converters-packages-pypi-local/simple
+evo_samples_internal[notebooks]>=0.0.4

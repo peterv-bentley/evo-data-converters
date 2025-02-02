@@ -1,0 +1,66 @@
+{
+    "workspace_id": "a3c3ef56-5908-46f7-b66b-abfe38383966",
+    "org_uuid": "97b69f96-8cdc-4ca2-97f0-ab2e5984a867",
+    "bm_uuid": "d523f560-bfd3-4ba8-9f1e-0cdf3bb629c7",
+    "name": "rotated_block_model",
+    "description": "Example 4×3×2 rotated block model\n\n\nNumber of blocks:\n4 × 3 × 2 = 24\nSub-block mode:\nNo sub-blocks\nBase point:\n300, 200, 100\nBlock size:\n10, 10, 10\nBoundary size:\n40, 30, 20\nLeapfrog rotation:\nAzimuth:\n30°\nDip:\n20°\nPitch:\n10°\n\nBounding box\n\nAxis\nMinimum\nMaximum\nX\n296.5797985667433\n349.24398372615497\nY\n168.7273029109997\n221.4383053142827\nZ\n71.10142491927787\n102.37564698455539\n",
+    "model_origin": {
+        "x": 296.5797985667433,
+        "y": 194.0760373454795,
+        "z": 81.20614758428184
+    },
+    "block_rotation": [
+        {
+            "axis": "z",
+            "angle": 30.0
+        },
+        {
+            "axis": "x",
+            "angle": 20.0
+        },
+        {
+            "axis": "z",
+            "angle": 10.0
+        }
+    ],
+    "size_options": {
+        "model_type": "regular",
+        "n_blocks": {
+            "nx": 4,
+            "ny": 3,
+            "nz": 2
+        },
+        "block_size": {
+            "x": 10.0,
+            "y": 10.0,
+            "z": 10.0
+        }
+    },
+    "created_by": {
+        "id": "fe195d7d-5370-4c9a-b5bf-643315da108a",
+        "name": "Example User",
+        "email": "user@example.com"
+    },
+    "created_at": "2024-11-10T20:29:32.243684Z",
+    "last_updated_by": {
+        "id": "fe195d7d-5370-4c9a-b5bf-643315da108a",
+        "name": "Example User",
+        "email": "user@example.com"
+    },
+    "last_updated_at": "2024-11-10T20:29:38.894798Z",
+    "size_unit_id": null,
+    "bbox": {
+        "x_minmax": {
+            "min": 296.5797985667433,
+            "max": 349.24398372615497
+        },
+        "y_minmax": {
+            "min": 168.72730291099967,
+            "max": 221.43830531428267
+        },
+        "z_minmax": {
+            "min": 71.10142491927789,
+            "max": 102.3756469845554
+        }
+    }
+}
