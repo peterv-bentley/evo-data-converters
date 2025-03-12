@@ -593,7 +593,7 @@ dependencies = [
 
 [[package]]
 name = "evo-samples-internal"
-version = "0.0.5"
+version = "0.0.7"
 source = { editable = "." }
 dependencies = [
     { name = "aiohttp" },
