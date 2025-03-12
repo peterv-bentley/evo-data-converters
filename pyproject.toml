@@ -6,7 +6,7 @@ name = "evo_samples_internal"
 requires-python = ">=3.10"
 readme = { file = "README.md", content-type = "text/markdown" }
 license = { file = "LICENSE" }
-version = "0.0.5"
+version = "0.0.7"
 dependencies = [
   "aiohttp",
   "evo-client-common>=2.0.1",
