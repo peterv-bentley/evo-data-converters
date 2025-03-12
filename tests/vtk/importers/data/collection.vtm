@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<VTKFile type="vtkMultiBlockDataSet" version="1.0" byte_order="LittleEndian" header_type="UInt32" compressor="vtkZLibDataCompressor">
+  <vtkMultiBlockDataSet>
+    <DataSet index="0" name="image_data" file="collection/collection_0.vti"/>
+    <DataSet index="1" name="rect_grid" file="collection/collection_1.vtr"/>
+    <DataSet index="2" name="unstructured_grid" file="collection/collection_2.vtu"/>
+  </vtkMultiBlockDataSet>
+</VTKFile>

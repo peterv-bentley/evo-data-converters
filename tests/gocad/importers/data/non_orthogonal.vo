@@ -1,0 +1,50 @@
+GOCAD Voxet 1 
+HEADER {
+name: non_orthogonal_voxet
+smoothed: off
+use_private_colormaps: off
+probe_type: Sections
+size: 0 0 0 99 99 99
+fence0: 3 1 2 0 0 0 99 99 99
+nb_fences: 1
+sections: 3 2 1 18 3 1 30 1 1 64
+VoxetIntersectionAssociation: off
+painted: on
+*channel2*grid: 
+*visible*regions: on
+regions: on
+*regions*Intrusive*visible: off
+*regions*Fresh*visible: off
+*regions*Weathered*visible: off
+}
+GOCAD_ORIGINAL_COORDINATE_SYSTEM
+NAME " gocad Local" 
+PROJECTION Unknown
+DATUM Unknown
+AXIS_NAME X Y Z
+AXIS_UNIT ft ft ft
+ZPOSITIVE Elevation
+END_ORIGINAL_COORDINATE_SYSTEM
+CLASSIFICATION " 3D Survey"  Seismic " 3D Survey" 
+AXIS_O 1449903.8047490155 21595609.954273291 5971.3296564858101 
+AXIS_U 1619.45337 -56.3894348 0.0184226856 
+AXIS_V 748.851685 670.009033 -0.0392483287 
+AXIS_W 0 0 528.670166 
+AXIS_MIN 0 0 0 
+AXIS_MAX 1 1 1 
+AXIS_N 100 100 100 
+AXIS_NAME axis-1 axis-2 axis-3
+AXIS_UNIT "unitless" "unitless" "unitless" 
+AXIS_TYPE even even even
+
+PROPERTY_SUBCLASS 2 QUANTITY Float
+PROP_ORIGINAL_UNIT 2 none
+PROP_UNIT 2 unitless
+PROP_NO_DATA_VALUE 2 -99999
+PROP_SAMPLE_STATS 2 1000000 1.7673 0.293147 1 3
+PROP_ESIZE 2 4
+PROP_ETYPE 2  IEEE
+PROP_FORMAT 2 RAW
+PROP_OFFSET 2 0
+PROP_FILE 2 Non_Orthogonal_Voxet_Rock_Number@@
+END

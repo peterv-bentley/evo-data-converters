@@ -54,7 +54,8 @@ class TestBlockSyncToOMF(TestCase):
         self.assertListEqual(list(omf_volume.geometry.tensor_v), expected_tensor_v)
         self.assertListEqual(list(omf_volume.geometry.tensor_w), expected_tensor_w)
 
-    def test_should_create_omf_elements(self) -> None:
+    @patch("os.unlink")
+    def test_should_create_omf_elements(self, os_unlink: MagicMock) -> None:
         mock_client = Mock(spec=BlockSyncClient)
         mock_client.get_blockmodel_columns_job_url.return_value = "https://example.com/job-url"
         mock_client.get_blockmodel_columns_download_url.return_value = "https://example.com/download-url"
@@ -65,13 +66,17 @@ class TestBlockSyncToOMF(TestCase):
             "results": [{"version_id": 1, "version_uuid": "a71e5c2e-d1a7-43cf-95d4-a23a31ae8eb5"}],
         }
         mock_client.get_blockmodel_versions.return_value = mock_response
-        mock_client.download_parquet.return_value = path.join(path.dirname(__file__), "data", "sample_data.parquet")
+        download_file = path.join(path.dirname(__file__), "data", "sample_data.parquet")
+        mock_client.download_parquet.return_value = download_file
 
         columns = export_blocksync_columns(bm_uuid="example", client=mock_client)
 
         self.assertIsInstance(columns[0], ScalarData)
         self.assertIsInstance(columns[3], DateTimeData)
         self.assertIsInstance(columns[5], MappedData)
+
+        # Ensure the download file was deleted
+        os_unlink.assert_called_once_with(download_file)
 
 
 class TestBlockSyncClient(TestCase):

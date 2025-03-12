@@ -107,7 +107,8 @@ class TestDownholeIntervals(TestCase):
         _, data_client = create_evo_object_service_and_data_client(metadata)
         self.data_client = data_client
 
-        model_file = path.join(path.dirname(__file__), "data/new_file.epc")
+        self.data_dir = tempfile.TemporaryDirectory()
+        model_file = path.join(self.data_dir.name, "new_file.epc")
         self.model = rq.new_model(model_file)
 
         self.well_name = "Test Well #1"
