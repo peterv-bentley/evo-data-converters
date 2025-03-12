@@ -4,6 +4,7 @@ There are currently data converters for the following file formats:
 
 * [OMF](omf/README.md)
 * [RESQML](resqml/README.md)
+* [VTK](vtk/README.md)
 
 Data converters can be optionally both an importer and an exporter.
 
@@ -39,6 +40,7 @@ Within `src/eco/data_converters/` the directory structure for converters compris
 ├── common/
 ├── omf/
 ├── resqml/
+├── vtk/
 ├── __init__.py
 └── README.md
 ```
@@ -74,7 +76,13 @@ Expanding this out, each converter type contains an `importer` directory, an `ex
 │   │   └── (and more modules specific to resqml/importer)
 │   ├── __init__.py
 │   ├── utils.py
-│   └── (and more common modules for omf)
+│   └── (and more common modules for resqml)
+├── vtk/
+│   ├── importer/
+│   │   └── __init__.py
+│   │   └── vtk_to_evo.py
+│   │   └── (and more modules specific to vtk/importer)
+│   ├── __init__.py
 ├── __init__.py
 └── README.md
 ```
