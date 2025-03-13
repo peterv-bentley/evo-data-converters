@@ -1,0 +1,51 @@
+name: Tests and Linting
+
+on:
+  pull_request:
+
+jobs:
+  run-linting:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set variables
+        shell: bash
+        run: |
+          PY_VER=$(cat .python-version)
+          echo "PYTHON_VERSION=$PY_VER" >> $GITHUB_ENV
+
+      - name: Install uv with Python ${{ env.PYTHON_VERSION }}
+        uses: astral-sh/setup-uv@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Ruff check and format
+        shell: bash
+        run: |
+          uv run --only-dev ruff check
+          uv run --only-dev ruff format --check
+
+  run-tests:
+    name: Test
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, ubuntu-latest, macos-latest]
+        python-version:
+          - "3.10"
+          - "3.11"
+          - "3.12"
+    runs-on: ${{ matrix.os }}
+    steps:
+    - name: Install uv with Python ${{ matrix.python-version }}
+      uses: astral-sh/setup-uv@v5
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Pytest
+      shell: bash
+      run: |
+        uv run pytest tests/
+
