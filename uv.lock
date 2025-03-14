@@ -586,20 +586,8 @@ notebooks = [
 ]
 
 [[package]]
-name = "evo-object-client"
-version = "2.2.0"
-source = { registry = "https://seequent.jfrog.io/artifactory/api/pypi/evo-converters-packages-pypi-local/simple" }
-dependencies = [
-    { name = "evo-client-common" },
-    { name = "pydantic" },
-]
-wheels = [
-    { url = "https://seequent.jfrog.io/artifactory/api/pypi/evo-converters-packages-pypi-local/evo-object-client/2.2.0/evo_object_client-2.2.0-py3-none-any.whl", hash = "sha256:a3efca7ce1e3d1c782f842229d090d60e028b2e59721998175d2e6fdb77d1038" },
-]
-
-[[package]]
-name = "evo-samples-internal"
-version = "0.0.7"
+name = "evo-data-converters"
+version = "0.0.1"
 source = { editable = "." }
 dependencies = [
     { name = "aiohttp" },
@@ -664,6 +652,18 @@ dev = [
 notebooks = [
     { name = "evo-client-common", extras = ["notebooks"] },
     { name = "jupyter" },
+]
+
+[[package]]
+name = "evo-object-client"
+version = "2.2.0"
+source = { registry = "https://seequent.jfrog.io/artifactory/api/pypi/evo-converters-packages-pypi-local/simple" }
+dependencies = [
+    { name = "evo-client-common" },
+    { name = "pydantic" },
+]
+wheels = [
+    { url = "https://seequent.jfrog.io/artifactory/api/pypi/evo-converters-packages-pypi-local/evo-object-client/2.2.0/evo_object_client-2.2.0-py3-none-any.whl", hash = "sha256:a3efca7ce1e3d1c782f842229d090d60e028b2e59721998175d2e6fdb77d1038" },
 ]
 
 [[package]]

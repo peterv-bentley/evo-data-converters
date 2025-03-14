@@ -16,12 +16,11 @@ jobs:
       - name: Pytest
         shell: bash
         run: |
-          export UV_INDEX_ARTIFACTORY_USERNAME=${{ vars.EVO_ARTIFACTORY_USER }}
-          export UV_INDEX_ARTIFACTORY_PASSWORD=${{ secrets.EVO_ARTIFACTORY_TOKEN }}
           uv run pytest tests/
 
   build-package:
     name: Build package
+    needs: [run-tests]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -40,6 +39,4 @@ jobs:
       - name: Publish to Artifactory
         shell: bash
         run: |
-          export UV_INDEX_ARTIFACTORY_USERNAME=${{ vars.EVO_ARTIFACTORY_USER }}
-          export UV_INDEX_ARTIFACTORY_PASSWORD=${{ secrets.EVO_ARTIFACTORY_TOKEN }}
           uv publish --index artifactory
