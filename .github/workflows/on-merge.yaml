@@ -1,0 +1,30 @@
+name: Build and publish package
+
+on:
+  push:
+    branches:
+      - main
+
+  run-tests:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set variables
+        shell: bash
+        run: |
+          PY_VER=$(cat .python-version)
+          echo "PYTHON_VERSION=$PY_VER" >> $GITHUB_ENV
+
+      - name: Install uv with Python ${{ env.python-version }}
+        uses: astral-sh/setup-uv@v5
+        with:
+          python-version: ${{ env.python-version }}
+
+      - name: Pytest
+        shell: bash
+        run: |
+          export UV_INDEX_ARTIFACTORY_USERNAME=${{ vars.EVO_ARTIFACTORY_USER }}
+          export UV_INDEX_ARTIFACTORY_PASSWORD=${{ secrets.EVO_ARTIFACTORY_TOKEN }}
+          uv run pytest tests/

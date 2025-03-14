@@ -9,17 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      - name: Set variables
-        shell: bash
-        run: |
-          PY_VER=$(cat .python-version)
-          echo "PYTHON_VERSION=$PY_VER" >> $GITHUB_ENV
-
-      - name: Install uv with Python ${{ env.PYTHON_VERSION }}
-        uses: astral-sh/setup-uv@v5
-        with:
-          python-version: ${{ env.PYTHON_VERSION }}
+      - uses: ./.github/actions/install-uv
 
       - name: Ruff check and format
         shell: bash
@@ -32,17 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      - name: Set variables
-        shell: bash
-        run: |
-          PY_VER=$(cat .python-version)
-          echo "PYTHON_VERSION=$PY_VER" >> $GITHUB_ENV
-
-      - name: Install uv with Python ${{ env.python-version }}
-        uses: astral-sh/setup-uv@v5
-        with:
-          python-version: ${{ env.python-version }}
+      - uses: ./.github/actions/install-uv
 
       - name: Pytest
         shell: bash
@@ -57,11 +37,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      - name: Install uv with Python ${{ env.python-version }}
-        uses: astral-sh/setup-uv@v5
-        with:
-          python-version: ${{ env.python-version }}
+      - uses: ./.github/actions/install-uv
 
       - name: Build
         shell: bash
