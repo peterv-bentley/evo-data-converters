@@ -566,12 +566,15 @@ wheels = [
 
 [[package]]
 name = "evo-client-common"
-version = "2.1.0"
-source = { git = "ssh://git@github.com/seequent/evo-client-common#9712d326df9c45e3c3485e40d377c8d8ebc210cd" }
+version = "2.0.3"
+source = { registry = "https://seequent.jfrog.io/artifactory/api/pypi/evo-converters-packages-pypi-local/simple" }
 dependencies = [
     { name = "pure-interface" },
     { name = "pydantic" },
     { name = "python-dateutil" },
+]
+wheels = [
+    { url = "https://seequent.jfrog.io/artifactory/api/pypi/evo-converters-packages-pypi-local/evo-client-common/2.0.3/evo_client_common-2.0.3-py3-none-any.whl", hash = "sha256:c0345a1e7c789aefa031c5f0ebf4ef288b3974777557a8f73b9070998c28f9ef" },
 ]
 
 [package.optional-dependencies]
@@ -584,11 +587,14 @@ notebooks = [
 
 [[package]]
 name = "evo-object-client"
-version = "2.3.1"
-source = { git = "ssh://git@github.com/seequent/evo-object-client#476724477a1edf81d11beb038fcd322abbe0d018" }
+version = "2.2.0"
+source = { registry = "https://seequent.jfrog.io/artifactory/api/pypi/evo-converters-packages-pypi-local/simple" }
 dependencies = [
     { name = "evo-client-common" },
     { name = "pydantic" },
+]
+wheels = [
+    { url = "https://seequent.jfrog.io/artifactory/api/pypi/evo-converters-packages-pypi-local/evo-object-client/2.2.0/evo_object_client-2.2.0-py3-none-any.whl", hash = "sha256:a3efca7ce1e3d1c782f842229d090d60e028b2e59721998175d2e6fdb77d1038" },
 ]
 
 [[package]]
@@ -630,8 +636,8 @@ notebooks = [
 [package.metadata]
 requires-dist = [
     { name = "aiohttp" },
-    { name = "evo-client-common", git = "ssh://git@github.com/seequent/evo-client-common" },
-    { name = "evo-object-client", git = "ssh://git@github.com/seequent/evo-object-client" },
+    { name = "evo-client-common", specifier = ">=2.0.1" },
+    { name = "evo-object-client", specifier = ">=2.0.0" },
     { name = "nest-asyncio" },
     { name = "numpy", specifier = "<2.0.0" },
     { name = "omf", specifier = ">=1.0.1" },
@@ -641,7 +647,7 @@ requires-dist = [
     { name = "pyarrow" },
     { name = "resqpy", specifier = "==4.18.10" },
     { name = "scipy" },
-    { name = "seequent-geoscience-object-schemas", git = "ssh://git@github.com/seequent/geoscience-object-schemas" },
+    { name = "seequent-geoscience-object-schemas", specifier = ">=2024.6" },
     { name = "vtk" },
 ]
 
@@ -656,7 +662,7 @@ dev = [
     { name = "ruff" },
 ]
 notebooks = [
-    { name = "evo-client-common", extras = ["notebooks"], git = "ssh://git@github.com/seequent/evo-client-common" },
+    { name = "evo-client-common", extras = ["notebooks"] },
     { name = "jupyter" },
 ]
 
@@ -2917,11 +2923,10 @@ wheels = [
 
 [[package]]
 name = "seequent-geoscience-object-schemas"
-version = "2025.2"
-source = { git = "ssh://git@github.com/seequent/geoscience-object-schemas#d17ec3df494a4dfaad226f18515c8c2943fc6c02" }
-dependencies = [
-    { name = "jsonpointer" },
-    { name = "rfc3986-validator" },
+version = "2024.11"
+source = { registry = "https://seequent.jfrog.io/artifactory/api/pypi/evo-converters-packages-pypi-local/simple" }
+wheels = [
+    { url = "https://seequent.jfrog.io/artifactory/api/pypi/evo-converters-packages-pypi-local/seequent-geoscience-object-schemas/2024.11/Seequent_Geoscience_Object_Schemas-2024.11-py3-none-any.whl", hash = "sha256:5fb98f7b40f9021f5e9dc71207727e3a3885983aefddeadf8787f0b4aab01fdb" },
 ]
 
 [[package]]
