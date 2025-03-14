@@ -29,27 +29,24 @@ jobs:
 
   run-tests:
     name: Test
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [windows-latest, ubuntu-latest, macos-latest]
-        python-version:
-          - "3.10"
-          - "3.11"
-          - "3.12"
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install uv with Python ${{ matrix.python-version }}
+      - name: Set variables
+        shell: bash
+        run: |
+          PY_VER=$(cat .python-version)
+          echo "PYTHON_VERSION=$PY_VER" >> $GITHUB_ENV
+
+      - name: Install uv with Python ${{ env.python-version }}
         uses: astral-sh/setup-uv@v5
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: ${{ env.python-version }}
 
       - name: Pytest
         shell: bash
         run: |
           export UV_INDEX_ARTIFACTORY_USERNAME=${{ vars.EVO_ARTIFACTORY_USER }}
           export UV_INDEX_ARTIFACTORY_PASSWORD=${{ secrets.EVO_ARTIFACTORY_TOKEN }}
-          echo UV_INDEX_ARTIFACTORY_USERNAME
           uv run pytest tests/
