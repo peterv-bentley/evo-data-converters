@@ -57,7 +57,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
+      - name: Install uv with Python ${{ env.python-version }}
+        uses: astral-sh/setup-uv@v5
+        with:
+          python-version: ${{ env.python-version }}
+
       - name: Build
         shell: bash
         run: |
