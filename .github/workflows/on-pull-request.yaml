@@ -61,6 +61,4 @@ jobs:
       - name: Publish to Artifactory
         shell: bash
         run: |
-          export UV_INDEX_ARTIFACTORY_USERNAME=${{ vars.EVO_ARTIFACTORY_USER }}
-          export UV_INDEX_ARTIFACTORY_PASSWORD=${{ secrets.EVO_ARTIFACTORY_TOKEN }}
-          uv publish --index artifactory --token ${{ secrets.EVO_ARTIFACTORY_TOKEN }}
+          uv publish --index artifactory --username ${{ vars.EVO_ARTIFACTORY_USER }} --token ${{ secrets.EVO_ARTIFACTORY_TOKEN }}
