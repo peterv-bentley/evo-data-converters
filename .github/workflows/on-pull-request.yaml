@@ -49,8 +49,7 @@ jobs:
       - name: Pytest
         shell: bash
         run: |
+          export UV_INDEX_ARTIFACTORY_USERNAME=${{ vars.EVO_ARTIFACTORY_USER }}
+          export UV_INDEX_ARTIFACTORY_PASSWORD=${{ secrets.EVO_ARTIFACTORY_TOKEN }}
+          echo UV_INDEX_ARTIFACTORY_USERNAME
           uv run pytest tests/
-        env:
-          UV_INDEX_ARTIFACTORY_USERNAME: ${{ secrets.EVO_ARTIFACTORY_USER }}
-          UV_INDEX_ARTIFACTORY_PASSWORD: ${{ secrets.EVO_ARTIFACTORY_TOKEN }}
-
