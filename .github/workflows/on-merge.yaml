@@ -10,17 +10,7 @@ on:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      - name: Set variables
-        shell: bash
-        run: |
-          PY_VER=$(cat .python-version)
-          echo "PYTHON_VERSION=$PY_VER" >> $GITHUB_ENV
-
-      - name: Install uv with Python ${{ env.python-version }}
-        uses: astral-sh/setup-uv@v5
-        with:
-          python-version: ${{ env.python-version }}
+      - uses: ./.github/actions/install-uv
 
       - name: Pytest
         shell: bash
@@ -28,3 +18,27 @@ on:
           export UV_INDEX_ARTIFACTORY_USERNAME=${{ vars.EVO_ARTIFACTORY_USER }}
           export UV_INDEX_ARTIFACTORY_PASSWORD=${{ secrets.EVO_ARTIFACTORY_TOKEN }}
           uv run pytest tests/
+
+  build-package:
+    name: Build package
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/install-uv
+
+      - name: Build
+        shell: bash
+        run: |
+          uv build
+      
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          path: ./dist
+
+      - name: Publish to Artifactory
+        shell: bash
+        run: |
+          export UV_INDEX_ARTIFACTORY_USERNAME=${{ vars.EVO_ARTIFACTORY_USER }}
+          export UV_INDEX_ARTIFACTORY_PASSWORD=${{ secrets.EVO_ARTIFACTORY_TOKEN }}
+          uv publish --index artifactory
