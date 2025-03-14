@@ -56,6 +56,8 @@ jobs:
     name: Build dev package
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
+      
       - name: Build
         shell: bash
         run: |
