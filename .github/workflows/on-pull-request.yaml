@@ -9,21 +9,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      - name: Set variables
-        shell: bash
-        run: |
-          PY_VER=$(cat .python-version)
-          echo "PYTHON_VERSION=$PY_VER" >> $GITHUB_ENV
-
-      - name: Install uv with Python ${{ env.PYTHON_VERSION }}
-        uses: astral-sh/setup-uv@v5
-        with:
-          python-version: ${{ env.PYTHON_VERSION }}
+      - uses: ./.github/actions/install-uv
 
       - name: Ruff check and format
         shell: bash
         run: |
+          export UV_INDEX_ARTIFACTORY_USERNAME=${{ vars.EVO_ARTIFACTORY_USER }}
+          export UV_INDEX_ARTIFACTORY_PASSWORD=${{ secrets.EVO_ARTIFACTORY_TOKEN }}
           uv run --only-dev ruff check
           uv run --only-dev ruff format --check
 
@@ -32,17 +24,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      - name: Set variables
-        shell: bash
-        run: |
-          PY_VER=$(cat .python-version)
-          echo "PYTHON_VERSION=$PY_VER" >> $GITHUB_ENV
-
-      - name: Install uv with Python ${{ env.python-version }}
-        uses: astral-sh/setup-uv@v5
-        with:
-          python-version: ${{ env.python-version }}
+      - uses: ./.github/actions/install-uv
 
       - name: Pytest
         shell: bash
@@ -50,3 +32,28 @@ jobs:
           export UV_INDEX_ARTIFACTORY_USERNAME=${{ vars.EVO_ARTIFACTORY_USER }}
           export UV_INDEX_ARTIFACTORY_PASSWORD=${{ secrets.EVO_ARTIFACTORY_TOKEN }}
           uv run pytest tests/
+
+  build-dev:
+    needs: [run-linting, run-tests]
+    name: Build dev package
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/install-uv
+
+      - name: Build
+        shell: bash
+        run: |
+          VERSION=$(grep version pyproject.toml -m 1 | cut -d'"' -f2)
+          PACKAGE_VERSION=$VERSION.dev${{ github.run_number }}
+          echo "PACKAGE_VERSION=$PACKAGE_VERSION" >> $GITHUB_ENV
+          sed -i "s/^version.*=.*$/version = \"$PACKAGE_VERSION\"/" pyproject.toml
+          export UV_INDEX_ARTIFACTORY_USERNAME=${{ vars.EVO_ARTIFACTORY_USER }}
+          export UV_INDEX_ARTIFACTORY_PASSWORD=${{ secrets.EVO_ARTIFACTORY_TOKEN }}
+          uv build
+      
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          path: ./dist
+          name: Build-${{ env.PACKAGE_VERSION }}

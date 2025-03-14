@@ -29,7 +29,7 @@ Whether using the code samples or working on development of the converters the f
 
 ### Requirements
 
-* Python 3.10
+- Python 3.10
 
 Python 3.10 is explicitly required to maintain compatibility with upstream dependencies that are not compatible with earlier or later versions of Python - specifically `resqpy`.
 
@@ -37,11 +37,11 @@ Python 3.10 is explicitly required to maintain compatibility with upstream depen
 
 The following Evo dependencies are not yet publicly available on PyPI and need to be installed from Seequent's Artifactory package repository.
 
-* `evo-client-common`
-* `evo-object-client`
-* `seequent-geoscience-object-schemas`
+- `evo-client-common`
+- `evo-object-client`
+- `seequent-geoscience-object-schemas`
 
-The Artifactory index for these has been added to the `pyproject.toml` file,  but to successfully install you must have valid `UV_INDEX_ARTIFACTORY_USERNAME` and `UV_INDEX_ARTIFACTORY_PASSWORD` variables set in your environment before running `uv sync`.
+The Artifactory index for these has been added to the `pyproject.toml` file, but to successfully install you must have valid `UV_INDEX_ARTIFACTORY_USERNAME` and `UV_INDEX_ARTIFACTORY_PASSWORD` variables set in your environment before running `uv sync`.
 
 To obtain these values you must already have a valid login for Artifactory provided to you by Seequent and follow these steps:
 
@@ -54,18 +54,18 @@ To obtain these values you must already have a valid login for Artifactory provi
 1. Add a user environment variable to your computer named `UV_INDEX_ARTIFACTORY_PASSWORD` with the copied token as the value
 
 Note that you might need to explicitly export these, a `.env` file failed.
+
 ```shell
 export UV_INDEX_ARTIFACTORY_USERNAME=<bentley email address>
 export UV_INDEX_ARTIFACTORY_PASSWORD=<your token>
 ```
 
 ### Using uv
+
 This project uses [uv](https://docs.astral.sh/uv/) to manage all the python
-versions, packages etc. 
+versions, packages etc.
 
-You will need ssh set up for GitHub while we still pull some local packages. See the [uv docs](https://docs.astral.sh/uv/configuration/authentication/#git-authentication) and the [GitHub SSH docs](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/about-ssh) as well as the artifactory access above.
-
-Once that is done though, `uv sync --all-extras` will install everything you need. 
+You will need the artifactory access above. Once that is done though, `uv sync --all-extras` will install everything you need.
 
 Then use `uv run <command>` to run commands.
 
@@ -73,6 +73,12 @@ Then use `uv run <command>` to run commands.
 uv sync --all-extras
 uv run pytest tests
 ```
+
+### Publishing a new version
+
+On merge to main, there is a workflow to publish the new package to Artifactory. So, if you want to publish a new version of this package, bump the version number in the `pyproject.toml` file, and land your change to main!
+
+If you would like a dev build of the package, one is published on PR to GitHub artifacts where it is available for 90 days.
 
 ## License
 
