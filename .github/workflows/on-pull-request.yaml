@@ -14,6 +14,8 @@ jobs:
       - name: Ruff check and format
         shell: bash
         run: |
+          export UV_INDEX_ARTIFACTORY_USERNAME=${{ secrets.EVO_ARTIFACTORY_USER }}
+          export UV_INDEX_ARTIFACTORY_PASSWORD=${{ secrets.EVO_ARTIFACTORY_TOKEN }}
           uv run --only-dev ruff check
           uv run --only-dev ruff format --check
 
@@ -27,6 +29,8 @@ jobs:
       - name: Pytest
         shell: bash
         run: |
+          export UV_INDEX_ARTIFACTORY_USERNAME=${{ secrets.EVO_ARTIFACTORY_USER }}
+          export UV_INDEX_ARTIFACTORY_PASSWORD=${{ secrets.EVO_ARTIFACTORY_TOKEN }}
           uv run pytest tests/
 
   build-dev:
@@ -44,6 +48,8 @@ jobs:
           PACKAGE_VERSION=$VERSION.dev${{ github.run_number }}
           echo "PACKAGE_VERSION=$PACKAGE_VERSION" >> $GITHUB_ENV
           sed -i "s/^version.*=.*$/version = \"$PACKAGE_VERSION\"/" pyproject.toml
+          export UV_INDEX_ARTIFACTORY_USERNAME=${{ secrets.EVO_ARTIFACTORY_USER }}
+          export UV_INDEX_ARTIFACTORY_PASSWORD=${{ secrets.EVO_ARTIFACTORY_TOKEN }}
           uv build
       
       - name: Upload artifact
