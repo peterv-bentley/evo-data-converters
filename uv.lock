@@ -627,6 +627,7 @@ dev = [
     { name = "pytest-asyncio" },
     { name = "requests-mock" },
     { name = "ruff" },
+    { name = "tomli" },
 ]
 notebooks = [
     { name = "evo-client-common", extra = ["notebooks"] },
@@ -660,6 +661,7 @@ dev = [
     { name = "pytest-asyncio" },
     { name = "requests-mock" },
     { name = "ruff" },
+    { name = "tomli" },
 ]
 notebooks = [
     { name = "evo-client-common", extras = ["notebooks"] },

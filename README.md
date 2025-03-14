@@ -63,9 +63,7 @@ export UV_INDEX_ARTIFACTORY_PASSWORD=<your token>
 This project uses [uv](https://docs.astral.sh/uv/) to manage all the python
 versions, packages etc. 
 
-You will need ssh set up for GitHub while we still pull some local packages. See the [uv docs](https://docs.astral.sh/uv/configuration/authentication/#git-authentication) and the [GitHub SSH docs](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/about-ssh) as well as the artifactory access above.
-
-Once that is done though, `uv sync --all-extras` will install everything you need. 
+You will need the artifactory access above. Once that is done though, `uv sync --all-extras` will install everything you need. 
 
 Then use `uv run <command>` to run commands.
 
@@ -73,6 +71,11 @@ Then use `uv run <command>` to run commands.
 uv sync --all-extras
 uv run pytest tests
 ```
+
+### Publishing a new version
+On merge, there is a workflow to check whether the version has changed from what is on main, and conditionally publish the new package to Artifactory. So, if you want to publish a new version of this package, bump the version number in the `pyproject.toml` file, and land your change to main!
+
+If you would like a dev build of the package, one is published on PR to GitHub artifacts where it is available for 90 days.
 
 ## License
 

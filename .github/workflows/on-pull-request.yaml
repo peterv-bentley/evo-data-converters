@@ -50,3 +50,20 @@ jobs:
           export UV_INDEX_ARTIFACTORY_USERNAME=${{ vars.EVO_ARTIFACTORY_USER }}
           export UV_INDEX_ARTIFACTORY_PASSWORD=${{ secrets.EVO_ARTIFACTORY_TOKEN }}
           uv run pytest tests/
+
+  build-dev:
+  needs: [run-linting, run-tests]
+    name: Build dev package
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build
+        shell: bash
+        run: |
+          VERSION=$(grep version pyproject.toml -m 1 | cut -d'"' -f2)
+          sed -i "s/^version.*=.*$/version = \"$VERSION.${{ github.run_id }}\"/" pyproject.toml
+          uv build
+      
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          path: ./dist
