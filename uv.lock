@@ -566,21 +566,21 @@ wheels = [
 
 [[package]]
 name = "evo-client-common"
-version = "2.1.0.dev1"
+version = "0.1.0"
 source = { registry = "https://seequent.jfrog.io/artifactory/api/pypi/evo-converters-packages-pypi-local/simple" }
 dependencies = [
     { name = "pure-interface" },
     { name = "pydantic" },
     { name = "python-dateutil" },
 ]
-sdist = { url = "https://seequent.jfrog.io/artifactory/api/pypi/evo-converters-packages-pypi-local/evo-client-common/2.1.0.dev1/evo_client_common-2.1.0.dev1.tar.gz", hash = "sha256:9129311e8a0fbc51cd2c5c26bd704af6bc980c1210855da2c212c5182861d93b" }
+sdist = { url = "https://seequent.jfrog.io/artifactory/api/pypi/evo-converters-packages-pypi-local/evo-client-common/0.1.0/evo_client_common-0.1.0.tar.gz", hash = "sha256:db2aefd12af5439b63cf9b8516f9345213195a1aed0c746c81c6a661f5baa8f8" }
 wheels = [
-    { url = "https://seequent.jfrog.io/artifactory/api/pypi/evo-converters-packages-pypi-local/evo-client-common/2.1.0.dev1/evo_client_common-2.1.0.dev1-py3-none-any.whl", hash = "sha256:7a8a895d585c6f0af9c38e7b38e3a382edc44f24293d653e9c8bde6ba23dbdf8" },
+    { url = "https://seequent.jfrog.io/artifactory/api/pypi/evo-converters-packages-pypi-local/evo-client-common/0.1.0/evo_client_common-0.1.0-py3-none-any.whl", hash = "sha256:2111c67b554fbaf1270b1ffa8bd703daf6745930d63f8f7240dc5b524660b61e" },
 ]
 
 [[package]]
 name = "evo-data-converters"
-version = "0.0.1"
+version = "0.0.2"
 source = { editable = "." }
 dependencies = [
     { name = "aiohttp" },
@@ -617,8 +617,8 @@ notebooks = [
 [package.metadata]
 requires-dist = [
     { name = "aiohttp" },
-    { name = "evo-client-common", specifier = "==2.1.0.dev1" },
-    { name = "evo-objects", specifier = "==2.2.2.dev1" },
+    { name = "evo-client-common", specifier = "==0.1.0" },
+    { name = "evo-objects", specifier = "==0.1.0" },
     { name = "nest-asyncio" },
     { name = "numpy", specifier = "<2.0.0" },
     { name = "omf", specifier = ">=1.0.1" },
@@ -649,15 +649,15 @@ notebooks = [
 
 [[package]]
 name = "evo-objects"
-version = "2.2.2.dev1"
+version = "0.1.0"
 source = { registry = "https://seequent.jfrog.io/artifactory/api/pypi/evo-converters-packages-pypi-local/simple" }
 dependencies = [
     { name = "evo-client-common" },
     { name = "pydantic" },
 ]
-sdist = { url = "https://seequent.jfrog.io/artifactory/api/pypi/evo-converters-packages-pypi-local/evo-objects/2.2.2.dev1/evo_objects-2.2.2.dev1.tar.gz", hash = "sha256:f6cc850d5fa7d4feaf43c867d4697fe89d0d6e08e2e2524d0508132ce59ff700" }
+sdist = { url = "https://seequent.jfrog.io/artifactory/api/pypi/evo-converters-packages-pypi-local/evo-objects/0.1.0/evo_objects-0.1.0.tar.gz", hash = "sha256:d2a272b261056d6400c86fcd97eab1d902f9a83ca5c0ac47bc437fd52639a235" }
 wheels = [
-    { url = "https://seequent.jfrog.io/artifactory/api/pypi/evo-converters-packages-pypi-local/evo-objects/2.2.2.dev1/evo_objects-2.2.2.dev1-py3-none-any.whl", hash = "sha256:4e9afe30ab0217990fa4b85b224c2f0772482e16ed2b177f2b0564adbb102726" },
+    { url = "https://seequent.jfrog.io/artifactory/api/pypi/evo-converters-packages-pypi-local/evo-objects/0.1.0/evo_objects-0.1.0-py3-none-any.whl", hash = "sha256:ae4c0700ba423d8d5f30540bb9691f30821e3394eab060d8dc0fba89db9c31b2" },
 ]
 
 [[package]]
