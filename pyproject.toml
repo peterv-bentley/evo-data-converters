@@ -9,8 +9,8 @@ license = { file = "LICENSE" }
 version = "0.0.2"
 dependencies = [
   "aiohttp",
-  "evo-client-common==2.1.0.dev1",
-  "evo-objects==2.2.2.dev1",
+  "evo-client-common==0.1.0",
+  "evo-objects==0.1.0",
   "nest-asyncio",
   "numpy<2.0.0",
   "omf>=1.0.1",
