@@ -7,7 +7,7 @@ from geoscience_object_models.objects import TriangleMesh_V2_0_0, TriangleMesh_V
 from omf import SurfaceElement, SurfaceGeometry
 from omf.data import ProjectElementData
 
-from evo.object.utils.data import ObjectDataClient
+from evo.objects.utils.data import ObjectDataClient
 
 from .evo_attributes_to_omf import export_omf_attributes
 from .utils import ChunkedData, IndexedData

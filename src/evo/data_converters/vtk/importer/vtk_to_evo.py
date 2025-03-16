@@ -12,8 +12,8 @@ from evo.data_converters.common import (
     create_evo_object_service_and_data_client,
     publish_geoscience_objects,
 )
-from evo.object.data import ObjectMetadata
-from evo.object.utils import ObjectDataClient
+from evo.objects.data import ObjectMetadata
+from evo.objects.utils import ObjectDataClient
 
 from .exceptions import VTKConversionError, VTKImportError
 from .vtk_image_data_to_evo import convert_vtk_image_data

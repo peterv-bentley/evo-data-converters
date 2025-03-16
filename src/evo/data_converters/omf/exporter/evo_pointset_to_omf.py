@@ -6,7 +6,7 @@ import numpy as np
 from geoscience_object_models.objects import Pointset_V1_1_0, Pointset_V1_2_0
 from omf import PointSetElement, PointSetGeometry
 
-from evo.object.utils.data import ObjectDataClient
+from evo.objects.utils.data import ObjectDataClient
 
 from .evo_attributes_to_omf import export_omf_attributes
 

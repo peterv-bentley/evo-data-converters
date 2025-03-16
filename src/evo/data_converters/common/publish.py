@@ -4,9 +4,9 @@ import nest_asyncio
 from geoscience_object_models.components import BaseSpatialDataProperties_V1_0_1
 
 import evo.logging
-from evo.object import ObjectServiceClient
-from evo.object.data import ObjectMetadata
-from evo.object.utils import ObjectDataClient
+from evo.objects import ObjectServiceClient
+from evo.objects.data import ObjectMetadata
+from evo.objects.utils import ObjectDataClient
 
 from .generate_paths import generate_paths
 

@@ -15,7 +15,7 @@ from geoscience_object_models.objects import Tensor3DGrid_V1_2_0, Tensor3DGrid_V
 import evo.logging
 from evo.data_converters.common.utils import grid_bounding_box
 from evo.data_converters.ubc.importer.ubc_reader import UBCMeshFileImporter, UBCPropertyFileImporter
-from evo.object.utils.data import ObjectDataClient
+from evo.objects.utils.data import ObjectDataClient
 
 logger = evo.logging.getLogger("data_converters")
 

@@ -23,7 +23,7 @@ from resqpy.property import Property
 
 import evo.logging
 from evo.data_converters.resqml.utils import property_is_discrete
-from evo.object.utils.data import ObjectDataClient
+from evo.objects.utils.data import ObjectDataClient
 
 logger = evo.logging.getLogger("data_converters.resqml")
 

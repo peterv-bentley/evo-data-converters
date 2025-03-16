@@ -25,7 +25,7 @@ from resqpy.property import ApsProperty, AttributePropertySet, StringLookup
 
 import evo.logging
 from evo.data_converters.resqml.importer._attribute_converters import create_category_lookup_and_data
-from evo.object.utils.data import ObjectDataClient
+from evo.objects.utils.data import ObjectDataClient
 
 logger = evo.logging.getLogger("data_converters.resqml")
 

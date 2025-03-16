@@ -34,7 +34,7 @@ from geoscience_object_models.elements import (
 from pandas.api.types import is_datetime64_dtype
 
 import evo.logging
-from evo.object.utils.data import ObjectDataClient
+from evo.objects.utils.data import ObjectDataClient
 
 logger = evo.logging.getLogger("data_converters")
 

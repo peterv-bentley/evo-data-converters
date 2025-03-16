@@ -22,7 +22,7 @@ from geoscience_object_models.elements import LookupTable_V1_0_1 as LookupTable
 import evo.logging
 from evo.data_converters.resqml.importer._attribute_converters import convert_resqml_properties_to_evo_attributes
 from evo.data_converters.resqml.utils import get_crs_epsg_code
-from evo.object.utils.data import ObjectDataClient
+from evo.objects.utils.data import ObjectDataClient
 
 from .conversion_options import ResqmlConversionOptions
 

@@ -5,7 +5,7 @@ from geoscience_object_models.elements import BoolArray1_V1_0_1
 from geoscience_object_models.objects import Regular3DGrid_V1_2_0, RegularMasked3DGrid_V1_2_0
 
 import evo.logging
-from evo.object.utils.data import ObjectDataClient
+from evo.objects.utils.data import ObjectDataClient
 
 from ._utils import check_for_ghosts, common_fields, get_rotation
 from .vtk_attributes_to_evo import convert_attributes

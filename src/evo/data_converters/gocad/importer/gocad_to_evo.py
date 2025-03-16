@@ -9,7 +9,7 @@ from evo.data_converters.common import (
     publish_geoscience_objects,
 )
 from evo.data_converters.gocad.importer import utils
-from evo.object.data import ObjectMetadata
+from evo.objects.data import ObjectMetadata
 
 logger = evo.logging.getLogger("data_converters")
 

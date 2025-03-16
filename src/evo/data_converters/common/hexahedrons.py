@@ -9,7 +9,7 @@ from geoscience_object_models.components import Hexahedrons_V1_1_0_Indices as He
 from geoscience_object_models.components import Hexahedrons_V1_1_0_Vertices as HexahedronsVertices
 from geoscience_object_models.components import OneOfAttribute_V1_1_0 as OneOfAttribute
 
-from evo.object.utils.data import ObjectDataClient
+from evo.objects.utils.data import ObjectDataClient
 
 
 def build_vertices(vertices: npt.NDArray[np.float64], data_client: ObjectDataClient) -> HexahedronsVertices:

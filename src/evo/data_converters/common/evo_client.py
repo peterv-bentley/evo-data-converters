@@ -10,8 +10,8 @@ from evo.common.interfaces import ITransport
 from evo.common.utils.cache import Cache
 from evo.data_converters.common.exceptions import ConflictingConnectionDetailsError, MissingConnectionDetailsError
 from evo.oauth import AuthorizationCodeAuthorizer, ClientCredentialsAuthorizer, OAuthScopes, OIDCConnector
-from evo.object import ObjectServiceClient
-from evo.object.utils.data import ObjectDataClient
+from evo.objects import ObjectServiceClient
+from evo.objects.utils.data import ObjectDataClient
 
 if TYPE_CHECKING:
     from evo.notebooks import ServiceManagerWidget
@@ -115,7 +115,7 @@ def create_service_and_data_client_from_metadata(
     metadata: EvoWorkspaceMetadata,
 ) -> tuple[ObjectServiceClient, ObjectDataClient]:
     logger.debug(
-        "Creating evo.object.ObjectServiceClient and evo.object.utils.data.ObjectDataClient with "
+        "Creating evo.objects.ObjectServiceClient and evo.objects.utils.data.ObjectDataClient with "
         f"EvoWorkspaceMetadata={metadata}"
     )
 

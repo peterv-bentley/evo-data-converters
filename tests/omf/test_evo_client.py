@@ -2,8 +2,8 @@ import tempfile
 from unittest import TestCase
 
 from evo.data_converters.common import EvoWorkspaceMetadata, create_evo_object_service_and_data_client
-from evo.object import ObjectServiceClient
-from evo.object.utils.data import ObjectDataClient
+from evo.objects import ObjectServiceClient
+from evo.objects.utils.data import ObjectDataClient
 
 
 class TestEvoClient(TestCase):

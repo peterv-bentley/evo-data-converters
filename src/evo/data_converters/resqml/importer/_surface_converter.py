@@ -24,7 +24,7 @@ from evo.data_converters.resqml.importer._attribute_converters import (
     convert_discrete_property,
     convert_points_property,
 )
-from evo.object.utils.data import ObjectDataClient
+from evo.objects.utils.data import ObjectDataClient
 
 from ._utils import get_metadata
 from .conversion_options import ResqmlConversionOptions
