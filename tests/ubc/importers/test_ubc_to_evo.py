@@ -6,7 +6,7 @@ from geoscience_object_models.components import BaseSpatialDataProperties_V1_0_1
 from evo.data_converters.common import EvoWorkspaceMetadata
 from evo.data_converters.common.exceptions import ConflictingConnectionDetailsError, MissingConnectionDetailsError
 from evo.data_converters.ubc.importer.ubc_to_evo import convert_ubc
-from evo.object.data import ObjectMetadata
+from evo.objects.data import ObjectMetadata
 
 
 def test_convert_ubc_success() -> None:

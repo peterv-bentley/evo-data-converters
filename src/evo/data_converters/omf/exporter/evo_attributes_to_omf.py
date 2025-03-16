@@ -26,7 +26,7 @@ from omf.base import ProjectElementData
 from omf.data import ColorData, DateTimeData, Legend, MappedData, ScalarData, StringData, Vector2Data, Vector3Data
 
 import evo.logging
-from evo.object.utils.data import ObjectDataClient
+from evo.objects.utils.data import ObjectDataClient
 
 from ..importer.omf_attributes_to_evo import int_to_rgba
 

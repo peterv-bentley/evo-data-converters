@@ -19,8 +19,8 @@ from evo.data_converters.common import (
 )
 from evo.data_converters.resqml import convert_size
 from evo.data_converters.resqml.utils import estimate_corner_points_size
-from evo.object.data import ObjectMetadata
-from evo.object.utils import ObjectDataClient
+from evo.objects.data import ObjectMetadata
+from evo.objects.utils import ObjectDataClient
 
 from ._downhole_intervals_to_evo import convert_downhole_intervals_for_trajectory
 from ._grid_converter import convert_grid

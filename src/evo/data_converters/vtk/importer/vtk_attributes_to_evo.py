@@ -16,7 +16,7 @@ from geoscience_object_models.elements import FloatArray1_V1_0_1, IntegerArray1_
 from vtk.util.numpy_support import vtk_to_numpy
 
 import evo.logging
-from evo.object.utils.data import ObjectDataClient
+from evo.objects.utils.data import ObjectDataClient
 
 logger = evo.logging.getLogger("data_converters")
 

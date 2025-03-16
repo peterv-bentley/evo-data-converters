@@ -14,7 +14,7 @@ from scipy.spatial.transform import Rotation
 
 from evo.data_converters.common.utils import check_rotation_matrix, convert_rotation, grid_bounding_box
 from evo.data_converters.gocad.importer.gocad_reader import import_gocad_voxel
-from evo.object.utils.data import ObjectDataClient
+from evo.objects.utils.data import ObjectDataClient
 
 
 def _create_continuous_attributes(

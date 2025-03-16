@@ -5,7 +5,7 @@ from geoscience_object_models.elements import FloatArray3_V1_0_1
 from geoscience_object_models.objects import Pointset_V1_2_0, Pointset_V1_2_0_Locations
 
 import evo.logging
-from evo.object.utils.data import ObjectDataClient
+from evo.objects.utils.data import ObjectDataClient
 
 from ...common.utils import vertices_bounding_box
 from .omf_attributes_to_evo import convert_omf_attributes

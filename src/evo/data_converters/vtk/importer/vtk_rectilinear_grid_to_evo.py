@@ -5,7 +5,7 @@ from geoscience_object_models.objects import Tensor3DGrid_V1_2_0, Tensor3DGrid_V
 from vtk.util.numpy_support import vtk_to_numpy
 
 import evo.logging
-from evo.object.utils.data import ObjectDataClient
+from evo.objects.utils.data import ObjectDataClient
 
 from ._utils import check_for_ghosts, common_fields
 from .vtk_attributes_to_evo import convert_attributes

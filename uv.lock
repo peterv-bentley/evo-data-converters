@@ -566,23 +566,16 @@ wheels = [
 
 [[package]]
 name = "evo-client-common"
-version = "2.0.3"
+version = "2.1.0.dev1"
 source = { registry = "https://seequent.jfrog.io/artifactory/api/pypi/evo-converters-packages-pypi-local/simple" }
 dependencies = [
     { name = "pure-interface" },
     { name = "pydantic" },
     { name = "python-dateutil" },
 ]
+sdist = { url = "https://seequent.jfrog.io/artifactory/api/pypi/evo-converters-packages-pypi-local/evo-client-common/2.1.0.dev1/evo_client_common-2.1.0.dev1.tar.gz", hash = "sha256:9129311e8a0fbc51cd2c5c26bd704af6bc980c1210855da2c212c5182861d93b" }
 wheels = [
-    { url = "https://seequent.jfrog.io/artifactory/api/pypi/evo-converters-packages-pypi-local/evo-client-common/2.0.3/evo_client_common-2.0.3-py3-none-any.whl", hash = "sha256:c0345a1e7c789aefa031c5f0ebf4ef288b3974777557a8f73b9070998c28f9ef" },
-]
-
-[package.optional-dependencies]
-notebooks = [
-    { name = "aiohttp" },
-    { name = "ipywidgets" },
-    { name = "jupyter" },
-    { name = "python-dotenv" },
+    { url = "https://seequent.jfrog.io/artifactory/api/pypi/evo-converters-packages-pypi-local/evo-client-common/2.1.0.dev1/evo_client_common-2.1.0.dev1-py3-none-any.whl", hash = "sha256:7a8a895d585c6f0af9c38e7b38e3a382edc44f24293d653e9c8bde6ba23dbdf8" },
 ]
 
 [[package]]
@@ -592,7 +585,7 @@ source = { editable = "." }
 dependencies = [
     { name = "aiohttp" },
     { name = "evo-client-common" },
-    { name = "evo-object-client" },
+    { name = "evo-objects" },
     { name = "nest-asyncio" },
     { name = "numpy" },
     { name = "omf" },
@@ -617,15 +610,15 @@ dev = [
     { name = "ruff" },
 ]
 notebooks = [
-    { name = "evo-client-common", extra = ["notebooks"] },
+    { name = "evo-client-common" },
     { name = "jupyter" },
 ]
 
 [package.metadata]
 requires-dist = [
     { name = "aiohttp" },
-    { name = "evo-client-common", specifier = ">=2.0.1" },
-    { name = "evo-object-client", specifier = ">=2.0.0" },
+    { name = "evo-client-common", specifier = "==2.1.0.dev1" },
+    { name = "evo-objects", specifier = "==2.2.2.dev1" },
     { name = "nest-asyncio" },
     { name = "numpy", specifier = "<2.0.0" },
     { name = "omf", specifier = ">=1.0.1" },
@@ -655,15 +648,16 @@ notebooks = [
 ]
 
 [[package]]
-name = "evo-object-client"
-version = "2.2.0"
+name = "evo-objects"
+version = "2.2.2.dev1"
 source = { registry = "https://seequent.jfrog.io/artifactory/api/pypi/evo-converters-packages-pypi-local/simple" }
 dependencies = [
     { name = "evo-client-common" },
     { name = "pydantic" },
 ]
+sdist = { url = "https://seequent.jfrog.io/artifactory/api/pypi/evo-converters-packages-pypi-local/evo-objects/2.2.2.dev1/evo_objects-2.2.2.dev1.tar.gz", hash = "sha256:f6cc850d5fa7d4feaf43c867d4697fe89d0d6e08e2e2524d0508132ce59ff700" }
 wheels = [
-    { url = "https://seequent.jfrog.io/artifactory/api/pypi/evo-converters-packages-pypi-local/evo-object-client/2.2.0/evo_object_client-2.2.0-py3-none-any.whl", hash = "sha256:a3efca7ce1e3d1c782f842229d090d60e028b2e59721998175d2e6fdb77d1038" },
+    { url = "https://seequent.jfrog.io/artifactory/api/pypi/evo-converters-packages-pypi-local/evo-objects/2.2.2.dev1/evo_objects-2.2.2.dev1-py3-none-any.whl", hash = "sha256:4e9afe30ab0217990fa4b85b224c2f0772482e16ed2b177f2b0564adbb102726" },
 ]
 
 [[package]]
@@ -2496,15 +2490,6 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/66/c0/0c8b6ad9f17a802ee498c46e004a0eb49bc148f2fd230864601a86dcf6db/python-dateutil-2.9.0.post0.tar.gz", hash = "sha256:37dd54208da7e1cd875388217d5e00ebd4179249f90fb72437e91a35459a0ad3", size = 342432 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/ec/57/56b9bcc3c9c6a792fcbaf139543cee77261f3651ca9da0c93f5c1221264b/python_dateutil-2.9.0.post0-py2.py3-none-any.whl", hash = "sha256:a8b2bc7bffae282281c8140a97d3aa9c14da0b136dfe83f850eea9a5f7470427", size = 229892 },
-]
-
-[[package]]
-name = "python-dotenv"
-version = "1.0.1"
-source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/bc/57/e84d88dfe0aec03b7a2d4327012c1627ab5f03652216c63d49846d7a6c58/python-dotenv-1.0.1.tar.gz", hash = "sha256:e324ee90a023d808f1959c46bcbc04446a10ced277783dc6ee09987c37ec10ca", size = 39115 }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/6a/3e/b68c118422ec867fa7ab88444e1274aa40681c606d59ac27de5a5588f082/python_dotenv-1.0.1-py3-none-any.whl", hash = "sha256:f7b63ef50f1b690dddf550d03497b66d609393b40b564ed0d674909a68ebf16a", size = 19863 },
 ]
 
 [[package]]

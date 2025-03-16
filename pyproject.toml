@@ -6,11 +6,11 @@ name = "evo-data-converters"
 requires-python = ">=3.10"
 readme = { file = "README.md", content-type = "text/markdown" }
 license = { file = "LICENSE" }
-version = "0.0.1"
+version = "0.0.2"
 dependencies = [
   "aiohttp",
-  "evo-client-common>=2.0.1",
-  "evo-object-client>=2.0.0",
+  "evo-client-common==2.1.0.dev1",
+  "evo-objects==2.2.2.dev1",
   "nest-asyncio",
   "numpy<2.0.0",
   "omf>=1.0.1",

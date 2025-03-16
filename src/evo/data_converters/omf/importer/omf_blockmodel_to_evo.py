@@ -5,7 +5,7 @@ import pyarrow as pa
 import evo.logging
 from evo.common import ApiConnector, Environment
 from evo.data_converters.common import BlockSyncClient
-from evo.object import ObjectServiceClient
+from evo.objects import ObjectServiceClient
 
 from .blockmodel.omf_blockmodel_to_blocksync import (
     add_blocks_and_columns,

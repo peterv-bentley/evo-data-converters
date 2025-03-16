@@ -9,7 +9,7 @@ from geoscience_object_models.components import (
 from geoscience_object_models.objects import TriangleMesh_V2_1_0
 
 import evo.logging
-from evo.object.utils.data import ObjectDataClient
+from evo.objects.utils.data import ObjectDataClient
 
 from ...common.utils import vertices_bounding_box
 from .omf_attributes_to_evo import convert_omf_attributes
