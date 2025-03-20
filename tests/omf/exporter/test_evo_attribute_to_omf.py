@@ -433,7 +433,7 @@ class TestOmfAttributeExporter(TestCase):
         attribute_go.attribute_description = AttributeDescription_V1_0_1(
             discipline="Geotechnical",
             type="Gold",
-            unit=UnitDimensionless_V1_0_1_UnitCategories.Unit_ct_per_t,
+            unit=UnitDimensionless_V1_0_1_UnitCategories.Unit_ct_per_t.value,
             scale="log10",
             extensions=None,
             tags={"color": "red-yellow", "alloy": "true"},
