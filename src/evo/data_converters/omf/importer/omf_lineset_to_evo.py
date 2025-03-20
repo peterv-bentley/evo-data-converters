@@ -1,4 +1,4 @@
-import omf_python
+import omf2
 import pyarrow as pa
 from geoscience_object_models.components import (
     Crs_V1_0_1_EpsgCode,
@@ -18,17 +18,17 @@ logger = evo.logging.getLogger("data_converters")
 
 
 def convert_omf_lineset(
-    lineset: omf_python.Element,
-    project: omf_python.Project,
-    reader: omf_python.Reader,
+    lineset: omf2.Element,
+    project: omf2.Project,
+    reader: omf2.Reader,
     data_client: ObjectDataClient,
     epsg_code: int,
 ) -> LineSegments_V2_1_0:
-    logger.debug(f'Converting omf_python Element: "{lineset.name}" to LineSegments_V2_0_0.')
+    logger.debug(f'Converting omf2 Element: "{lineset.name}" to LineSegments_V2_0_0.')
 
     coordinate_reference_system = Crs_V1_0_1_EpsgCode(epsg_code=epsg_code)
 
-    geometry: omf_python.LineSet = lineset.geometry()
+    geometry: omf2.LineSet = lineset.geometry()
 
     # Convert vertices to absolute position in world space by adding the project and geometry origin
     vertices_array = reader.array_vertices(geometry.vertices) + project.origin + geometry.origin
@@ -56,8 +56,8 @@ def convert_omf_lineset(
         schema=segment_indices_schema,
     )
 
-    vertex_attributes_go = convert_omf_attributes(lineset, reader, data_client, omf_python.Location.Vertices)
-    line_attributes_go = convert_omf_attributes(lineset, reader, data_client, omf_python.Location.Primitives)
+    vertex_attributes_go = convert_omf_attributes(lineset, reader, data_client, omf2.Location.Vertices)
+    line_attributes_go = convert_omf_attributes(lineset, reader, data_client, omf2.Location.Primitives)
 
     vertices_go = Segments_V1_2_0_Vertices(**data_client.save_table(vertices_table), attributes=vertex_attributes_go)
 

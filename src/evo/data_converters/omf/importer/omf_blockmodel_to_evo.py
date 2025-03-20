@@ -1,5 +1,5 @@
 import nest_asyncio
-import omf_python
+import omf2
 import pyarrow as pa
 
 import evo.logging
@@ -22,7 +22,7 @@ def _create_block_sync_client(environment: Environment, api_connector: ApiConnec
 
 
 def convert_omf_blockmodel(
-    object_service_client: ObjectServiceClient, element: omf_python.Element, reader: omf_python.Reader, epsg_code: int
+    object_service_client: ObjectServiceClient, element: omf2.Element, reader: omf2.Reader, epsg_code: int
 ) -> None:
     """Converts an OMF file to BlockSync Objects and creates an empty model on BlockSync.
 
@@ -45,19 +45,19 @@ def convert_omf_blockmodel(
         geometry = element.geometry()
 
         match geometry.grid:
-            case omf_python.Grid3Tensor():
+            case omf2.Grid3Tensor():
                 block_sync_model = convert_omf_tensor_grid_model(element, client, reader, epsg_code)
                 if block_sync_model:
                     block_model_id, block_model, block_table = block_sync_model
                     upload_block_data_to_blockmodels(client, block_model, block_table, block_model_id)
-            case omf_python.Grid3Regular():
+            case omf2.Grid3Regular():
                 if geometry.subblocks:
                     match geometry.subblocks:
-                        case omf_python.FreeformSubblocks():
+                        case omf2.FreeformSubblocks():
                             logger.warning(
                                 "BlockSync does not support freeform subblock models where blocks do not have to align with any grid."
                             )
-                        case omf_python.RegularSubblocks():
+                        case omf2.RegularSubblocks():
                             block_model_id, block_model, block_table = convert_omf_regular_subblock_model(
                                 element, client, reader, epsg_code
                             )

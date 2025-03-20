@@ -1,7 +1,7 @@
 import os
 from typing import TYPE_CHECKING, Optional
 
-import omf_python
+import omf2
 from geoscience_object_models.components import BaseSpatialDataProperties_V1_0_1
 
 import evo.logging
@@ -83,18 +83,18 @@ def convert_omf(
         geoscience_object = None
         try:
             geometry = element.geometry()
-        except omf_python.OmfNotSupportedException:
+        except omf2.OmfNotSupportedException:
             logger.warning(f"Trying to load an unsupported geometry type: {element.name}")
             continue
 
         match geometry:
-            case omf_python.PointSet():
+            case omf2.PointSet():
                 geoscience_object = convert_omf_pointset(element, project, reader, data_client, epsg_code)
-            case omf_python.Surface():
+            case omf2.Surface():
                 geoscience_object = convert_omf_surface(element, project, reader, data_client, epsg_code)
-            case omf_python.LineSet():
+            case omf2.LineSet():
                 geoscience_object = convert_omf_lineset(element, project, reader, data_client, epsg_code)
-            case omf_python.BlockModel():
+            case omf2.BlockModel():
                 convert_omf_blockmodel(object_service_client, element, reader, epsg_code)
             case _:
                 continue

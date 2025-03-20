@@ -1,4 +1,4 @@
-import omf_python
+import omf2
 import pyarrow as pa
 from geoscience_object_models.components import Crs_V1_0_1_EpsgCode
 from geoscience_object_models.elements import FloatArray3_V1_0_1
@@ -14,13 +14,13 @@ logger = evo.logging.getLogger("data_converters")
 
 
 def convert_omf_pointset(
-    pointset: omf_python.Element,
-    project: omf_python.Project,
-    reader: omf_python.Reader,
+    pointset: omf2.Element,
+    project: omf2.Project,
+    reader: omf2.Reader,
     data_client: ObjectDataClient,
     epsg_code: int,
 ) -> Pointset_V1_2_0:
-    logger.debug(f'Converting omf_python Element: "{pointset.name}" to Pointset_V1_1_0.')
+    logger.debug(f'Converting omf2 Element: "{pointset.name}" to Pointset_V1_1_0.')
 
     coordinate_reference_system = Crs_V1_0_1_EpsgCode(epsg_code=epsg_code)
 
@@ -46,7 +46,7 @@ def convert_omf_pointset(
     coordinates_args = data_client.save_table(coordinates_table)
     coordinates_go = FloatArray3_V1_0_1.from_dict(coordinates_args)
 
-    attributes_go = convert_omf_attributes(pointset, reader, data_client, omf_python.Location.Vertices)
+    attributes_go = convert_omf_attributes(pointset, reader, data_client, omf2.Location.Vertices)
 
     locations = Pointset_V1_2_0_Locations(
         coordinates=coordinates_go,

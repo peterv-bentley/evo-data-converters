@@ -1,7 +1,7 @@
 from typing import Any, Optional
 from uuid import uuid4
 
-import omf_python
+import omf2
 import pandas as pd
 import pyarrow as pa
 
@@ -23,7 +23,7 @@ logger = evo.logging.getLogger("data_converters")
 
 
 def create_req_body(
-    orient: omf_python.Orient3, grid: omf_python.Grid3Regular, size_options: dict[str, Any], epsg_code: int
+    orient: omf2.Orient3, grid: omf2.Grid3Regular, size_options: dict[str, Any], epsg_code: int
 ) -> dict[str, Any]:
     """Create the body for the create block model API request.
 
@@ -58,7 +58,7 @@ def create_req_body(
     return body
 
 
-def extract_regular_block_model_columns(blockmodel: omf_python.Element, reader: omf_python.Reader) -> pa.Table:
+def extract_regular_block_model_columns(blockmodel: omf2.Element, reader: omf2.Reader) -> pa.Table:
     grid_count = blockmodel.geometry().grid.count()
 
     nx = grid_count[0]
@@ -76,9 +76,9 @@ def extract_regular_block_model_columns(blockmodel: omf_python.Element, reader: 
 
 
 def extract_variable_octree_block_model_columns(
-    blockmodel: omf_python.Element,
-    reader: omf_python.Reader,
-    subblocks: omf_python.RegularSubblocks,
+    blockmodel: omf2.Element,
+    reader: omf2.Reader,
+    subblocks: omf2.RegularSubblocks,
 ) -> pa.Table:
     subblock_parent_array, subblock_corner_array = reader.array_regular_subblocks(subblocks.subblocks)
 
@@ -126,9 +126,9 @@ def extract_variable_octree_block_model_columns(
 
 
 def extract_flexible_block_model_columns(
-    blockmodel: omf_python.Element,
-    reader: omf_python.Reader,
-    subblocks: omf_python.RegularSubblocks,
+    blockmodel: omf2.Element,
+    reader: omf2.Reader,
+    subblocks: omf2.RegularSubblocks,
 ) -> pa.Table:
     subblock_parent_array, subblock_corner_array = reader.array_regular_subblocks(subblocks.subblocks)
 
@@ -173,9 +173,9 @@ def extract_flexible_block_model_columns(
 
 
 def extract_fully_sub_blocked_block_model_columns(
-    blockmodel: omf_python.Element,
-    reader: omf_python.Reader,
-    subblocks: omf_python.RegularSubblocks,
+    blockmodel: omf2.Element,
+    reader: omf2.Reader,
+    subblocks: omf2.RegularSubblocks,
 ) -> pa.Table:
     grid_count = blockmodel.geometry().grid.count()
 
@@ -220,10 +220,10 @@ def extract_fully_sub_blocked_block_model_columns(
 
 
 def add_attribute_columns(
-    blockmodel: omf_python.Element,
-    reader: omf_python.Reader,
+    blockmodel: omf2.Element,
+    reader: omf2.Reader,
     df: pd.DataFrame,
-    subblocks: Optional[omf_python.RegularSubblocks] = None,
+    subblocks: Optional[omf2.RegularSubblocks] = None,
 ) -> pa.Table:
     # Evo expects block model indices to be uint32 data type, unless they are the flexible subblock columns
     schema_list = []
@@ -236,13 +236,13 @@ def add_attribute_columns(
     schema = pa.schema(schema_list)
 
     table = pa.Table.from_pandas(df, schema)
-    location = omf_python.Location.Subblocks if subblocks else omf_python.Location.Primitives
+    location = omf2.Location.Subblocks if subblocks else omf2.Location.Primitives
 
     return convert_omf_blockmodel_attributes_to_columns(blockmodel, reader, table, location)
 
 
 def convert_omf_regular_block_model(
-    blockmodel: omf_python.Element, client: BlockSyncClient, reader: omf_python.Reader, epsg_code: int
+    blockmodel: omf2.Element, client: BlockSyncClient, reader: omf2.Reader, epsg_code: int
 ) -> tuple[str, dict[str, Any], pa.Table]:
     """Convert an OMF regular block model to a BlockSync block model.
 
@@ -257,7 +257,7 @@ def convert_omf_regular_block_model(
     orient = geometry.orient
     grid = geometry.grid
 
-    if isinstance(grid, omf_python.Grid3Tensor):
+    if isinstance(grid, omf2.Grid3Tensor):
         u = reader.array_scalars(grid.u)
         v = reader.array_scalars(grid.v)
         w = reader.array_scalars(grid.w)
@@ -279,7 +279,7 @@ def convert_omf_regular_block_model(
 
 
 def convert_omf_regular_subblock_model(
-    blockmodel: omf_python.Element, client: BlockSyncClient, reader: omf_python.Reader, epsg_code: int
+    blockmodel: omf2.Element, client: BlockSyncClient, reader: omf2.Reader, epsg_code: int
 ) -> tuple[str, dict[str, Any], pa.Table]:
     """Convert an OMF regular subblock model to a BlockSync block model.
 
@@ -297,10 +297,10 @@ def convert_omf_regular_subblock_model(
     if subblocks.count[0] == 1 and subblocks.count[1] == 1 and subblocks.count[2] == 1:
         raise ValueError("BMS does not support a subblocking count of 1 along 3 axes.")
 
-    if subblocks.mode == omf_python.SubblockMode.Octree:
+    if subblocks.mode == omf2.SubblockMode.Octree:
         model_type = "variable-octree"
         table = extract_variable_octree_block_model_columns(blockmodel, reader, subblocks)
-    elif subblocks.mode == omf_python.SubblockMode.Full:
+    elif subblocks.mode == omf2.SubblockMode.Full:
         model_type = "fully-sub-blocked"
         table = extract_fully_sub_blocked_block_model_columns(blockmodel, reader, subblocks)
     else:
@@ -324,7 +324,7 @@ def convert_omf_regular_subblock_model(
 
 
 def convert_omf_tensor_grid_model(
-    blockmodel: omf_python.Element, client: BlockSyncClient, reader: omf_python.Reader, epsg_code: int
+    blockmodel: omf2.Element, client: BlockSyncClient, reader: omf2.Reader, epsg_code: int
 ) -> Optional[tuple[str, dict[str, Any], Any]]:
     """Convert a tensor grid model to a Block Sync blockmodel if it is a regular grid.
 

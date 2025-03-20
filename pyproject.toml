@@ -14,11 +14,11 @@ dependencies = [
   "nest-asyncio",
   "numpy<2.0.0",
   "omf>=1.0.1",
-  "omf_python>=0.2",
-  "pandas",
+  "omf2>=0.1.0-beta.1",
+  "pandas==2.2.3",
   "pyarrow",
   "pure-interface",
-  "resqpy==4.18.10",
+  "resqpy==5.1.10",
   "seequent-geoscience-object-schemas>=2024.6",
   "scipy",
   "vtk",
@@ -36,7 +36,7 @@ dev = [
 ]
 
 # Optional dependencies for running notebooks
-notebooks = ["evo-client-common[notebooks]", "jupyter"]
+notebooks = ["jupyter"]
 
 [tool.setuptools.packages.find]
 where = ["src"]

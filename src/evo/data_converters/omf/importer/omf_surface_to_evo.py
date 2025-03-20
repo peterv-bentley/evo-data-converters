@@ -1,4 +1,4 @@
-import omf_python
+import omf2
 import pyarrow as pa
 from geoscience_object_models.components import (
     Crs_V1_0_1_EpsgCode,
@@ -18,13 +18,13 @@ logger = evo.logging.getLogger("data_converters")
 
 
 def convert_omf_surface(
-    surface: omf_python.Element,
-    project: omf_python.Project,
-    reader: omf_python.Reader,
+    surface: omf2.Element,
+    project: omf2.Project,
+    reader: omf2.Reader,
     data_client: ObjectDataClient,
     epsg_code: int,
 ) -> TriangleMesh_V2_1_0:
-    logger.debug(f'Converting omf_python Element: "{surface.name}" to TriangleMesh_V2_0_0.')
+    logger.debug(f'Converting omf2 Element: "{surface.name}" to TriangleMesh_V2_0_0.')
 
     coordinate_reference_system = Crs_V1_0_1_EpsgCode(epsg_code=epsg_code)
 
@@ -56,8 +56,8 @@ def convert_omf_surface(
         schema=indices_schema,
     )
 
-    vertex_attributes_go = convert_omf_attributes(surface, reader, data_client, omf_python.Location.Vertices)
-    triangle_attributes_go = convert_omf_attributes(surface, reader, data_client, omf_python.Location.Primitives)
+    vertex_attributes_go = convert_omf_attributes(surface, reader, data_client, omf2.Location.Vertices)
+    triangle_attributes_go = convert_omf_attributes(surface, reader, data_client, omf2.Location.Primitives)
 
     mesh_vertices_go = Triangles_V1_2_0_Vertices(
         **data_client.save_table(vertices_table), attributes=vertex_attributes_go

@@ -4,7 +4,7 @@ from uuid import uuid4
 
 import numpy as np
 import numpy.typing as npt
-import omf_python
+import omf2
 import pandas as pd
 import pyarrow as pa
 from geoscience_object_models.components import (
@@ -40,10 +40,10 @@ logger = evo.logging.getLogger("data_converters")
 
 
 def convert_omf_attributes(
-    element: omf_python.Element,
-    reader: omf_python.Reader,
+    element: omf2.Element,
+    reader: omf2.Reader,
     data_client: ObjectDataClient,
-    attribute_location: omf_python.Location,
+    attribute_location: omf2.Location,
 ) -> OneOfAttribute_V1_2_0:
     attributes_go = []
 
@@ -89,8 +89,8 @@ def int_to_rgba_optional(color: Optional[int]) -> Optional[list[int]]:
 
 def convert_omf_number_attribute(
     attribute_name: str,
-    attribute_data: omf_python.AttributeDataNumber,
-    reader: omf_python.Reader,
+    attribute_data: omf2.AttributeDataNumber,
+    reader: omf2.Reader,
     data_client: ObjectDataClient,
 ) -> OneOfAttribute_V1_2_0_Item:
     numbers, null_mask = reader.array_numbers(attribute_data.values)
@@ -162,8 +162,8 @@ def convert_omf_number_attribute(
 
 def convert_omf_category_attribute(
     attribute_name: str,
-    attribute_data: omf_python.AttributeDataCategory,
-    reader: omf_python.Reader,
+    attribute_data: omf2.AttributeDataCategory,
+    reader: omf2.Reader,
     data_client: ObjectDataClient,
 ) -> CategoryAttribute_V1_1_0:
     indices, null_mask = reader.array_indices(attribute_data.values)
@@ -197,8 +197,8 @@ def convert_omf_category_attribute(
 
 def convert_omf_text_attribute(
     attribute_name: str,
-    attribute_data: omf_python.AttributeDataText,
-    reader: omf_python.Reader,
+    attribute_data: omf2.AttributeDataText,
+    reader: omf2.Reader,
     data_client: ObjectDataClient,
 ) -> StringAttribute_V1_1_0:
     schema_dtype = pa.string()
@@ -220,8 +220,8 @@ def convert_omf_text_attribute(
 
 def convert_omf_boolean_attribute(
     attribute_name: str,
-    attribute_data: omf_python.AttributeDataBoolean,
-    reader: omf_python.Reader,
+    attribute_data: omf2.AttributeDataBoolean,
+    reader: omf2.Reader,
     data_client: ObjectDataClient,
 ) -> BoolAttribute_V1_1_0:
     booleans, null_mask = reader.array_booleans(attribute_data.values)
@@ -244,8 +244,8 @@ def convert_omf_boolean_attribute(
 
 def convert_omf_color_attribute(
     attribute_name: str,
-    attribute_data: omf_python.AttributeDataColor,
-    reader: omf_python.Reader,
+    attribute_data: omf2.AttributeDataColor,
+    reader: omf2.Reader,
     data_client: ObjectDataClient,
 ) -> ColorAttribute_V1_1_0:
     schema_dtype = pa.uint32()
@@ -272,8 +272,8 @@ def convert_omf_color_attribute(
 
 def convert_omf_vector_attribute(
     attribute_name: str,
-    attribute_data: omf_python.AttributeDataVector,
-    reader: omf_python.Reader,
+    attribute_data: omf2.AttributeDataVector,
+    reader: omf2.Reader,
     data_client: ObjectDataClient,
 ) -> VectorAttribute_V1_0_0:
     schema_dtype = pa.float64()
@@ -317,22 +317,22 @@ def convert_omf_vector_attribute(
 
 
 def convert_omf_attribute(
-    attribute: omf_python.Attribute, reader: omf_python.Reader, data_client: ObjectDataClient
+    attribute: omf2.Attribute, reader: omf2.Reader, data_client: ObjectDataClient
 ) -> Optional[OneOfAttribute_V1_2_0_Item]:
     attribute_data = attribute.get_data()
 
     match attribute_data:
-        case omf_python.AttributeDataNumber():
+        case omf2.AttributeDataNumber():
             return convert_omf_number_attribute(attribute.name, attribute_data, reader, data_client)
-        case omf_python.AttributeDataCategory():
+        case omf2.AttributeDataCategory():
             return convert_omf_category_attribute(attribute.name, attribute_data, reader, data_client)
-        case omf_python.AttributeDataText():
+        case omf2.AttributeDataText():
             return convert_omf_text_attribute(attribute.name, attribute_data, reader, data_client)
-        case omf_python.AttributeDataBoolean():
+        case omf2.AttributeDataBoolean():
             return convert_omf_boolean_attribute(attribute.name, attribute_data, reader, data_client)
-        case omf_python.AttributeDataColor():
+        case omf2.AttributeDataColor():
             return convert_omf_color_attribute(attribute.name, attribute_data, reader, data_client)
-        case omf_python.AttributeDataVector():
+        case omf2.AttributeDataVector():
             return convert_omf_vector_attribute(attribute.name, attribute_data, reader, data_client)
 
     logger.warning(f"Skipping unsupported OMF attribute data type '{attribute_data.__class__.__name__}'")
