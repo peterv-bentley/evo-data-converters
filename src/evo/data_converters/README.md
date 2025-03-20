@@ -183,7 +183,7 @@ The following parameters are passed into the convert function.  By convention th
 
 #### File parsing
 
-Both the OMF and RESQML converters use external libraries for parsing the file into usable python objects by the converter function.  This will vary for different file types and in some cases file parsers may need to be developed from scratch.  Refer to OMF and RESQML converters for existing examples of this (`omf_python` and `resqpy` respectively).
+Both the OMF and RESQML converters use external libraries for parsing the file into usable python objects by the converter function.  This will vary for different file types and in some cases file parsers may need to be developed from scratch.  Refer to OMF and RESQML converters for existing examples of this (`omf2` and `resqpy` respectively).
 
 #### Conversion to geoscience objects
 

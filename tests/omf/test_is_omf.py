@@ -1,7 +1,7 @@
 from os import path
 from unittest import TestCase
 
-from omf_python import OmfFileIoException
+from omf2 import OmfFileIoException
 
 from evo.data_converters.omf import is_omf
 

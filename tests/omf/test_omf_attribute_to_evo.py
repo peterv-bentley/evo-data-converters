@@ -3,7 +3,7 @@ from datetime import datetime, timezone
 from os import path
 from unittest import TestCase
 
-import omf_python
+import omf2
 import pyarrow.parquet as pq
 from geoscience_object_models.components import (
     BoolAttribute_V1_1_0,
@@ -47,7 +47,7 @@ class TestOmfAttributeConverter(TestCase):
         _, data_client = create_evo_object_service_and_data_client(metadata)
         self.data_client = data_client
 
-    def _element_by_name(self, project: omf_python.Project, element_name: str) -> omf_python.Element:
+    def _element_by_name(self, project: omf2.Project, element_name: str) -> omf2.Element:
         for element in project.elements():
             if element.name == element_name:
                 return element
@@ -64,7 +64,7 @@ class TestOmfAttributeConverter(TestCase):
         element = self._element_by_name(project, "Pyramid surface")
 
         datetime_attribute = element.attributes()[2]
-        self.assertIsInstance(datetime_attribute.get_data(), omf_python.AttributeDataNumber)
+        self.assertIsInstance(datetime_attribute.get_data(), omf2.AttributeDataNumber)
 
         attribute_go = convert_omf_attribute(datetime_attribute, reader, self.data_client)
 
@@ -100,7 +100,7 @@ class TestOmfAttributeConverter(TestCase):
         element = self._element_by_name(project, "Test Surface")
 
         number_attribute = element.attributes()[0]
-        self.assertIsInstance(number_attribute.get_data(), omf_python.AttributeDataNumber)
+        self.assertIsInstance(number_attribute.get_data(), omf2.AttributeDataNumber)
 
         attribute_go = convert_omf_attribute(number_attribute, reader, self.data_client)
 
@@ -131,7 +131,7 @@ class TestOmfAttributeConverter(TestCase):
         element = self._element_by_name(project, "Test Surface")
 
         date_attribute = element.attributes()[1]
-        self.assertIsInstance(date_attribute.get_data(), omf_python.AttributeDataNumber)
+        self.assertIsInstance(date_attribute.get_data(), omf2.AttributeDataNumber)
 
         attribute_go = convert_omf_attribute(date_attribute, reader, self.data_client)
 
@@ -167,7 +167,7 @@ class TestOmfAttributeConverter(TestCase):
         element = self._element_by_name(project, "Test Surface")
 
         number_attribute = element.attributes()[3]
-        self.assertIsInstance(number_attribute.get_data(), omf_python.AttributeDataNumber)
+        self.assertIsInstance(number_attribute.get_data(), omf2.AttributeDataNumber)
 
         attribute_go = convert_omf_attribute(number_attribute, reader, self.data_client)
 
@@ -198,7 +198,7 @@ class TestOmfAttributeConverter(TestCase):
         element = self._element_by_name(project, "Test Surface")
 
         number_attribute = element.attributes()[4]
-        self.assertIsInstance(number_attribute.get_data(), omf_python.AttributeDataNumber)
+        self.assertIsInstance(number_attribute.get_data(), omf2.AttributeDataNumber)
 
         attribute_go = convert_omf_attribute(number_attribute, reader, self.data_client)
 
@@ -228,7 +228,7 @@ class TestOmfAttributeConverter(TestCase):
         element = self._element_by_name(project, "Pyramid points")
 
         category_attribute = element.attributes()[0]
-        self.assertIsInstance(category_attribute.get_data(), omf_python.AttributeDataCategory)
+        self.assertIsInstance(category_attribute.get_data(), omf2.AttributeDataCategory)
 
         attribute_go = convert_omf_attribute(category_attribute, reader, self.data_client)
 
@@ -264,7 +264,7 @@ class TestOmfAttributeConverter(TestCase):
         element = self._element_by_name(project, "Pyramid lines")
 
         text_attribute = element.attributes()[0]
-        self.assertIsInstance(text_attribute.get_data(), omf_python.AttributeDataText)
+        self.assertIsInstance(text_attribute.get_data(), omf2.AttributeDataText)
 
         attribute_go = convert_omf_attribute(text_attribute, reader, self.data_client)
 
@@ -293,7 +293,7 @@ class TestOmfAttributeConverter(TestCase):
         element = self._element_by_name(project, "Regular block model")
 
         boolean_attribute = element.attributes()[0]
-        self.assertIsInstance(boolean_attribute.get_data(), omf_python.AttributeDataBoolean)
+        self.assertIsInstance(boolean_attribute.get_data(), omf2.AttributeDataBoolean)
 
         attribute_go = convert_omf_attribute(boolean_attribute, reader, self.data_client)
 
@@ -332,7 +332,7 @@ class TestOmfAttributeConverter(TestCase):
         element = self._element_by_name(project, "Pyramid surface")
 
         color_attribute = element.attributes()[1]
-        self.assertIsInstance(color_attribute.get_data(), omf_python.AttributeDataColor)
+        self.assertIsInstance(color_attribute.get_data(), omf2.AttributeDataColor)
 
         attribute_go = convert_omf_attribute(color_attribute, reader, self.data_client)
 
@@ -368,7 +368,7 @@ class TestOmfAttributeConverter(TestCase):
         project, _ = reader.project()
 
         number_attribute = (self._element_by_name(project, "Test Surface")).attributes()[0]
-        self.assertIsInstance(number_attribute.get_data(), omf_python.AttributeDataNumber)
+        self.assertIsInstance(number_attribute.get_data(), omf2.AttributeDataNumber)
 
         attribute_go = convert_omf_attribute(number_attribute, reader, self.data_client)
         self.assertIsInstance(attribute_go, ContinuousAttribute_V1_1_0)
@@ -395,7 +395,7 @@ class TestOmfAttributeConverter(TestCase):
         project, _ = reader.project()
 
         number_attribute = (self._element_by_name(project, "Test Surface")).attributes()[1]
-        self.assertIsInstance(number_attribute.get_data(), omf_python.AttributeDataNumber)
+        self.assertIsInstance(number_attribute.get_data(), omf2.AttributeDataNumber)
 
         attribute_go = convert_omf_attribute(number_attribute, reader, self.data_client)
         self.assertIsInstance(attribute_go, ContinuousAttribute_V1_1_0)
@@ -422,7 +422,7 @@ class TestOmfAttributeConverter(TestCase):
         project, _ = reader.project()
 
         number_attribute = (self._element_by_name(project, "Test Surface")).attributes()[2]
-        self.assertIsInstance(number_attribute.get_data(), omf_python.AttributeDataNumber)
+        self.assertIsInstance(number_attribute.get_data(), omf2.AttributeDataNumber)
 
         attribute_go = convert_omf_attribute(number_attribute, reader, self.data_client)
         self.assertIsInstance(attribute_go, IntegerAttribute_V1_1_0)
@@ -448,7 +448,7 @@ class TestOmfAttributeConverter(TestCase):
         project, _ = reader.project()
 
         number_attribute = (self._element_by_name(project, "Test Surface")).attributes()[3]
-        self.assertIsInstance(number_attribute.get_data(), omf_python.AttributeDataNumber)
+        self.assertIsInstance(number_attribute.get_data(), omf2.AttributeDataNumber)
 
         attribute_go = convert_omf_attribute(number_attribute, reader, self.data_client)
 
@@ -481,7 +481,7 @@ class TestOmfAttributeConverter(TestCase):
         project, _ = reader.project()
 
         number_attribute = (self._element_by_name(project, "Test Surface")).attributes()[4]
-        self.assertIsInstance(number_attribute.get_data(), omf_python.AttributeDataNumber)
+        self.assertIsInstance(number_attribute.get_data(), omf2.AttributeDataNumber)
 
         attribute_go = convert_omf_attribute(number_attribute, reader, self.data_client)
         self.assertIsInstance(attribute_go, DateTimeAttribute_V1_1_0)
@@ -512,7 +512,7 @@ class TestOmfAttributeConverter(TestCase):
         project, _ = reader.project()
 
         category_attribute = (self._element_by_name(project, "Test Surface")).attributes()[5]
-        self.assertIsInstance(category_attribute.get_data(), omf_python.AttributeDataCategory)
+        self.assertIsInstance(category_attribute.get_data(), omf2.AttributeDataCategory)
 
         attribute_go = convert_omf_attribute(category_attribute, reader, self.data_client)
         self.assertIsInstance(attribute_go, CategoryAttribute_V1_1_0)
@@ -545,7 +545,7 @@ class TestOmfAttributeConverter(TestCase):
         project, _ = reader.project()
 
         boolean_attribute = (self._element_by_name(project, "Test Surface")).attributes()[6]
-        self.assertIsInstance(boolean_attribute.get_data(), omf_python.AttributeDataBoolean)
+        self.assertIsInstance(boolean_attribute.get_data(), omf2.AttributeDataBoolean)
 
         attribute_go = convert_omf_attribute(boolean_attribute, reader, self.data_client)
         self.assertIsInstance(attribute_go, BoolAttribute_V1_1_0)
@@ -570,7 +570,7 @@ class TestOmfAttributeConverter(TestCase):
         project, _ = reader.project()
 
         boolean_attribute = (self._element_by_name(project, "Test Surface")).attributes()[7]
-        self.assertIsInstance(boolean_attribute.get_data(), omf_python.AttributeDataColor)
+        self.assertIsInstance(boolean_attribute.get_data(), omf2.AttributeDataColor)
 
         attribute_go = convert_omf_attribute(boolean_attribute, reader, self.data_client)
         self.assertIsInstance(attribute_go, ColorAttribute_V1_1_0)
@@ -605,7 +605,7 @@ class TestOmfAttributeConverter(TestCase):
         element = self._element_by_name(project, "Pyramid points")
 
         vector_attribute = element.attributes()[1]
-        self.assertIsInstance(vector_attribute.get_data(), omf_python.AttributeDataVector)
+        self.assertIsInstance(vector_attribute.get_data(), omf2.AttributeDataVector)
 
         attribute_go = convert_omf_attribute(vector_attribute, reader, self.data_client)
 
@@ -644,7 +644,7 @@ class TestOmfAttributeConverter(TestCase):
         element = self._element_by_name(project, "Pyramid points")
 
         vector_attribute = element.attributes()[2]
-        self.assertIsInstance(vector_attribute.get_data(), omf_python.AttributeDataVector)
+        self.assertIsInstance(vector_attribute.get_data(), omf2.AttributeDataVector)
 
         attribute_go = convert_omf_attribute(vector_attribute, reader, self.data_client)
 

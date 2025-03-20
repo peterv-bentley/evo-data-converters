@@ -2,7 +2,7 @@
 import argparse
 from tempfile import NamedTemporaryFile
 
-import omf_python
+import omf2
 
 parser = argparse.ArgumentParser(description="Provides a detailed report on the contents of an OMF file.")
 parser.add_argument("filename", help="Path to OMF file")
@@ -12,10 +12,10 @@ omf_file = args.filename
 
 print("Filename", omf_file)
 
-if omf_python.detect_omf1(omf_file):
+if omf2.detect_omf1(omf_file):
     print("OMF1 format detected, converting to OMF2")
 
-    omf1_converter = omf_python.Omf1Converter()
+    omf1_converter = omf2.Omf1Converter()
 
     omf1_file = omf_file
     temporary_file = NamedTemporaryFile(suffix=".omf")
@@ -28,7 +28,7 @@ if omf_python.detect_omf1(omf_file):
             print(problem)
 
 print("Reading file")
-reader = omf_python.Reader(omf_file)
+reader = omf2.Reader(omf_file)
 project, problems = reader.project()
 
 if problems:
@@ -68,18 +68,18 @@ for element in elements:
         geometry = element.geometry()
         print(f"{indent}geometry type:", geometry.__class__.__name__)
 
-        if isinstance(geometry, omf_python.PointSet):
+        if isinstance(geometry, omf2.PointSet):
             print(f"{indent}vertex count:", geometry.vertices.item_count())
 
-        elif isinstance(geometry, omf_python.LineSet):
+        elif isinstance(geometry, omf2.LineSet):
             print(f"{indent}vertex count:", geometry.vertices.item_count())
             print(f"{indent}segment count:", geometry.segments.item_count())
 
-        elif isinstance(geometry, omf_python.Surface):
+        elif isinstance(geometry, omf2.Surface):
             print(f"{indent}vertex count:", geometry.vertices.item_count())
             print(f"{indent}triangle count:", geometry.triangles.item_count())
 
-        elif isinstance(geometry, omf_python.GridSurface):
+        elif isinstance(geometry, omf2.GridSurface):
             heights = geometry.heights
             if heights:
                 print(f"{indent}heights count:", heights.item_count())
@@ -88,25 +88,25 @@ for element in elements:
             print(f"{indent}orient v:", orient2.v)
             grid = geometry.grid
             print(f"{indent}grid type:", grid.__class__.__name__)
-            if isinstance(grid, omf_python.Grid2Regular):
+            if isinstance(grid, omf2.Grid2Regular):
                 print(f"{indent}grid size:", grid.size)
-            elif isinstance(grid, omf_python.Grid2Tensor):
+            elif isinstance(grid, omf2.Grid2Tensor):
                 print(f"{indent}grid u count:", grid.u.item_count())
                 print(f"{indent}grid v count:", grid.v.item_count())
             print(f"{indent}grid count:", grid.count())
             print(f"{indent}grid flat count:", grid.flat_count())
             print(f"{indent}grid flat corner count:", grid.flat_corner_count())
 
-        elif isinstance(geometry, omf_python.BlockModel):
+        elif isinstance(geometry, omf2.BlockModel):
             orient3 = geometry.orient
             print(f"{indent}orient u:", orient3.u)
             print(f"{indent}orient v:", orient3.v)
             print(f"{indent}orient w:", orient3.w)
             grid = geometry.grid
             print(f"{indent}grid type:", grid.__class__.__name__)
-            if isinstance(grid, omf_python.Grid3Regular):
+            if isinstance(grid, omf2.Grid3Regular):
                 print(f"{indent}grid size:", grid.size)
-            elif isinstance(grid, omf_python.Grid3Tensor):
+            elif isinstance(grid, omf2.Grid3Tensor):
                 print(f"{indent}grid u count:", grid.u.item_count())
                 print(f"{indent}grid v count:", grid.v.item_count())
                 print(f"{indent}grid w count:", grid.w.item_count())
@@ -117,12 +117,12 @@ for element in elements:
             subblocks = geometry.subblocks
             if subblocks:
                 print(f"{indent}subblocks type:", subblocks.__class__.__name__)
-                if isinstance(subblocks, omf_python.RegularSubblocks):
+                if isinstance(subblocks, omf2.RegularSubblocks):
                     print(f"{indent}subblocks mode:", subblocks.mode)
                     print(f"{indent}subblocks count:", subblocks.count)
                 print(f"{indent}subblocks item count:", subblocks.subblocks.item_count())
 
-    except omf_python.OmfNotSupportedException:
+    except omf2.OmfNotSupportedException:
         print(f"{indent}geometry type: unsupported")
 
     attributes = element.attributes()
@@ -152,10 +152,10 @@ for element in elements:
         if hasattr(data, "colormap"):
             print(f"{indent}colormap type:", data.colormap.__class__.__name__)
             indent = "      "
-            if isinstance(data.colormap, omf_python.NumberColormapContinuous):
+            if isinstance(data.colormap, omf2.NumberColormapContinuous):
                 print(f"{indent}gradient:", reader.array_gradient(data.colormap.gradient))
                 print(f"{indent}range:", data.colormap.range())
-            elif isinstance(data.colormap, omf_python.NumberColormapDiscrete):
+            elif isinstance(data.colormap, omf2.NumberColormapDiscrete):
                 print(f"{indent}gradient:", reader.array_gradient(data.colormap.gradient))
                 print(f"{indent}boundaries:", reader.array_boundaries(data.colormap.boundaries))
 

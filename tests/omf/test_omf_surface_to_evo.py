@@ -3,7 +3,7 @@ from os import path
 from typing import Any
 from unittest import TestCase
 
-import omf_python
+import omf2
 import pyarrow.parquet as pq
 from geoscience_object_models.components import (
     BoundingBox_V1_0_1,
@@ -28,7 +28,7 @@ class TestOmfSurfaceConverter(TestCase):
         _, data_client = create_evo_object_service_and_data_client(metadata)
         self.data_client = data_client
 
-    def _element_by_name(self, project: omf_python.Project, element_name: str) -> omf_python.Element:
+    def _element_by_name(self, project: omf2.Project, element_name: str) -> omf2.Element:
         for element in project.elements():
             if element.name == element_name:
                 return element

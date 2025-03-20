@@ -2,7 +2,7 @@ from datetime import date, datetime, timezone
 from os import path
 from unittest import TestCase
 
-import omf_python
+import omf2
 import pyarrow as pa
 
 from evo.data_converters.omf import OmfReaderContext
@@ -21,7 +21,7 @@ class TestConvertBlockModelAttribute(TestCase):
         attribute = element.attributes()[6]
 
         self.assertEqual(attribute.name, "Booleans")
-        self.assertIsInstance(attribute.get_data(), omf_python.AttributeDataBoolean)
+        self.assertIsInstance(attribute.get_data(), omf2.AttributeDataBoolean)
 
         table = convert_blockmodel_attribute(reader, attribute)
 
@@ -44,7 +44,7 @@ class TestConvertBlockModelAttribute(TestCase):
         attribute = element.attributes()[3]
 
         self.assertEqual(attribute.name, "Numbers (Date)")
-        self.assertIsInstance(attribute.get_data(), omf_python.AttributeDataNumber)
+        self.assertIsInstance(attribute.get_data(), omf2.AttributeDataNumber)
 
         table = convert_blockmodel_attribute(reader, attribute)
 
@@ -67,7 +67,7 @@ class TestConvertBlockModelAttribute(TestCase):
         attribute = element.attributes()[4]
 
         self.assertEqual(attribute.name, "Numbers (DateTime)")
-        self.assertIsInstance(attribute.get_data(), omf_python.AttributeDataNumber)
+        self.assertIsInstance(attribute.get_data(), omf2.AttributeDataNumber)
 
         table = convert_blockmodel_attribute(reader, attribute)
 
@@ -95,7 +95,7 @@ class TestConvertBlockModelAttribute(TestCase):
         attribute = element.attributes()[2]
 
         self.assertEqual(attribute.name, "Numbers (i64)")
-        self.assertIsInstance(attribute.get_data(), omf_python.AttributeDataNumber)
+        self.assertIsInstance(attribute.get_data(), omf2.AttributeDataNumber)
 
         table = convert_blockmodel_attribute(reader, attribute)
 
@@ -115,10 +115,10 @@ class TestConvertBlockModelAttribute(TestCase):
         project, _ = reader.project()
 
         octree_block_model = project.elements()[0]
-        self.assertIsInstance(octree_block_model.geometry(), omf_python.BlockModel)
+        self.assertIsInstance(octree_block_model.geometry(), omf2.BlockModel)
 
         attribute = octree_block_model.attributes()[0]
-        self.assertIsInstance(attribute.get_data(), omf_python.AttributeDataNumber)
+        self.assertIsInstance(attribute.get_data(), omf2.AttributeDataNumber)
 
         table = convert_blockmodel_attribute(reader, attribute)
 
@@ -165,10 +165,10 @@ class TestConvertBlockModelAttribute(TestCase):
         project, _ = reader.project()
 
         octree_block_model = project.elements()[0]
-        self.assertIsInstance(octree_block_model.geometry(), omf_python.BlockModel)
+        self.assertIsInstance(octree_block_model.geometry(), omf2.BlockModel)
 
         attribute = octree_block_model.attributes()[0]
-        self.assertIsInstance(attribute.get_data(), omf_python.AttributeDataCategory)
+        self.assertIsInstance(attribute.get_data(), omf2.AttributeDataCategory)
 
         table = convert_blockmodel_attribute(reader, attribute)
 
@@ -206,7 +206,7 @@ class TestConvertBlockModelAttribute(TestCase):
 
         block_model = project.elements()[0]
         attr = block_model.attributes()[0]
-        self.assertIsInstance(attr.get_data(), omf_python.AttributeDataNumber)
+        self.assertIsInstance(attr.get_data(), omf2.AttributeDataNumber)
 
         table = extract_regular_block_model_columns(block_model, reader)
         self.assertIsInstance(table, pa.Table)

@@ -6,7 +6,7 @@ from unittest import TestCase
 from unittest.mock import MagicMock, patch
 
 import numpy as np
-import omf_python
+import omf2
 import pandas as pd
 import pyarrow as pa
 import pytest
@@ -160,7 +160,7 @@ class TestBlockModelConverter(TestCase):
 
         block_model = project.elements()[0]
         attr = block_model.attributes()[0]
-        self.assertIsInstance(attr.get_data(), omf_python.AttributeDataNumber)
+        self.assertIsInstance(attr.get_data(), omf2.AttributeDataNumber)
 
         table = extract_regular_block_model_columns(block_model, reader)
         self.assertIsInstance(table, pa.Table)
