@@ -29,9 +29,7 @@ Whether using the code samples or working on development of the converters the f
 
 ### Requirements
 
-- Python 3.10
-
-Python 3.10 is explicitly required to maintain compatibility with upstream dependencies that are not compatible with earlier or later versions of Python - specifically `resqpy`.
+- Python >= 3.10, <= 3.12
 
 ### Evo Artifactory dependencies
 

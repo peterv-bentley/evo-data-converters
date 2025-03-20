@@ -1,5 +1,4 @@
 version = 1
-revision = 1
 requires-python = ">=3.10"
 resolution-markers = [
     "python_full_version >= '3.12'",
@@ -590,7 +589,7 @@ dependencies = [
     { name = "nest-asyncio" },
     { name = "numpy" },
     { name = "omf" },
-    { name = "omf-python" },
+    { name = "omf2" },
     { name = "pandas" },
     { name = "pure-interface" },
     { name = "pyarrow" },
@@ -611,7 +610,6 @@ dev = [
     { name = "ruff" },
 ]
 notebooks = [
-    { name = "evo-client-common" },
     { name = "jupyter" },
 ]
 
@@ -623,7 +621,7 @@ requires-dist = [
     { name = "nest-asyncio" },
     { name = "numpy", specifier = "<2.0.0" },
     { name = "omf", specifier = ">=1.0.1" },
-    { name = "omf-python", specifier = ">=0.2" },
+    { name = "omf2", specifier = ">=0.1.0b1" },
     { name = "pandas", specifier = "==2.2.3" },
     { name = "pure-interface" },
     { name = "pyarrow" },
@@ -643,10 +641,7 @@ dev = [
     { name = "requests-mock" },
     { name = "ruff" },
 ]
-notebooks = [
-    { name = "evo-client-common", extras = ["notebooks"] },
-    { name = "jupyter" },
-]
+notebooks = [{ name = "jupyter" }]
 
 [[package]]
 name = "evo-objects"
@@ -1973,17 +1968,13 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/c8/3b/209f117f7a184ad13c3cc083e7e9f9392fe525c62ebd5c481bbd8e6444cf/omf-1.0.1.tar.gz", hash = "sha256:2622abc202e66d976d203da99d580dadfa90d7164df3c522395c30c3d0a18445", size = 11822 }
 
 [[package]]
-name = "omf-python"
-version = "0.2.0"
+name = "omf2"
+version = "0.1.0b1"
 source = { registry = "https://seequent.jfrog.io/artifactory/api/pypi/evo-converters-packages-pypi-local/simple" }
 wheels = [
-    { url = "https://seequent.jfrog.io/artifactory/api/pypi/evo-converters-packages-pypi-local/omf-python/0.2.0/omf_python-0.2.0-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:01aa878228eb2a0b9218b12ef315130c897057016e2e42c654e6605850394607" },
-    { url = "https://seequent.jfrog.io/artifactory/api/pypi/evo-converters-packages-pypi-local/omf-python/0.2.0/omf_python-0.2.0-cp310-none-win_amd64.whl", hash = "sha256:103657ea215c8b81cd9bf835ecf08e82313903599e8576dbb28078f64ab058dc" },
-    { url = "https://seequent.jfrog.io/artifactory/api/pypi/evo-converters-packages-pypi-local/omf-python/0.2.0/omf_python-0.2.0-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:b13faea4177ec4d8660efbcb5df8f13fe208ff7f33aa94d8b79d8f2d15cf719b" },
-    { url = "https://seequent.jfrog.io/artifactory/api/pypi/evo-converters-packages-pypi-local/omf-python/0.2.0/omf_python-0.2.0-cp311-none-win_amd64.whl", hash = "sha256:87d51c0c34c028b7cb3464a808bf58f79bef2745a4ed397c1efc2645d2facfe8" },
-    { url = "https://seequent.jfrog.io/artifactory/api/pypi/evo-converters-packages-pypi-local/omf-python/0.2.0/omf_python-0.2.0-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:7e37587c3256fd0ead658795adf0db75b0008b502b9ebd2babc3217f85410ec8" },
-    { url = "https://seequent.jfrog.io/artifactory/api/pypi/evo-converters-packages-pypi-local/omf-python/0.2.0/omf_python-0.2.0-cp312-none-win_amd64.whl", hash = "sha256:a95be4c0dfd32d87c2238186057beeccccab00acf5a8bdbe89f545906fc52979" },
-    { url = "https://seequent.jfrog.io/artifactory/api/pypi/evo-converters-packages-pypi-local/omf-python/0.2.0/omf_python-0.2.0-pp310-pypy310_pp73-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:f3c57e96deae67c4b51db2a0e24d6973e3da770ac17d064cb12ed06fe7aba324" },
+    { url = "https://seequent.jfrog.io/artifactory/api/pypi/evo-converters-packages-pypi-local/omf2/0.1.0-beta.1/omf2-0.1.0b1-cp39-abi3-macosx_11_0_arm64.whl", hash = "sha256:eeef31f7ba5bb69995d56057971cd9d39c80aad48c563b0e35647a4926c68acb" },
+    { url = "https://seequent.jfrog.io/artifactory/api/pypi/evo-converters-packages-pypi-local/omf2/0.1.0-beta.1/omf2-0.1.0b1-cp39-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:c4abdd5c7de53a8d1d08a56376ad7b5e0219131844060a36efec6ed2377f9d2b" },
+    { url = "https://seequent.jfrog.io/artifactory/api/pypi/evo-converters-packages-pypi-local/omf2/0.1.0-beta.1/omf2-0.1.0b1-cp39-abi3-win_amd64.whl", hash = "sha256:589ec0efa2ca32dbc76785bfd5bdf7a48f7c7dd036af2dc9c4a03a372a0eef2d" },
 ]
 
 [[package]]

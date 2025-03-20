@@ -14,7 +14,7 @@ dependencies = [
   "nest-asyncio",
   "numpy<2.0.0",
   "omf>=1.0.1",
-  "omf_python>=0.2",
+  "omf2>=0.1.0-beta.1",
   "pandas==2.2.3",
   "pyarrow",
   "pure-interface",
@@ -36,7 +36,7 @@ dev = [
 ]
 
 # Optional dependencies for running notebooks
-notebooks = ["evo-client-common[notebooks]", "jupyter"]
+notebooks = ["jupyter"]
 
 [tool.setuptools.packages.find]
 where = ["src"]
