@@ -1,46 +1,51 @@
 # Contributing
 
-We welcome all types of contributions.
+Thanks for your interest in contributing to Seequent software. Everyone is welcome to contribute to our software!
+There are many ways you can contribute. This document provides a summary of some of these ways.
 
-Found a bug? Please create an [issue](https://github.com/seequent/evo-samples/issues).
+## Asking a question
 
-Want to contribute by creating a pull request? Great!
-[Fork this repository](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/working-with-forks) to get started.
+If you have a question about how the code in this library works, or would like to propose a change, feel free to
+open a new issue on GitHub.
 
-## Pull Requests
+If you have a general question, head over to [Seequent Community](https://community.seequent.com/).
 
-Before creating a pull request, make sure your changes address a specific issue.
-Do a search to see if there are any existing issues that are still open.
-If you don't find one, you can create one.
+## Reporting bugs/issues
 
-To enable us to quickly review and accept your pull requests, always create one pull request per issue.
-Never merge multiple requests in one unless they have the same root cause.
-Be sure to follow best practices and keep code changes as small as possible.
-Avoid pure formatting changes or random "fixes" that are unrelated to the linked issue.
+Bug reports and feature requests are welcomed in the form of GitHub issues.
 
-## Building a Release
+You can search existing issues to see if others have already reported your issue. If you find something relevant, you
+can react to it using a 👍 or 👎 emoji. Please avoid "+1" or "me too" style comments on the issue without providing
+further context or helpful information.
 
-### Prerequisites
+If you can't find an existing issue that represents your request, open a new issue. When opening issues, ensure you
+provide a clear description of the problem or idea, along with any necessary context (software version, operating
+system, example code, steps to reproduce, etc.). We also welcome pull requests to fix bugs instead of opening issues!
 
-- GitHub access with appropriate permissions to create releases and run workflows
-- Ensure all tests are passing in the main branch
-- Check there is a draft release named "Upcoming release" at https://github.com/seequent/evo-samples-internal/releases with a list of changes since last release
+## Opening a pull request
 
-### Release Process
+We welcome all forms of pull requests, and strive to ensure contributions are reviewed and merged promptly.
 
-Navigate to the Release workflow at https://github.com/seequent/evo-samples-internal/actions/workflows/release.yml and click "Run workflow"
+### Checklist
 
-The workflow will automatically:
+To ensure your pull request is merged as quickly as possible, please consider the following:
 
-- Bump the current version of the project according to your selection of a major, minor, patch release
-- Tag the new release and push to the repository
-- Build and publish a new version of the wheel
-- Publish the draft release
+* If this is your first contribution to this project, check out our [contributing guide](CONTRIBUTING.md).
+* Try to prevent breaking changes and ensure backwards compatibility. If a breaking change is necessary, please call
+  them out in your pull request.
+* Reference issues in your pull request if you're closing one.
+* Ensure your code has been automatically linted.
+* Verify that all tests pass, and write new tests with excellent code coverage for new code.
 
-### Version Bumping Guidelines
+### Contributor License Agreement (CLA)
 
-Choose the appropriate version bump based on the changes included:
+Once you create a pull request, you will be required to sign our Contributor License Agreement (CLA).
 
-- Major (1.0.0 → 2.0.0): Breaking changes that are not backward compatible
-- Minor (1.0.0 → 1.1.0): New features that maintain backward compatibility
-- Patch (1.0.0 → 1.0.1): Bug fixes and minor improvements
+This only needs to be completed once, and enables contributions to all projects under the Seequent GitHub organization,
+including this repository. The CLA ensures you retain copyright to your contributions, and provides us the right to use,
+modify, and redistribute your contributions using the Apache 2.0 License.
+
+## Code of conduct
+
+To ensure an inclusive community, contributors and users in the Seequent community should follow
+[the code of conduct](CODE_OF_CONDUCT.md).
