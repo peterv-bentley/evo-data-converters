@@ -36,7 +36,7 @@ class TestEvoToOmfExporter(TestCase):
 
     @patch("evo.data_converters.omf.exporter.evo_to_omf._download_evo_object_by_id")
     def test_should_create_expected_omf_file(self, mock_download_evo_object_by_id: MagicMock) -> None:
-        temp_omf_file = tempfile.NamedTemporaryFile(suffix=".omf")
+        temp_omf_file = tempfile.NamedTemporaryFile(suffix=".omf", delete=False)
 
         object_id = uuid4()
         version_id = "any version"
@@ -64,7 +64,7 @@ class TestEvoToOmfExporter(TestCase):
     def test_should_raise_expected_exception_for_unknown_object_schema(
         self, mock_download_evo_object_by_id: MagicMock
     ) -> None:
-        temp_omf_file = tempfile.NamedTemporaryFile(suffix=".omf")
+        temp_omf_file = tempfile.NamedTemporaryFile(suffix=".omf", delete=False)
 
         evo_object_dict = self.evo_object.as_dict()
         schema = evo_object_dict["schema"] = "/objects/unknown/1.0.0/unknown.schema.json"
@@ -83,9 +83,9 @@ class TestEvoToOmfExporter(TestCase):
     def test_should_raise_expected_exception_for_unsupported_object(
         self, mock_download_evo_object_by_id: MagicMock
     ) -> None:
-        temp_omf_file = tempfile.NamedTemporaryFile(suffix=".omf")
+        temp_omf_file = tempfile.NamedTemporaryFile(suffix=".omf", delete=False)
 
-        # Given an schema we haven't implemented support for
+        # Given a schema we haven't implemented support for
         evo_object_name = "Regular3DGrid_V1_1_0"
         evo_object_dict = {
             "name": "3d grid",
@@ -112,7 +112,7 @@ class TestEvoToOmfExporter(TestCase):
 
     @patch("evo.data_converters.omf.exporter.evo_to_omf._download_evo_object_by_id")
     def test_can_export_multiple_objects(self, mock_download_evo_object_by_id: MagicMock) -> None:
-        temp_omf_file = tempfile.NamedTemporaryFile(suffix=".omf")
+        temp_omf_file = tempfile.NamedTemporaryFile(suffix=".omf", delete=False)
 
         object_id_dict_map = {uuid4(): evo_object.as_dict() for evo_object in self.evo_objects}
         mock_download_evo_object_by_id.side_effect = lambda svc, oid, vid: object_id_dict_map[oid]
@@ -144,7 +144,7 @@ class TestEvoToOmfExporter(TestCase):
 
     @patch("evo.data_converters.omf.exporter.evo_to_omf._download_evo_object_by_id")
     def test_metadata_overrides_defaults(self, mock_download_evo_object_by_id: MagicMock) -> None:
-        temp_omf_file = tempfile.NamedTemporaryFile(suffix=".omf")
+        temp_omf_file = tempfile.NamedTemporaryFile(suffix=".omf", delete=False)
 
         object_id = uuid4()
         version_id = "any version"

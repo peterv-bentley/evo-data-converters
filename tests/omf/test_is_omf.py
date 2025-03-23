@@ -24,4 +24,5 @@ class TestIsOmf(TestCase):
         with self.assertRaises(OmfFileIoException) as context:
             is_omf(invalid_file_path)
 
-        self.assertEqual(str(context.exception), "File IO error: No such file or directory (os error 2)")
+        self.assertIn("File IO error:", str(context.exception))
+        self.assertIn("(os error 2)", str(context.exception))

@@ -8,17 +8,19 @@ on:
 jobs:
   run-tests:
     name: Test
-    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ windows-latest, ubuntu-latest, macos-latest ]
+        python-version: [ "3.10", "3.11", "3.12" ]
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
-      - uses: ./.github/actions/install-uv
-
-      - name: Pytest
-        shell: bash
-        run: |
-          export UV_INDEX_ARTIFACTORY_USERNAME=${{ vars.EVO_ARTIFACTORY_USER }}
-          export UV_INDEX_ARTIFACTORY_PASSWORD=${{ secrets.EVO_ARTIFACTORY_TOKEN }}
-          uv run pytest tests/
+      - uses: ./.github/actions/testing
+        with:
+          EVO_ARTIFACTORY_USER: ${{ vars.EVO_ARTIFACTORY_USER }}
+          EVO_ARTIFACTORY_TOKEN: ${{ secrets.EVO_ARTIFACTORY_TOKEN }}
+          PYTHON_VERSION: ${{ matrix.python-version }}
 
   build-package:
     name: Build package
@@ -27,6 +29,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/install-uv
+        with:
+          PYTHON_VERSION: "3.10"
 
       - name: Build
         shell: bash
