@@ -36,10 +36,11 @@ To ensure your pull request is merged as quickly as possible, please consider th
 * Reference issues in your pull request if you're closing one.
 * Ensure your code has been automatically linted.
 * Verify that all tests pass, and write new tests with excellent code coverage for new code.
+* Seequent requires that all commits are signed with verified signatures. Please ensure you configure commit signing before creating a pull request. See [the GitHub documentation](https://docs.github.com/en/authentication/managing-commit-signature-verification) for more information.
 
 ### Contributor License Agreement (CLA)
 
-Once you create a pull request, you will be required to sign our Contributor License Agreement (CLA).
+By making a pull request, you confirm you agree to our [Contributor License Agreement (CLA).](https://gist.github.com/imodeljs-admin/9a071844d3a8d420092b5cf360e978ca).
 
 This only needs to be completed once, and enables contributions to all projects under the Seequent GitHub organization,
 including this repository. The CLA ensures you retain copyright to your contributions, and provides us the right to use,
