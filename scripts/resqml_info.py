@@ -10,7 +10,7 @@ from resqpy.surface import Surface
 from evo.data_converters.resqml import convert_size, estimate_corner_points_size
 from evo.data_converters.resqml.importer._time_series_converter import _load_timestamps
 
-parser = argparse.ArgumentParser(description="Provides a detailed report on the contents of aRESQML  file.")
+parser = argparse.ArgumentParser(description="Provides a detailed report on the contents of a RESQML file.")
 parser.add_argument("filename", help="Path to RESQML file")
 parser.add_argument("-a", "--all", action="store_true", help="Show all details")
 parser.add_argument("-g", "--grids", action="store_true", help="Show details of grids")

@@ -5,7 +5,7 @@ import uuid
 from evo.data_converters.common import EvoWorkspaceMetadata
 from evo.data_converters.resqml.importer import ResqmlConversionOptions, convert_resqml
 
-parser = argparse.ArgumentParser(description="Convert a RESQML file and print the generated EVO objects")
+parser = argparse.ArgumentParser(description="Convert a RESQML file and print the generated Evo objects")
 parser.add_argument("filename", help="Path to RESQML file", nargs="+")
 parser.add_argument(
     "--epsg-code",

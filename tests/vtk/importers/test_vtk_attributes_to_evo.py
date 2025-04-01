@@ -153,7 +153,7 @@ def test_convert_attributes_with_mask(grid_is_filtered: bool, expected_values: l
         pytest.param(True, [0, 1, 0], id="filtered"),
     ],
 )
-def test_convert_string_attributes_with_mask(grid_is_filtered: str, expected_values: list[int | None]) -> None:
+def test_convert_string_attributes_with_mask(grid_is_filtered: bool, expected_values: list[int | None]) -> None:
     vtk_data = vtk.vtkDataSetAttributes()
     array = _create_string_array(["A", "B", "C", "A", "A"])
     array.SetName("string_attr")

@@ -74,12 +74,12 @@ class BlockSyncClient:
             return response
 
     def create_request(self, body: dict) -> str:
-        """Sends a create api request to the Block Model API.
+        """Sends a create API request to the Block Model API.
         It creates an empty block model which is defined by the body param.
 
         :param body: The body of the API request which contains information about the model.
 
-        :return: The newly created block model's id.
+        :return: The newly created block model's ID.
 
         If problems are encountered while accessing the API, these will be raised as exceptions.
         """
@@ -103,14 +103,14 @@ class BlockSyncClient:
         return bm_uuid
 
     def add_columns_request(self, block_model_id: str, body: dict) -> tuple[str, str]:
-        """Sends an update columns api request to the Block Model API.
+        """Sends an update columns API request to the Block Model API.
 
         It updates a block model with the new columns as per the body param.
 
         :param block_model_id: The id of the block model to be added to.
         :param body: The body of the API request which contains information about the model.
 
-        :return: The url of the block model job to add columns, and the url where the column
+        :return: The URL of the block model job to add columns, and the URL where the column
         data will be uploaded to.
 
         If problems are encountered while accessing the API, these will be raised as exceptions.
@@ -164,7 +164,7 @@ class BlockSyncClient:
 
         This will move the job from queued to in progress.
 
-        :param job_url: The job url to move up the queue.
+        :param job_url: The job URL to move up the queue.
         """
         auth_header = self.get_auth_header()
         url = f"{job_url}/uploaded"
@@ -184,7 +184,7 @@ class BlockSyncClient:
     def upload_parquet(self, upload_url: str, table: pa.Table) -> None:
         """Sends a put request containing a parquet file to the Block Model API.
 
-        :param upload_url: The url to upload the parquet file data to.
+        :param upload_url: The URL to upload the parquet file data to.
         :param table: The block model data in table form.
 
         If problems are encountered while accessing the API, these will be raised as exceptions.
@@ -243,7 +243,7 @@ class BlockSyncClient:
         return str(response.json()["job_url"])
 
     def get_blockmodel_columns_download_url(self, job_url: str) -> str:
-        logger.info(f"Requesting blockmodel columns download url from {job_url}")
+        logger.info(f"Requesting blockmodel columns download URL from {job_url}")
         response = self.check_job_status(job_url=job_url)
 
         if response.status_code != HTTPStatus.OK:

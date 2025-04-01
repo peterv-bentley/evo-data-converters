@@ -54,14 +54,14 @@ def get_geoscience_object_from_gocad(
     bbox = grid_bounding_box(rotated_origin, rotation, numpy.array(spacing) * numpy.array(grid_size))
     cell_attributes = _create_continuous_attributes(data_client, label_to_values_and_filter)
 
-    goose_tags = {}
-    goose_tags["Source"] = f"{os.path.basename(filepath)} (via Evo Data Converters)"
-    goose_tags["Stage"] = "Experimental"
-    goose_tags["InputType"] = "GOCAD"
+    object_tags = {}
+    object_tags["Source"] = f"{os.path.basename(filepath)} (via Evo Data Converters)"
+    object_tags["Stage"] = "Experimental"
+    object_tags["InputType"] = "GOCAD"
 
     # Add custom tags
     if tags:
-        goose_tags.update(tags)
+        object_tags.update(tags)
 
     return Regular3DGrid_V1_2_0(
         name=vo_result.header["name"],
@@ -73,5 +73,5 @@ def get_geoscience_object_from_gocad(
         rotation=convert_rotation(Rotation.from_matrix(rotation.T)),
         cell_attributes=cell_attributes,
         uuid=None,
-        tags=goose_tags,
+        tags=object_tags,
     )

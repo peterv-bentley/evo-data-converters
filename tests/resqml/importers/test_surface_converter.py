@@ -260,7 +260,7 @@ class TestSurfaceConverter(TestCase):
         return property
 
     def continuous_property(self, surface: Surface, indexable: str, name: str) -> rqp.Property:
-        """build a continuous property"""
+        """Build a continuous property"""
         property = rqp.Property.from_array(
             parent_model=self.model,
             cached_array=np.random.random(surface.triangle_count()).astype(np.float64),
@@ -276,7 +276,7 @@ class TestSurfaceConverter(TestCase):
         return property
 
     def points_property(self, surface: Surface, indexable: str, name: str) -> rqp.Property:
-        """create a points property"""
+        """Create a points property"""
         property = rqp.Property.from_array(
             parent_model=self.model,
             cached_array=np.random.randn(surface.triangle_count(), 3),

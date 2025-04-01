@@ -362,7 +362,7 @@ def add_blocks_and_columns(
     :param table: The block model column data in tabular form.
     :param is_octree: True if the block model has type octree, false otherwise.
 
-    :return: The url of the BlockSync job to add the new column data or None
+    :return: The URL of the BlockSync job to add the new column data or None
     if there are no new columns.
     """
     # use schema from table to determine add col body

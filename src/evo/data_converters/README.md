@@ -35,7 +35,7 @@ pip install -e ".[dev]"
 
 ## General converter architecture
 
-Within `src/eco/data_converters/` the directory structure for converters comprises of a top level common directory, containing common modules that are usable across all types of converters, and a top level directory for each supported converter type:
+Within `src/eco/data_converters/` the directory structure for converters comprises a top level common directory, containing common modules that are usable across all types of converters, and a top level directory for each supported converter type:
 
 ```
 .
@@ -97,7 +97,7 @@ The converters are designed to follow a consistent coding pattern to encourage r
 
 An importer takes geoscience data from a specific file type, converts it to Evo Geoscience Objects and uploads these objects to Evo.
 
-As observable in the example Jupyter notebook for [publishing an omf file](../../../samples/data-converters/python/convert-omf/publish-omf.ipynb) the main interface to a convertor is the `convert_*` function.  This function will be in a module in the root directory of the named `yourfiletype_to_evo.py`.
+As observable in the example Jupyter notebook for [publishing an OMF file](../../../samples/data-converters/python/convert-omf/publish-omf.ipynb) the main interface to a convertor is the `convert_*` function.  This function will be in a module in the root directory of the named `yourfiletype_to_evo.py`.
 
 Within this function the following tasks must be completed:
 
@@ -157,7 +157,7 @@ def convert_yourfiletype(
         if geoscience_object:
             geoscience_objects.append(geoscience_object)
 
-    $ Publish the found geoscience objects to Evo
+    # Publish the found geoscience objects to Evo
     objects_metadata = None
     objects_metadata = publish_geoscience_objects(
         geoscience_objects, object_service_client, data_client, upload_path
@@ -185,11 +185,11 @@ The following parameters are passed into the convert function.  By convention th
 
 #### File parsing
 
-Both the OMF and RESQML converters use external libraries for parsing the file into usable python objects by the converter function.  This will vary for different file types and in some cases file parsers may need to be developed from scratch.  Refer to OMF and RESQML converters for existing examples of this (`omf2` and `resqpy` respectively).
+Both the OMF and RESQML converters use external libraries for parsing the file into usable Python objects by the converter function.  This will vary for different file types and in some cases file parsers may need to be developed from scratch.  Refer to OMF and RESQML converters for existing examples of this (`omf2` and `resqpy` respectively).
 
 #### Conversion to geoscience objects
 
-As observable in the example above, the top level convert function will then use specific conversion functions for each type of geoscience data.  As with file parsing, the specific method for conversion will vary depending on the data source.  All these functions should return an Evo supported geoscience object type ready for upload to Evo.  For the point set example, this will be `Pointset_V1_2_0`
+As observable in the example above, the top level convert function will then use specific conversion functions for each type of geoscience data.  As with file parsing, the specific method for conversion will vary depending on the data source.  All these functions should return an Evo supported geoscience object type ready for upload to Evo.  For the point set example, this will be `Pointset_V1_2_0`.
 
 ### Exporter
 
