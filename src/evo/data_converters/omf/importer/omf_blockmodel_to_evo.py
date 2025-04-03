@@ -3,7 +3,7 @@ import omf2
 import pyarrow as pa
 
 import evo.logging
-from evo.common import ApiConnector, Environment
+from evo.common import APIConnector, Environment
 from evo.data_converters.common import BlockSyncClient
 from evo.objects import ObjectAPIClient
 
@@ -17,7 +17,7 @@ from .blockmodel.omf_blockmodel_to_blocksync import (
 logger = evo.logging.getLogger("data_converters")
 
 
-def _create_block_sync_client(environment: Environment, api_connector: ApiConnector) -> BlockSyncClient:
+def _create_block_sync_client(environment: Environment, api_connector: APIConnector) -> BlockSyncClient:
     return BlockSyncClient(environment, api_connector)
 
 

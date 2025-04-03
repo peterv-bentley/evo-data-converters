@@ -5,7 +5,7 @@ from uuid import UUID
 
 import evo.logging
 from evo.aio import AioTransport
-from evo.common import ApiConnector, Environment, NoAuth
+from evo.common import APIConnector, Environment, NoAuth
 from evo.common.interfaces import ITransport
 from evo.common.utils.cache import Cache
 from evo.data_converters.common.exceptions import ConflictingConnectionDetailsError, MissingConnectionDetailsError
@@ -126,7 +126,7 @@ def create_service_and_data_client_from_metadata(
     org_uuid = UUID(metadata.org_id) if metadata.org_id else metadata.org_id
     if metadata.has_client_credentials_params():
         authorizer = asyncio.run(client_credentials_authorizer(transport, metadata))
-        hub_connector = ApiConnector(
+        hub_connector = APIConnector(
             base_url=metadata.hub_url,
             transport=transport,
             authorizer=authorizer,
@@ -138,7 +138,7 @@ def create_service_and_data_client_from_metadata(
         else:
             logger.debug("Skipping authentication due to missing required parameters.")
 
-        hub_connector = ApiConnector(base_url=metadata.hub_url, transport=transport, authorizer=authorizer)
+        hub_connector = APIConnector(base_url=metadata.hub_url, transport=transport, authorizer=authorizer)
 
     workspace_uuid = UUID(metadata.workspace_id) if metadata.workspace_id else metadata.workspace_id
 
