@@ -5,7 +5,7 @@ import pyarrow as pa
 import evo.logging
 from evo.common import ApiConnector, Environment
 from evo.data_converters.common import BlockSyncClient
-from evo.objects import ObjectServiceClient
+from evo.objects import ObjectAPIClient
 
 from .blockmodel.omf_blockmodel_to_blocksync import (
     add_blocks_and_columns,
@@ -22,7 +22,7 @@ def _create_block_sync_client(environment: Environment, api_connector: ApiConnec
 
 
 def convert_omf_blockmodel(
-    object_service_client: ObjectServiceClient, element: omf2.Element, reader: omf2.Reader, epsg_code: int
+    object_service_client: ObjectAPIClient, element: omf2.Element, reader: omf2.Reader, epsg_code: int
 ) -> None:
     """Converts an OMF file to BlockSync Objects and creates an empty model on BlockSync.
 

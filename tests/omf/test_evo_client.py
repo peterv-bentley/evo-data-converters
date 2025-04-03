@@ -2,7 +2,7 @@ import tempfile
 from unittest import TestCase
 
 from evo.data_converters.common import EvoWorkspaceMetadata, create_evo_object_service_and_data_client
-from evo.objects import ObjectServiceClient
+from evo.objects import ObjectAPIClient
 from evo.objects.utils.data import ObjectDataClient
 
 
@@ -14,7 +14,7 @@ class TestEvoClient(TestCase):
         metadata = EvoWorkspaceMetadata(cache_root=self.cache_root_dir.name)
         object_service_client, data_client = create_evo_object_service_and_data_client(metadata)
 
-        self.assertIsInstance(object_service_client, ObjectServiceClient)
+        self.assertIsInstance(object_service_client, ObjectAPIClient)
         self.assertIsInstance(data_client, ObjectDataClient)
 
     def test_should_create_objects_with_detailed_metadata(self) -> None:
@@ -26,5 +26,5 @@ class TestEvoClient(TestCase):
         )
         object_service_client, data_client = create_evo_object_service_and_data_client(metadata)
 
-        self.assertIsInstance(object_service_client, ObjectServiceClient)
+        self.assertIsInstance(object_service_client, ObjectAPIClient)
         self.assertIsInstance(data_client, ObjectDataClient)
