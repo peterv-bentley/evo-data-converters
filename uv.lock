@@ -567,7 +567,7 @@ wheels = [
 [[package]]
 name = "evo-client-common"
 version = "0.1.0"
-source = { git = "https://github.com/seequentevo/evo-python-sdk?subdirectory=packages%2Fevo-client-common#d73ff3873ac3ecf95fd1cca9472666cf6aac9b86" }
+source = { git = "https://github.com/seequentevo/evo-python-sdk?subdirectory=packages%2Fevo-client-common&branch=rename-service-classes#07ff09c18dc2cc9ac76e4487f9d66644ac23ffe9" }
 dependencies = [
     { name = "pure-interface" },
     { name = "pydantic" },
@@ -612,8 +612,8 @@ notebooks = [
 [package.metadata]
 requires-dist = [
     { name = "aiohttp" },
-    { name = "evo-client-common", git = "https://github.com/seequentevo/evo-python-sdk?subdirectory=packages%2Fevo-client-common" },
-    { name = "evo-objects", git = "https://github.com/seequentevo/evo-python-sdk?subdirectory=packages%2Fevo-objects" },
+    { name = "evo-client-common", git = "https://github.com/seequentevo/evo-python-sdk?subdirectory=packages%2Fevo-client-common&branch=rename-service-classes" },
+    { name = "evo-objects", git = "https://github.com/seequentevo/evo-python-sdk?subdirectory=packages%2Fevo-objects&branch=rename-service-classes" },
     { name = "evo-schemas", path = "temp/evo_schemas-2024.12.1.dev23-py3-none-any.whl" },
     { name = "nest-asyncio" },
     { name = "numpy", specifier = "<2.0.0" },
@@ -642,7 +642,7 @@ notebooks = [{ name = "jupyter" }]
 [[package]]
 name = "evo-objects"
 version = "0.1.0"
-source = { git = "https://github.com/seequentevo/evo-python-sdk?subdirectory=packages%2Fevo-objects#d73ff3873ac3ecf95fd1cca9472666cf6aac9b86" }
+source = { git = "https://github.com/seequentevo/evo-python-sdk?subdirectory=packages%2Fevo-objects&branch=rename-service-classes#07ff09c18dc2cc9ac76e4487f9d66644ac23ffe9" }
 dependencies = [
     { name = "evo-client-common" },
     { name = "pydantic" },

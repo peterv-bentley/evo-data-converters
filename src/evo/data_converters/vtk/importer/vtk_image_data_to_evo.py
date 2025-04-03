@@ -1,8 +1,8 @@
 import pyarrow as pa
 import vtk
-from geoscience_object_models.components import BoolAttribute_V1_1_0
-from geoscience_object_models.elements import BoolArray1_V1_0_1
-from geoscience_object_models.objects import Regular3DGrid_V1_2_0, RegularMasked3DGrid_V1_2_0
+from evo_schemas.components import BoolAttribute_V1_1_0
+from evo_schemas.elements import BoolArray1_V1_0_1
+from evo_schemas.objects import Regular3DGrid_V1_2_0, RegularMasked3DGrid_V1_2_0
 
 import evo.logging
 from evo.objects.utils.data import ObjectDataClient

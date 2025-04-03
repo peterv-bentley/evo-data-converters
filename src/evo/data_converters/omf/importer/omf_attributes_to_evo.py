@@ -7,7 +7,7 @@ import numpy.typing as npt
 import omf2
 import pandas as pd
 import pyarrow as pa
-from geoscience_object_models.components import (
+from evo_schemas.components import (
     BoolAttribute_V1_1_0,
     CategoryAttribute_V1_1_0,
     ColorAttribute_V1_1_0,
@@ -21,7 +21,7 @@ from geoscience_object_models.components import (
     StringAttribute_V1_1_0,
     VectorAttribute_V1_0_0,
 )
-from geoscience_object_models.elements import (
+from evo_schemas.elements import (
     BoolArray1_V1_0_1,
     ColorArray_V1_0_1,
     DateTimeArray_V1_0_1,

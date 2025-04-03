@@ -1,7 +1,7 @@
 import asyncio
 
 import nest_asyncio
-from geoscience_object_models.components import BaseSpatialDataProperties_V1_0_1
+from evo_schemas.components import BaseSpatialDataProperties_V1_0_1
 
 import evo.logging
 from evo.objects import ObjectServiceClient

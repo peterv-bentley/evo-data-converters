@@ -5,8 +5,8 @@ from uuid import UUID
 
 import nest_asyncio
 import omf
-from geoscience_object_models import schema_lookup
-from geoscience_object_models.objects import (
+from evo_schemas import schema_lookup
+from evo_schemas.objects import (
     LineSegments_V2_0_0,
     LineSegments_V2_1_0,
     Pointset_V1_1_0,

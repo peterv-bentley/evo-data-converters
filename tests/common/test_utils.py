@@ -2,7 +2,7 @@ from unittest import TestCase
 
 import numpy as np
 import pytest
-from geoscience_object_models.components import BoundingBox_V1_0_1
+from evo_schemas.components import BoundingBox_V1_0_1
 from scipy.spatial.transform import Rotation
 
 from evo.data_converters.common.utils import convert_rotation, grid_bounding_box, vertices_bounding_box

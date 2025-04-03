@@ -3,14 +3,14 @@ from typing import Optional
 
 import numpy
 import pyarrow as pa
-from geoscience_object_models.components import (
+from evo_schemas.components import (
     ContinuousAttribute_V1_1_0,
     Crs_V1_0_1_EpsgCode,
     NanContinuous_V1_0_1,
     Rotation_V1_1_0,
 )
-from geoscience_object_models.elements import FloatArray1_V1_0_1
-from geoscience_object_models.objects import Tensor3DGrid_V1_2_0, Tensor3DGrid_V1_2_0_GridCells3D
+from evo_schemas.elements import FloatArray1_V1_0_1
+from evo_schemas.objects import Tensor3DGrid_V1_2_0, Tensor3DGrid_V1_2_0_GridCells3D
 
 import evo.logging
 from evo.data_converters.common.utils import grid_bounding_box

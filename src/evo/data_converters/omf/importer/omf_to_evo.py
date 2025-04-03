@@ -2,7 +2,7 @@ import os
 from typing import TYPE_CHECKING, Optional
 
 import omf2
-from geoscience_object_models.components import BaseSpatialDataProperties_V1_0_1
+from evo_schemas.components import BaseSpatialDataProperties_V1_0_1
 
 import evo.logging
 from evo.data_converters.common import (

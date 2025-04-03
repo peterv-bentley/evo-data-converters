@@ -8,16 +8,16 @@ import pandas as pd
 import pyarrow as pa
 import resqpy.olio.xml_et as rqet
 from dateutil.parser import ParserError, isoparse
-from geoscience_object_models.components import CategoryTimeSeries_V1_0_1 as CategoryTimeSeries
-from geoscience_object_models.components import ContinuousTimeSeries_V1_0_1 as ContinuousTimeSeries
-from geoscience_object_models.components import NanCategorical_V1_0_1 as NanCategorical
-from geoscience_object_models.components import NanContinuous_V1_0_1 as NanContinuous
-from geoscience_object_models.components import OneOfAttribute_V1_1_0 as OneOfAttribute
-from geoscience_object_models.components import TimeStepDateTimeAttribute_V1_0_1 as TimeStepDateTimeAttribute
-from geoscience_object_models.elements import DateTimeArray_V1_0_1 as DateTimeArray
-from geoscience_object_models.elements import FloatArrayMd_V1_0_1 as FloatArrayMd
-from geoscience_object_models.elements import IntegerArrayMd_V1_0_1 as IntegerArrayMd
-from geoscience_object_models.elements import LookupTable_V1_0_1 as LookupTable
+from evo_schemas.components import CategoryTimeSeries_V1_0_1 as CategoryTimeSeries
+from evo_schemas.components import ContinuousTimeSeries_V1_0_1 as ContinuousTimeSeries
+from evo_schemas.components import NanCategorical_V1_0_1 as NanCategorical
+from evo_schemas.components import NanContinuous_V1_0_1 as NanContinuous
+from evo_schemas.components import OneOfAttribute_V1_1_0 as OneOfAttribute
+from evo_schemas.components import TimeStepDateTimeAttribute_V1_0_1 as TimeStepDateTimeAttribute
+from evo_schemas.elements import DateTimeArray_V1_0_1 as DateTimeArray
+from evo_schemas.elements import FloatArrayMd_V1_0_1 as FloatArrayMd
+from evo_schemas.elements import IntegerArrayMd_V1_0_1 as IntegerArrayMd
+from evo_schemas.elements import LookupTable_V1_0_1 as LookupTable
 from lxml.etree import Element
 from resqpy.grid import Grid
 from resqpy.model import Model

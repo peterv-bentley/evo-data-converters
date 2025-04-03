@@ -4,8 +4,8 @@ from unittest import TestCase
 from uuid import uuid4
 
 import omf
-from geoscience_object_models.components import CategoryAttribute_V1_0_1, CategoryAttribute_V1_1_0
-from geoscience_object_models.objects import Pointset_V1_1_0, Pointset_V1_1_0_Locations, Pointset_V1_2_0
+from evo_schemas.components import CategoryAttribute_V1_0_1, CategoryAttribute_V1_1_0
+from evo_schemas.objects import Pointset_V1_1_0, Pointset_V1_1_0_Locations, Pointset_V1_2_0
 
 from evo.data_converters.common import EvoWorkspaceMetadata, create_evo_object_service_and_data_client
 from evo.data_converters.omf.exporter import export_omf_pointset

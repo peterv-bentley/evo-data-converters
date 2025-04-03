@@ -5,14 +5,14 @@ from unittest import TestCase
 
 import omf2
 import pyarrow.parquet as pq
-from geoscience_object_models.components import (
+from evo_schemas.components import (
     BoundingBox_V1_0_1,
     ContinuousAttribute_V1_1_0,
     Crs_V1_0_1_EpsgCode,
     NanContinuous_V1_0_1,
 )
-from geoscience_object_models.elements.float_array_1 import FloatArray1_V1_0_1
-from geoscience_object_models.objects import TriangleMesh_V2_1_0
+from evo_schemas.elements.float_array_1 import FloatArray1_V1_0_1
+from evo_schemas.objects import TriangleMesh_V2_1_0
 
 from evo.data_converters.common import EvoWorkspaceMetadata, create_evo_object_service_and_data_client
 from evo.data_converters.omf import OmfReaderContext

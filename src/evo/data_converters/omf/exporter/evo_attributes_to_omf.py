@@ -5,7 +5,7 @@ from uuid import UUID
 
 import numpy as np
 import pyarrow as pa
-from geoscience_object_models.components import (
+from evo_schemas.components import (
     CategoryAttribute_V1_0_1,
     CategoryAttribute_V1_1_0,
     ColorAttribute_V1_0_0,

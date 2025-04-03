@@ -5,8 +5,8 @@ import numpy.testing
 import pyarrow as pa
 import pytest
 import vtk
-from geoscience_object_models.components import BoundingBox_V1_0_1, Crs_V1_0_1_EpsgCode
-from geoscience_object_models.objects import (
+from evo_schemas.components import BoundingBox_V1_0_1, Crs_V1_0_1_EpsgCode
+from evo_schemas.objects import (
     UnstructuredGrid_V1_2_0,
     UnstructuredHexGrid_V1_2_0,
     UnstructuredTetGrid_V1_2_0,

@@ -6,9 +6,9 @@ import numpy as np
 import pandas as pd
 import resqpy.model as rqm
 import resqpy.property as rqp
-from geoscience_object_models.components import CategoryAttribute_V1_0_1 as CategoryAttribute
-from geoscience_object_models.components import ContinuousAttribute_V1_0_1 as ContinuousAttribute
-from geoscience_object_models.components import IntegerAttribute_V1_0_1 as IntegerAttribute
+from evo_schemas.components import CategoryAttribute_V1_0_1 as CategoryAttribute
+from evo_schemas.components import ContinuousAttribute_V1_0_1 as ContinuousAttribute
+from evo_schemas.components import IntegerAttribute_V1_0_1 as IntegerAttribute
 from numpy.typing import DTypeLike
 from resqpy.crs import Crs
 from resqpy.surface import PointSet, Surface

@@ -5,15 +5,15 @@ from uuid import uuid4
 
 import omf
 import pyarrow as pa
-from geoscience_object_models.components import (
+from evo_schemas.components import (
     ContinuousAttribute_V1_0_1,
     ContinuousAttribute_V1_1_0,
     Segments_V1_1_0,
     Segments_V1_1_0_Indices,
     Segments_V1_1_0_Vertices,
 )
-from geoscience_object_models.elements import IndexArray2_V1_0_1
-from geoscience_object_models.objects import LineSegments_V2_0_0, LineSegments_V2_0_0_Parts, LineSegments_V2_1_0
+from evo_schemas.elements import IndexArray2_V1_0_1
+from evo_schemas.objects import LineSegments_V2_0_0, LineSegments_V2_0_0_Parts, LineSegments_V2_1_0
 
 from evo.data_converters.common import EvoWorkspaceMetadata, create_evo_object_service_and_data_client
 from evo.data_converters.omf.exporter import export_omf_lineset

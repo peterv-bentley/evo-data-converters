@@ -11,7 +11,7 @@ import pyarrow.parquet as pq
 import resqpy.grid as rqg
 import resqpy.model as rqm
 import resqpy.property as rqp
-from geoscience_object_models.components import ContinuousTimeSeries_V1_0_1 as ContinuousTimeSeries
+from evo_schemas.components import ContinuousTimeSeries_V1_0_1 as ContinuousTimeSeries
 from resqpy.property import AttributePropertySet
 from resqpy.time_series import GeologicTimeSeries, TimeSeries
 

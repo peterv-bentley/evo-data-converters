@@ -3,7 +3,7 @@ from typing import Optional
 from uuid import UUID
 
 import numpy as np
-from geoscience_object_models.objects import TriangleMesh_V2_0_0, TriangleMesh_V2_1_0
+from evo_schemas.objects import TriangleMesh_V2_0_0, TriangleMesh_V2_1_0
 from omf import SurfaceElement, SurfaceGeometry
 from omf.data import ProjectElementData
 

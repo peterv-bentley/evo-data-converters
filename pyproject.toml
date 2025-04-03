@@ -74,6 +74,6 @@ warn_unused_ignores = true
 
 [tool.uv.sources]
 omf2 = { git = "https://github.com/seequent/omf-rust", subdirectory = "omf-python" }
-evo-objects = { git = "https://github.com/seequentevo/evo-python-sdk", subdirectory="packages/evo-objects" }
-evo-client-common = { git = "https://github.com/seequentevo/evo-python-sdk", subdirectory="packages/evo-client-common" }
+evo-objects = { git = "https://github.com/seequentevo/evo-python-sdk", subdirectory="packages/evo-objects", branch="rename-service-classes" }
+evo-client-common = { git = "https://github.com/seequentevo/evo-python-sdk", subdirectory="packages/evo-client-common", branch="rename-service-classes" }
 evo-schemas = { path = "temp/evo_schemas-2024.12.1.dev23-py3-none-any.whl" }

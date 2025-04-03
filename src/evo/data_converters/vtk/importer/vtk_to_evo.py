@@ -3,7 +3,7 @@ from pathlib import Path
 from typing import TYPE_CHECKING, Callable, Generator, Optional, TypeAlias
 
 import vtk
-from geoscience_object_models.components import BaseSpatialDataProperties_V1_0_1
+from evo_schemas.components import BaseSpatialDataProperties_V1_0_1
 from vtk.util.data_model import ImageData, RectilinearGrid, UnstructuredGrid  # Override classes from vtk
 
 import evo.logging

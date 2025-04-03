@@ -5,7 +5,7 @@ from unittest.mock import MagicMock, patch
 from uuid import uuid4
 
 import omf
-from geoscience_object_models.objects import LineSegments_V2_1_0, Pointset_V1_2_0, TriangleMesh_V2_1_0
+from evo_schemas.objects import LineSegments_V2_1_0, Pointset_V1_2_0, TriangleMesh_V2_1_0
 
 from evo.data_converters.common import (
     EvoObjectMetadata,

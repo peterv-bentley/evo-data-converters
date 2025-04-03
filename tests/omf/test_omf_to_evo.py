@@ -4,7 +4,7 @@ from os import path
 from unittest import TestCase
 
 import pytest
-from geoscience_object_models.objects import LineSegments_V2_1_0, Pointset_V1_2_0, TriangleMesh_V2_1_0
+from evo_schemas.objects import LineSegments_V2_1_0, Pointset_V1_2_0, TriangleMesh_V2_1_0
 
 from evo.data_converters.common import EvoWorkspaceMetadata, create_evo_object_service_and_data_client
 from evo.data_converters.omf.importer import convert_omf

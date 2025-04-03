@@ -3,7 +3,7 @@ from typing import Optional
 from uuid import UUID
 
 import numpy as np
-from geoscience_object_models.objects import Pointset_V1_1_0, Pointset_V1_2_0
+from evo_schemas.objects import Pointset_V1_1_0, Pointset_V1_2_0
 from omf import PointSetElement, PointSetGeometry
 
 from evo.objects.utils.data import ObjectDataClient
