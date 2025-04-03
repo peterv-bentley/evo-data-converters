@@ -19,7 +19,7 @@ dependencies = [
   "pyarrow",
   "pure-interface",
   "resqpy==5.1.10",
-  "seequent-geoscience-object-schemas>=2024.6",
+  "evo-schemas>=2024.6",
   "scipy",
   "vtk",
 ]
@@ -66,21 +66,14 @@ select = ["E4", "E7", "E9", "F", "I", "UP006"]
 [tool.mypy]
 check_untyped_defs = true
 disallow_untyped_defs = true
-# Exclude this directory because the python scripts require extra dependencies to be installed.
-exclude = ["samples/geoscience-objects/python/helpers"]
 ignore_missing_imports = true
 no_implicit_optional = true
 warn_redundant_casts = true
 warn_return_any = true
 warn_unused_ignores = true
 
-# Use Artifactory for now as the ssh keys seem like even more admin.
-# [tool.uv.sources]
-# evo-object-client = { git = "https://git@github.com/seequent/evo-object-client" }
-# evo-client-common = { git = "https://git@github.com/seequent/evo-client-common" }
-# seequent-geoscience-object-schemas = { git = "https://git@github.com/seequent/geoscience-object-schemas" }
-
-[[tool.uv.index]]
-name = "artifactory"
-url = "https://seequent.jfrog.io/artifactory/api/pypi/evo-converters-packages-pypi-local/simple"
-publish-url = "https://seequent.jfrog.io/artifactory/api/pypi/evo-converters-packages-pypi-local"
+[tool.uv.sources]
+omf2 = { git = "https://github.com/seequent/omf-rust", subdirectory = "omf-python" }
+evo-objects = { git = "https://github.com/seequentevo/evo-python-sdk", subdirectory="packages/evo-objects" }
+evo-client-common = { git = "https://github.com/seequentevo/evo-python-sdk", subdirectory="packages/evo-client-common" }
+evo-schemas = { path = "temp/evo_schemas-2024.12.1.dev23-py3-none-any.whl" }

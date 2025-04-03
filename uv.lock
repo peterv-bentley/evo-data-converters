@@ -567,25 +567,22 @@ wheels = [
 [[package]]
 name = "evo-client-common"
 version = "0.1.0"
-source = { registry = "https://seequent.jfrog.io/artifactory/api/pypi/evo-converters-packages-pypi-local/simple" }
+source = { git = "https://github.com/seequentevo/evo-python-sdk?subdirectory=packages%2Fevo-client-common#d73ff3873ac3ecf95fd1cca9472666cf6aac9b86" }
 dependencies = [
     { name = "pure-interface" },
     { name = "pydantic" },
     { name = "python-dateutil" },
 ]
-sdist = { url = "https://seequent.jfrog.io/artifactory/api/pypi/evo-converters-packages-pypi-local/evo-client-common/0.1.0/evo_client_common-0.1.0.tar.gz", hash = "sha256:db2aefd12af5439b63cf9b8516f9345213195a1aed0c746c81c6a661f5baa8f8" }
-wheels = [
-    { url = "https://seequent.jfrog.io/artifactory/api/pypi/evo-converters-packages-pypi-local/evo-client-common/0.1.0/evo_client_common-0.1.0-py3-none-any.whl", hash = "sha256:2111c67b554fbaf1270b1ffa8bd703daf6745930d63f8f7240dc5b524660b61e" },
-]
 
 [[package]]
 name = "evo-data-converters"
-version = "0.0.2"
+version = "0.0.3"
 source = { editable = "." }
 dependencies = [
     { name = "aiohttp" },
     { name = "evo-client-common" },
     { name = "evo-objects" },
+    { name = "evo-schemas" },
     { name = "nest-asyncio" },
     { name = "numpy" },
     { name = "omf" },
@@ -595,7 +592,6 @@ dependencies = [
     { name = "pyarrow" },
     { name = "resqpy" },
     { name = "scipy" },
-    { name = "seequent-geoscience-object-schemas" },
     { name = "vtk" },
 ]
 
@@ -616,18 +612,18 @@ notebooks = [
 [package.metadata]
 requires-dist = [
     { name = "aiohttp" },
-    { name = "evo-client-common", specifier = "==0.1.0" },
-    { name = "evo-objects", specifier = "==0.1.0" },
+    { name = "evo-client-common", git = "https://github.com/seequentevo/evo-python-sdk?subdirectory=packages%2Fevo-client-common" },
+    { name = "evo-objects", git = "https://github.com/seequentevo/evo-python-sdk?subdirectory=packages%2Fevo-objects" },
+    { name = "evo-schemas", path = "temp/evo_schemas-2024.12.1.dev23-py3-none-any.whl" },
     { name = "nest-asyncio" },
     { name = "numpy", specifier = "<2.0.0" },
     { name = "omf", specifier = ">=1.0.1" },
-    { name = "omf2", specifier = ">=0.1.0b1" },
+    { name = "omf2", git = "https://github.com/seequent/omf-rust?subdirectory=omf-python" },
     { name = "pandas", specifier = "==2.2.3" },
     { name = "pure-interface" },
     { name = "pyarrow" },
     { name = "resqpy", specifier = "==5.1.10" },
     { name = "scipy" },
-    { name = "seequent-geoscience-object-schemas", specifier = ">=2024.6" },
     { name = "vtk" },
 ]
 
@@ -646,14 +642,46 @@ notebooks = [{ name = "jupyter" }]
 [[package]]
 name = "evo-objects"
 version = "0.1.0"
-source = { registry = "https://seequent.jfrog.io/artifactory/api/pypi/evo-converters-packages-pypi-local/simple" }
+source = { git = "https://github.com/seequentevo/evo-python-sdk?subdirectory=packages%2Fevo-objects#d73ff3873ac3ecf95fd1cca9472666cf6aac9b86" }
 dependencies = [
     { name = "evo-client-common" },
     { name = "pydantic" },
 ]
-sdist = { url = "https://seequent.jfrog.io/artifactory/api/pypi/evo-converters-packages-pypi-local/evo-objects/0.1.0/evo_objects-0.1.0.tar.gz", hash = "sha256:d2a272b261056d6400c86fcd97eab1d902f9a83ca5c0ac47bc437fd52639a235" }
+
+[[package]]
+name = "evo-schemas"
+version = "2024.12.1.dev23"
+source = { path = "temp/evo_schemas-2024.12.1.dev23-py3-none-any.whl" }
+dependencies = [
+    { name = "jsonpointer" },
+    { name = "rfc3986-validator" },
+]
 wheels = [
-    { url = "https://seequent.jfrog.io/artifactory/api/pypi/evo-converters-packages-pypi-local/evo-objects/0.1.0/evo_objects-0.1.0-py3-none-any.whl", hash = "sha256:ae4c0700ba423d8d5f30540bb9691f30821e3394eab060d8dc0fba89db9c31b2" },
+    { filename = "evo_schemas-2024.12.1.dev23-py3-none-any.whl", hash = "sha256:88a0a47ed417eaa0c60585ef5258c0d1ade5d1a0af3950676246ca4212935c2b" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "azure-storage-blob", marker = "extra == 'examples'" },
+    { name = "black", marker = "extra == 'test'", specifier = "==24.10.0" },
+    { name = "bump-my-version", marker = "extra == 'release'" },
+    { name = "evo-schemas", extras = ["test"], marker = "extra == 'examples'" },
+    { name = "evo-schemas", extras = ["test"], marker = "extra == 'tools'" },
+    { name = "gitpython", marker = "extra == 'tools'", specifier = ">=3.1.43" },
+    { name = "jsonpointer", specifier = ">=2.4" },
+    { name = "jsonschema", marker = "extra == 'test'", specifier = "==4.17.3" },
+    { name = "jupyter", marker = "extra == 'examples'" },
+    { name = "pandas", marker = "extra == 'examples'" },
+    { name = "pre-commit", marker = "extra == 'test'", specifier = "==4.0.1" },
+    { name = "pyarrow", marker = "extra == 'examples'" },
+    { name = "pygithub", marker = "extra == 'tools'", specifier = ">=2.4.0" },
+    { name = "pytest", marker = "extra == 'test'", specifier = "==8.3.4" },
+    { name = "pytest-subtests", marker = "extra == 'test'", specifier = "==0.13.1" },
+    { name = "python-dotenv", marker = "extra == 'examples'" },
+    { name = "rfc3986-validator", specifier = ">=0.1" },
+    { name = "ruff", marker = "extra == 'test'", specifier = "==0.8.1" },
+    { name = "semver", marker = "extra == 'test'", specifier = "==3.0.2" },
+    { name = "twine", marker = "extra == 'release'" },
 ]
 
 [[package]]
@@ -1969,13 +1997,8 @@ sdist = { url = "https://files.pythonhosted.org/packages/c8/3b/209f117f7a184ad13
 
 [[package]]
 name = "omf2"
-version = "0.1.0b1"
-source = { registry = "https://seequent.jfrog.io/artifactory/api/pypi/evo-converters-packages-pypi-local/simple" }
-wheels = [
-    { url = "https://seequent.jfrog.io/artifactory/api/pypi/evo-converters-packages-pypi-local/omf2/0.1.0-beta.1/omf2-0.1.0b1-cp39-abi3-macosx_11_0_arm64.whl", hash = "sha256:eeef31f7ba5bb69995d56057971cd9d39c80aad48c563b0e35647a4926c68acb" },
-    { url = "https://seequent.jfrog.io/artifactory/api/pypi/evo-converters-packages-pypi-local/omf2/0.1.0-beta.1/omf2-0.1.0b1-cp39-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:c4abdd5c7de53a8d1d08a56376ad7b5e0219131844060a36efec6ed2377f9d2b" },
-    { url = "https://seequent.jfrog.io/artifactory/api/pypi/evo-converters-packages-pypi-local/omf2/0.1.0-beta.1/omf2-0.1.0b1-cp39-abi3-win_amd64.whl", hash = "sha256:589ec0efa2ca32dbc76785bfd5bdf7a48f7c7dd036af2dc9c4a03a372a0eef2d" },
-]
+version = "0.2.0b1"
+source = { git = "https://github.com/seequent/omf-rust?subdirectory=omf-python#b513a559336fed99c4db92ac34d2bb60c4ca2ed8" }
 
 [[package]]
 name = "overrides"
@@ -2964,14 +2987,6 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/03/f3/e699e19cabe96bbac5189c04aaa970718f0105cff03d458dc5e2b6bd1e8c/scipy-1.15.2-cp313-cp313t-musllinux_1_2_aarch64.whl", hash = "sha256:bae43364d600fdc3ac327db99659dcb79e6e7ecd279a75fe1266669d9a652828", size = 36545159 },
     { url = "https://files.pythonhosted.org/packages/af/f5/ab3838e56fe5cc22383d6fcf2336e48c8fe33e944b9037fbf6cbdf5a11f8/scipy-1.15.2-cp313-cp313t-musllinux_1_2_x86_64.whl", hash = "sha256:f031846580d9acccd0044efd1a90e6f4df3a6e12b4b6bd694a7bc03a89892b28", size = 39136566 },
     { url = "https://files.pythonhosted.org/packages/0a/c8/b3f566db71461cabd4b2d5b39bcc24a7e1c119535c8361f81426be39bb47/scipy-1.15.2-cp313-cp313t-win_amd64.whl", hash = "sha256:fe8a9eb875d430d81755472c5ba75e84acc980e4a8f6204d402849234d3017db", size = 40477705 },
-]
-
-[[package]]
-name = "seequent-geoscience-object-schemas"
-version = "2024.11"
-source = { registry = "https://seequent.jfrog.io/artifactory/api/pypi/evo-converters-packages-pypi-local/simple" }
-wheels = [
-    { url = "https://seequent.jfrog.io/artifactory/api/pypi/evo-converters-packages-pypi-local/seequent-geoscience-object-schemas/2024.11/Seequent_Geoscience_Object_Schemas-2024.11-py3-none-any.whl", hash = "sha256:5fb98f7b40f9021f5e9dc71207727e3a3885983aefddeadf8787f0b4aab01fdb" },
 ]
 
 [[package]]
