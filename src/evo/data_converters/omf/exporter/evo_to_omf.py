@@ -45,11 +45,11 @@ if TYPE_CHECKING:
     from evo.notebooks import ServiceManagerWidget
 
 
-class OmfExporterException(Exception):
+class OMFExporterException(Exception):
     pass
 
 
-class UnsupportedObjectError(OmfExporterException):
+class UnsupportedObjectError(OMFExporterException):
     pass
 
 

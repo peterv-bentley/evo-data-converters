@@ -10,7 +10,7 @@
 #  limitations under the License.
 
 from .omf_metadata import OMFMetadata
-from .omf_reader_context import OmfReaderContext
+from .omf_reader_context import OMFReaderContext
 from .utils import is_omf
 
-__all__ = ["is_omf", "OMFMetadata", "OmfReaderContext"]
+__all__ = ["is_omf", "OMFMetadata", "OMFReaderContext"]

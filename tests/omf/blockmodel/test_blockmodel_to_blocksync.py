@@ -24,7 +24,7 @@ import pytest
 import requests_mock
 
 from evo.data_converters.common import BlockSyncClient, EvoWorkspaceMetadata
-from evo.data_converters.omf import OmfReaderContext
+from evo.data_converters.omf import OMFReaderContext
 from evo.data_converters.omf.importer import convert_omf
 from evo.data_converters.omf.importer.blockmodel import (
     convert_omf_regular_block_model,
@@ -45,7 +45,7 @@ class TestBlockModelConverter(TestCase):
     def test_should_convert_regular_block_model(self) -> None:
         parent = Path(path.dirname(__file__)).parent.absolute()
         omf_file = path.join(parent, "data/one_of_everything.omf")
-        context = OmfReaderContext(omf_file)
+        context = OMFReaderContext(omf_file)
         reader = context.reader()
         project, _ = reader.project()
 
@@ -81,7 +81,7 @@ class TestBlockModelConverter(TestCase):
     def test_should_convert_subblock_octree_model(self) -> None:
         parent = Path(path.dirname(__file__)).parent.absolute()
         omf_file = path.join(parent, "data/one_of_everything.omf")
-        context = OmfReaderContext(omf_file)
+        context = OMFReaderContext(omf_file)
         reader = context.reader()
         project, _ = reader.project()
 
@@ -118,7 +118,7 @@ class TestBlockModelConverter(TestCase):
 
     def test_should_convert_tensor_to_regular_grid(self) -> None:
         omf_file = path.join(path.dirname(__file__), "data/rotated_block_model.omf")
-        context = OmfReaderContext(omf_file)
+        context = OMFReaderContext(omf_file)
         reader = context.reader()
         project, _ = reader.project()
 
@@ -136,7 +136,7 @@ class TestBlockModelConverter(TestCase):
 
     def test_extract_columns_octree(self) -> None:
         omf_file = path.join(path.dirname(__file__), "data/bunny_blocks.omf")
-        context = OmfReaderContext(omf_file)
+        context = OMFReaderContext(omf_file)
         reader = context.reader()
         project, _ = reader.project()
 
@@ -165,7 +165,7 @@ class TestBlockModelConverter(TestCase):
 
     def test_convert_regular_block_model(self) -> None:
         omf_file = path.join(path.dirname(__file__), "data/rotated_block_model_ijk.omf")
-        context = OmfReaderContext(omf_file)
+        context = OMFReaderContext(omf_file)
         reader = context.reader()
         project, _ = reader.project()
 
@@ -209,7 +209,7 @@ class TestBlockModelConverterWarnings:
         epsg_code = 32650
         parent = Path(path.dirname(__file__)).parent.absolute()
         omf_file = path.join(parent, "data/one_of_everything.omf")
-        context = OmfReaderContext(omf_file)
+        context = OMFReaderContext(omf_file)
         reader = context.reader()
         project, _ = reader.project()
         tensor_block_model = project.elements()[5]
@@ -219,7 +219,7 @@ class TestBlockModelConverterWarnings:
         assert expected_log_msg in caplog.text
 
 
-class TestOmfToBlockSyncConverter(TestCase):
+class TestOMFToBlockSyncConverter(TestCase):
     def setUp(self) -> None:
         self.cache_root_dir = tempfile.TemporaryDirectory()
         self.metadata = EvoWorkspaceMetadata(

@@ -19,7 +19,7 @@ import evo.logging
 logger = evo.logging.getLogger("data_converters")
 
 
-class OmfReaderContext:
+class OMFReaderContext:
     """OMF Reader Context
 
     Reads an OMF v1 or v2 file and creates an omf2.Reader object which can be accessed via the reader() method.

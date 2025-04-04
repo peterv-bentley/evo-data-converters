@@ -31,7 +31,7 @@ from evo.data_converters.omf.exporter import export_omf_lineset
 from evo.data_converters.omf.importer import convert_omf
 
 
-class TestExportOmfLineSet(TestCase):
+class TestExportOMFLineSet(TestCase):
     def setUp(self) -> None:
         self.cache_root_dir = tempfile.TemporaryDirectory()
         self.workspace_metadata = EvoWorkspaceMetadata(workspace_id=str(uuid4()), cache_root=self.cache_root_dir.name)

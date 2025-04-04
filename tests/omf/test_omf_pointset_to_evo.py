@@ -18,7 +18,7 @@ from evo_schemas.components import BoundingBox_V1_0_1, Crs_V1_0_1_EpsgCode
 from evo_schemas.objects import Pointset_V1_2_0
 
 from evo.data_converters.common import EvoWorkspaceMetadata, create_evo_object_service_and_data_client
-from evo.data_converters.omf import OmfReaderContext
+from evo.data_converters.omf import OMFReaderContext
 from evo.data_converters.omf.importer import convert_omf_pointset
 
 
@@ -33,7 +33,7 @@ class TestPointsetConverter(TestCase):
 
     def test_should_convert_omf_pointset_to_geoscience_object(self) -> None:
         omf_file = path.join(path.dirname(__file__), "data/pointset_v2.omf")
-        context = OmfReaderContext(omf_file)
+        context = OMFReaderContext(omf_file)
         reader = context.reader()
 
         project, _ = reader.project()

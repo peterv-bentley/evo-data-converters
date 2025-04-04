@@ -13,19 +13,19 @@ from os import path
 from pathlib import Path
 from unittest import TestCase
 
-from evo.data_converters.omf import OmfReaderContext
+from evo.data_converters.omf import OMFReaderContext
 
 
-class TestOmfReaderContext(TestCase):
+class TestOMFReaderContext(TestCase):
     def test_should_load_omfv1_file_as_v2(self) -> None:
         omf_filepath = path.join(path.dirname(__file__), "data/pointset_v1.omf")
-        context = OmfReaderContext(omf_filepath)
+        context = OMFReaderContext(omf_filepath)
 
         temp_file_exists = Path(context.temp_file().name).exists()
         self.assertTrue(temp_file_exists, "Expected to find a temporary file, but found none.")
 
     def _omf_temp_file_path(self, omf_file: str) -> str:
-        context = OmfReaderContext(omf_file)
+        context = OMFReaderContext(omf_file)
         filepath: str = context.temp_file().name
         return filepath
 

@@ -40,7 +40,7 @@ from evo_schemas.elements import (
 )
 
 from evo.data_converters.common import EvoWorkspaceMetadata, create_evo_object_service_and_data_client
-from evo.data_converters.omf import OmfReaderContext
+from evo.data_converters.omf import OMFReaderContext
 from evo.data_converters.omf.importer.omf_attributes_to_evo import (
     convert_omf_attribute,
     int_to_rgba,
@@ -49,7 +49,7 @@ from evo.data_converters.omf.importer.omf_attributes_to_evo import (
 )
 
 
-class TestOmfAttributeConverter(TestCase):
+class TestOMFAttributeConverter(TestCase):
     def setUp(self) -> None:
         self.cache_root_dir = tempfile.TemporaryDirectory()
         metadata = EvoWorkspaceMetadata(
@@ -67,7 +67,7 @@ class TestOmfAttributeConverter(TestCase):
 
     def test_should_convert_omf_v2_datetime_number_attribute(self) -> None:
         omf_file = path.join(path.dirname(__file__), "data/one_of_everything.omf")
-        context = OmfReaderContext(omf_file)
+        context = OMFReaderContext(omf_file)
         reader = context.reader()
 
         project, _ = reader.project()
@@ -103,7 +103,7 @@ class TestOmfAttributeConverter(TestCase):
 
     def test_should_convert_omf_v2_f64_number_attribute(self) -> None:
         omf_file = path.join(path.dirname(__file__), "data/continuous_colormap.omf")
-        context = OmfReaderContext(omf_file)
+        context = OMFReaderContext(omf_file)
         reader = context.reader()
 
         project, _ = reader.project()
@@ -134,7 +134,7 @@ class TestOmfAttributeConverter(TestCase):
 
     def test_should_convert_omf_v2_date_number_attribute(self) -> None:
         omf_file = path.join(path.dirname(__file__), "data/continuous_colormap.omf")
-        context = OmfReaderContext(omf_file)
+        context = OMFReaderContext(omf_file)
         reader = context.reader()
 
         project, _ = reader.project()
@@ -170,7 +170,7 @@ class TestOmfAttributeConverter(TestCase):
 
     def test_should_convert_omf_v2_f32_number_attribute(self) -> None:
         omf_file = path.join(path.dirname(__file__), "data/continuous_colormap.omf")
-        context = OmfReaderContext(omf_file)
+        context = OMFReaderContext(omf_file)
         reader = context.reader()
 
         project, _ = reader.project()
@@ -201,7 +201,7 @@ class TestOmfAttributeConverter(TestCase):
 
     def test_should_convert_omf_v2_i64_number_attribute(self) -> None:
         omf_file = path.join(path.dirname(__file__), "data/continuous_colormap.omf")
-        context = OmfReaderContext(omf_file)
+        context = OMFReaderContext(omf_file)
         reader = context.reader()
 
         project, _ = reader.project()
@@ -231,7 +231,7 @@ class TestOmfAttributeConverter(TestCase):
 
     def test_should_convert_omf_v2_category_attribute(self) -> None:
         omf_file = path.join(path.dirname(__file__), "data/one_of_everything.omf")
-        context = OmfReaderContext(omf_file)
+        context = OMFReaderContext(omf_file)
         reader = context.reader()
 
         project, _ = reader.project()
@@ -267,7 +267,7 @@ class TestOmfAttributeConverter(TestCase):
 
     def test_should_convert_omf_v2_text_attribute(self) -> None:
         omf_file = path.join(path.dirname(__file__), "data/one_of_everything.omf")
-        context = OmfReaderContext(omf_file)
+        context = OMFReaderContext(omf_file)
         reader = context.reader()
 
         project, _ = reader.project()
@@ -296,7 +296,7 @@ class TestOmfAttributeConverter(TestCase):
 
     def test_should_convert_omf_v2_boolean_attribute(self) -> None:
         omf_file = path.join(path.dirname(__file__), "data/one_of_everything.omf")
-        context = OmfReaderContext(omf_file)
+        context = OMFReaderContext(omf_file)
         reader = context.reader()
 
         project, _ = reader.project()
@@ -335,7 +335,7 @@ class TestOmfAttributeConverter(TestCase):
 
     def test_should_convert_omf_v2_color_attribute(self) -> None:
         omf_file = path.join(path.dirname(__file__), "data/one_of_everything.omf")
-        context = OmfReaderContext(omf_file)
+        context = OMFReaderContext(omf_file)
         reader = context.reader()
 
         project, _ = reader.project()
@@ -374,7 +374,7 @@ class TestOmfAttributeConverter(TestCase):
 
     def test_should_convert_omf_v2_null_f32_number_attribute(self) -> None:
         omf_file = path.join(path.dirname(__file__), "data/null_attribute_values.omf")
-        reader = OmfReaderContext(omf_file).reader()
+        reader = OMFReaderContext(omf_file).reader()
 
         project, _ = reader.project()
 
@@ -401,7 +401,7 @@ class TestOmfAttributeConverter(TestCase):
 
     def test_should_convert_omf_v2_null_f64_number_attribute(self) -> None:
         omf_file = path.join(path.dirname(__file__), "data/null_attribute_values.omf")
-        reader = OmfReaderContext(omf_file).reader()
+        reader = OMFReaderContext(omf_file).reader()
 
         project, _ = reader.project()
 
@@ -428,7 +428,7 @@ class TestOmfAttributeConverter(TestCase):
 
     def test_should_convert_omf_v2_null_i64_number_attribute(self) -> None:
         omf_file = path.join(path.dirname(__file__), "data/null_attribute_values.omf")
-        reader = OmfReaderContext(omf_file).reader()
+        reader = OMFReaderContext(omf_file).reader()
 
         project, _ = reader.project()
 
@@ -454,7 +454,7 @@ class TestOmfAttributeConverter(TestCase):
 
     def test_should_convert_omf_v2_null_date_number_attribute(self) -> None:
         omf_file = path.join(path.dirname(__file__), "data/null_attribute_values.omf")
-        reader = OmfReaderContext(omf_file).reader()
+        reader = OMFReaderContext(omf_file).reader()
 
         project, _ = reader.project()
 
@@ -487,7 +487,7 @@ class TestOmfAttributeConverter(TestCase):
 
     def test_should_convert_omf_v2_null_datetime_number_attribute(self) -> None:
         omf_file = path.join(path.dirname(__file__), "data/null_attribute_values.omf")
-        reader = OmfReaderContext(omf_file).reader()
+        reader = OMFReaderContext(omf_file).reader()
 
         project, _ = reader.project()
 
@@ -518,7 +518,7 @@ class TestOmfAttributeConverter(TestCase):
 
     def test_should_convert_omf_v2_null_category_attribute(self) -> None:
         omf_file = path.join(path.dirname(__file__), "data/null_attribute_values.omf")
-        reader = OmfReaderContext(omf_file).reader()
+        reader = OMFReaderContext(omf_file).reader()
 
         project, _ = reader.project()
 
@@ -551,7 +551,7 @@ class TestOmfAttributeConverter(TestCase):
 
     def test_should_convert_omf_v2_null_boolean_attribute(self) -> None:
         omf_file = path.join(path.dirname(__file__), "data/null_attribute_values.omf")
-        reader = OmfReaderContext(omf_file).reader()
+        reader = OMFReaderContext(omf_file).reader()
 
         project, _ = reader.project()
 
@@ -576,7 +576,7 @@ class TestOmfAttributeConverter(TestCase):
 
     def test_should_convert_omf_v2_null_color_attribute(self) -> None:
         omf_file = path.join(path.dirname(__file__), "data/null_attribute_values.omf")
-        reader = OmfReaderContext(omf_file).reader()
+        reader = OMFReaderContext(omf_file).reader()
 
         project, _ = reader.project()
 
@@ -608,7 +608,7 @@ class TestOmfAttributeConverter(TestCase):
 
     def test_should_convert_omf_v2_2d_vector_attribute(self) -> None:
         omf_file = path.join(path.dirname(__file__), "data/one_of_everything.omf")
-        context = OmfReaderContext(omf_file)
+        context = OMFReaderContext(omf_file)
         reader = context.reader()
 
         project, _ = reader.project()
@@ -647,7 +647,7 @@ class TestOmfAttributeConverter(TestCase):
 
     def test_should_convert_omf_v2_3d_vector_attribute(self) -> None:
         omf_file = path.join(path.dirname(__file__), "data/one_of_everything.omf")
-        context = OmfReaderContext(omf_file)
+        context = OMFReaderContext(omf_file)
         reader = context.reader()
 
         project, _ = reader.project()

@@ -12,14 +12,14 @@
 from os import path
 from unittest import TestCase
 
-from evo.data_converters.omf import OmfReaderContext
+from evo.data_converters.omf import OMFReaderContext
 from evo.data_converters.omf.importer.blockmodel.utils import convert_orient_to_angle
 
 
 class TestConvertOrientToAngle(TestCase):
     def test_should_convert_orient_to_angle(self) -> None:
         omf_file = path.join(path.dirname(__file__), "data/rotated_block_model.omf")
-        context = OmfReaderContext(omf_file)
+        context = OMFReaderContext(omf_file)
         reader = context.reader()
         project, _ = reader.project()
         orient = project.elements()[0].geometry().orient
@@ -38,7 +38,7 @@ class TestConvertOrientToAngle(TestCase):
 
     def test_should_convert_orient_to_angle_octree(self) -> None:
         omf_file = path.join(path.dirname(__file__), "data/bunny_blocks.omf")
-        context = OmfReaderContext(omf_file)
+        context = OMFReaderContext(omf_file)
         reader = context.reader()
         project, _ = reader.project()
         orient = project.elements()[0].geometry().orient
