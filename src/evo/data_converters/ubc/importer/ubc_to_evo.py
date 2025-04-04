@@ -55,9 +55,9 @@ def convert_ubc(
 
     :raise MissingConnectionDetailsError: If no connections details could be derived.
     :raise ConflictingConnectionDetailsError: If both evo_workspace_metadata and service_manager_widget present.
-    :raise UbcFileIOError: If failed to read UBC file.
-    :raise UbcInvalidDataError: If an error was detected within the UBC file.
-    :raise UbcOOMError: If out of memory error occurred while handling the UBC file.
+    :raise UBCFileIOError: If failed to read UBC file.
+    :raise UBCInvalidDataError: If an error was detected within the UBC file.
+    :raise UBCOOMError: If out of memory error occurred while handling the UBC file.
     """
 
     publish_objects = True

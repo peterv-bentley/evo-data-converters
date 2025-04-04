@@ -17,10 +17,10 @@ import pytest
 
 from evo.data_converters.ubc.importer.ubc_reader import (
     UBCFile,
-    UbcFileIOError,
-    UbcInvalidDataError,
+    UBCFileIOError,
+    UBCInvalidDataError,
     UBCMeshFileImporter,
-    UbcOOMError,
+    UBCOOMError,
     UBCPropertyFileImporter,
 )
 
@@ -95,7 +95,7 @@ def test_execute_memory_error() -> None:
             raise MemoryError
 
     ubc_file = TestUBCFile("dummy_file.txt")
-    with pytest.raises(UbcOOMError) as exc_info:
+    with pytest.raises(UBCOOMError) as exc_info:
         ubc_file.execute()
     assert "Ran out of memory while importing grid file 'dummy_file.txt'" in str(exc_info.value)
 
@@ -106,7 +106,7 @@ def test_execute_value_error_array_too_big() -> None:
             raise ValueError("array is too big.")
 
     ubc_file = TestUBCFile("dummy_file.txt")
-    with pytest.raises(UbcOOMError) as exc_info:
+    with pytest.raises(UBCOOMError) as exc_info:
         ubc_file.execute()
     assert "Ran out of memory while importing grid file 'dummy_file.txt'" in str(exc_info.value)
 
@@ -118,7 +118,7 @@ def test_execute_value_error_other() -> None:
 
     ubc_file = TestUBCFile("dummy_file.txt")
     ubc_file.line_number_of_import_file = 5
-    with pytest.raises(UbcInvalidDataError) as exc_info:
+    with pytest.raises(UBCInvalidDataError) as exc_info:
         ubc_file.execute()
     assert "Error importing the UBC model from the file 'dummy_file.txt':5" in str(exc_info.value)
 
@@ -129,7 +129,7 @@ def test_execute_index_error() -> None:
             raise IndexError
 
     ubc_file = TestUBCFile("dummy_file.txt")
-    with pytest.raises(UbcInvalidDataError) as exc_info:
+    with pytest.raises(UBCInvalidDataError) as exc_info:
         ubc_file.execute()
     assert (
         "Error importing the UBC model from the file 'dummy_file.txt'The specified number of cells differs to the number of cell widths given in one or more directions"
@@ -143,7 +143,7 @@ def test_execute_generic_exception() -> None:
             raise Exception("generic error")
 
     ubc_file = TestUBCFile("dummy_file.txt")
-    with pytest.raises(UbcFileIOError) as exc_info:
+    with pytest.raises(UBCFileIOError) as exc_info:
         ubc_file.execute()
     assert "Error importing the UBC model from 'dummy_file.txt'.\ngeneric error" in str(exc_info.value)
 
@@ -153,7 +153,7 @@ def test_opened_file_stop_iteration() -> None:
     ubc_file.line_number_of_import_file = 10
     with patch("builtins.open", mock_open(read_data="data")) as mock_file:
         mock_file.side_effect = StopIteration
-        with pytest.raises(UbcFileIOError) as exc_info:
+        with pytest.raises(UBCFileIOError) as exc_info:
             with ubc_file.opened_file():
                 pass
         assert "lacking the expected data after line: 10" in str(exc_info.value)
@@ -163,7 +163,7 @@ def test_opened_file_os_error() -> None:
     ubc_file = UBCFile("dummy_file.txt")
     with patch("builtins.open", mock_open(read_data="data")) as mock_file:
         mock_file.side_effect = OSError("Test IO error")
-        with pytest.raises(UbcFileIOError) as exc_info:
+        with pytest.raises(UBCFileIOError) as exc_info:
             with ubc_file.opened_file():
                 pass
         assert "An unexpected IO error (Test IO error) occurred while reading the dummy_file.txt" in str(exc_info.value)
@@ -185,5 +185,5 @@ def test_ubc_file_execute_raises_ubc_file_io_error() -> None:
             raise OSError("Test error")
 
     ubc_file = TestUBCFile("dummy_file.txt")
-    with pytest.raises(UbcFileIOError):
+    with pytest.raises(UBCFileIOError):
         ubc_file.execute()
