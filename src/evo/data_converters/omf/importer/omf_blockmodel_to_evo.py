@@ -80,7 +80,7 @@ def upload_block_data_to_blockmodels(
     """Upload block data to the newly created block models.
 
     :param client: The BlockSync API client.
-    :param block_model: The block model metadata as a json dict.
+    :param block_model: The block model metadata as a JSON dict.
     :param block_table: The block model data as a pyarrow table.
     :param block_model_id: The block model uuid on BlockSync, required to reference the specific model.
     """

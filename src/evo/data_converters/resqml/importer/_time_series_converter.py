@@ -187,7 +187,7 @@ def _build_time_step(
     :param data_client: ObjectDataClient used to create the properties
 
     :return: The constructed TimeStep attribute, or None if there was an
-             errors.
+             error.
 
     """
     dta = _build_date_time_array(date_times, data_client)
@@ -228,8 +228,8 @@ def _build_date_time_array(values: list[str], data_client: ObjectDataClient) -> 
 
 
 def _load_timestamps(root: Element) -> Optional[list[str]]:
-    """Load the timestamps for a time series directly from the xml
-    :param root: the resqpy xml root for the timestamps
+    """Load the timestamps for a time series directly from the XML
+    :param root: the resqpy XML root for the timestamps
     :return: a list of ISO8601 formatted date time strings
              or None if an error was encountered
     """

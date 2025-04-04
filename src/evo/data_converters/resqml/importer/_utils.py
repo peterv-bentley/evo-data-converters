@@ -9,7 +9,7 @@ from resqpy.surface import Surface
 
 
 def get_metadata(object: Surface | Grid) -> dict[str, dict[str, str | dict[str, str]]]:
-    """Generate meta data about the source file, and the RESQML object"""
+    """Generate metadata about the source file, and the RESQML object"""
     name = object.citation_title or ""
     uuid = str(object.uuid or "")
     originator = object.originator or ""

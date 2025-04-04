@@ -61,10 +61,10 @@ def export_blocksync_omf(
 
 
 def blocksync_to_omf_element(bm_uuid: str, client: BlockSyncClient, version_id: Optional[int] = None) -> VolumeElement:
-    logger.info("Fetching json data for {bm_uuid}, version: {version_id}")
+    logger.info("Fetching JSON data for {bm_uuid}, version: {version_id}")
     json = client.get_blockmodel_request(bm_uuid).json()
 
-    logger.info("Converting json data to OMF Volume Geometry and Volume Element")
+    logger.info("Converting JSON data to OMF Volume Geometry and Volume Element")
     if (size_options := json.get("size_options")) and "model_type" in size_options:
         match size_options["model_type"].lower():
             case "regular":

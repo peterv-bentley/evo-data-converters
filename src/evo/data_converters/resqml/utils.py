@@ -40,7 +40,7 @@ def property_is_discrete(p: Property) -> bool:
     """Is the RESQML property a discrete property?
 
     RESQML does not provide an explicit function to do this.
-    However the values should be integers, so check the underlying numpy
+    However, the values should be integers, so check the underlying numpy
     array type and require that it be an integer type
 
     requires:
@@ -78,7 +78,7 @@ def load_lattice_array(object: Any, node: Any, array_attribute: str, trajectory:
     variant of NodeMd data expressed as a series of regularly spaced measured depth values.
 
     :param: object: The object to load the data into (typically a WellboreFrame)
-    :param: node: The xml node to load the data from
+    :param: node: The XML node to load the data from
     :param: array_attribute: The name of the attribute on 'object' to load the data into
     :param: trajectory: The trajectory object to use to check the validity of the data
     """
@@ -103,7 +103,7 @@ def load_lattice_array(object: Any, node: Any, array_attribute: str, trajectory:
 
 def get_crs_epsg_code(model: Model, int_epsg_code: Optional[int] = None) -> Crs_EpsgCode | None:
     """
-    # Return the CRS EPSG code as EVO Crs_EpsgCode object.
+    # Return the CRS EPSG code as Evo Crs_EpsgCode object.
     # If an integer EPSG code is provided then use that, otherwise default
     # to the Model crs_root. If neither option results in a valid EPSG code
     # return None.
@@ -125,7 +125,7 @@ def get_crs_epsg_code(model: Model, int_epsg_code: Optional[int] = None) -> Crs_
 
 
 def convert_size(size_bytes: int) -> str:
-    """Display a size in bytes in a more human readable form"""
+    """Display a size in bytes in a more human-readable form"""
     if size_bytes == 0:
         return "0B"
     size_name = ("B", "KiB", "MiB", "GiB")
@@ -148,7 +148,7 @@ FLOATS_IN_XYZ = 3
 def estimate_corner_points_size(grid: Grid) -> int:
     """Calculate an estimate of the size of the corner_points array for a Grid.
     As this can get very large, causing out of memory issues.
-    The estimate can be used to decide whether or not there is enough memory to
+    The estimate can be used to decide whether there is enough memory to
     import a particular grid"""
 
     cells = (grid.nk or 1) * (grid.nj or 1) * (grid.ni or 1)

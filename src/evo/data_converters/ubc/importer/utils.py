@@ -70,7 +70,7 @@ def get_geoscience_object_from_ubc(
     bbox = grid_bounding_box(origin, numpy.identity(3), numpy.array([numpy.sum(d) for d in spacings]))
     cell_attributes = _create_continuous_attributes(data_client, numerical_values)
 
-    goose_tags = {
+    object_tags = {
         "Source": f"{os.path.basename(ubc_mesh_file)} (via Evo Data Converters)",
         "Stage": "Experimental",
         "InputType": "UBC",
@@ -78,7 +78,7 @@ def get_geoscience_object_from_ubc(
 
     # Add custom tags
     if tags:
-        goose_tags.update(tags)
+        object_tags.update(tags)
 
     grid_cells_3d = Tensor3DGrid_V1_2_0_GridCells3D(
         cell_sizes_x=spacings[0].tolist(), cell_sizes_y=spacings[1].tolist(), cell_sizes_z=spacings[2].tolist()
@@ -94,5 +94,5 @@ def get_geoscience_object_from_ubc(
         rotation=Rotation_V1_1_0(dip_azimuth=0.0, dip=0.0, pitch=0.0),
         cell_attributes=cell_attributes,
         uuid=None,
-        tags=goose_tags,
+        tags=object_tags,
     )

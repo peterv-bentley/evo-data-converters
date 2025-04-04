@@ -60,8 +60,8 @@ def convert_surface(
         return None
 
     #
-    # Check the triangles, for any out of bound indicies into the points array.
-    # Currently we just log a warning and ignore the surface
+    # Check the triangles, for any out of bound indices into the points array.
+    # Currently, we just log a warning and ignore the surface
     #
     np = len(points)
     if not all([t[0] < np and t[1] < np and t[2] < np for t in triangles]):
@@ -109,7 +109,7 @@ def _convert_attributes(
     surface: Surface,
     data_client: ObjectDataClient,
 ) -> tuple[OneOfAttribute, OneOfAttribute, OneOfAttribute]:
-    """Convert the surface properties to the corresponding EVO Geoscience objects
+    """Convert the surface properties to the corresponding Evo Geoscience objects
 
     :param model: The resqpy model, representing the file being converted
     :param surface: The resqpy Surface object to be converted
@@ -175,7 +175,7 @@ def _get_property(model: Model, part: str) -> Optional[Property]:
              OR None if the property contains multiple PatchOfValue tags
 
 
-       Currently resqpy does not support properties with
+       Currently, resqpy does not support properties with
        multiple "PatchOfValues" tags. So these properties are filtered out
     """
     uuid = model.uuid_for_part(part)
@@ -196,7 +196,7 @@ def _get_surface_name(surface: Surface) -> str:
 
     :param surface: The resqpy Surface to get the name of.
 
-    :returns: The surface.citation_title if present other wise "Surface-" + surface.uuid
+    :returns: The surface.citation_title if present otherwise "Surface-" + surface.uuid
 
     """
     name: Optional[str] = surface.citation_title
@@ -245,7 +245,7 @@ def _build_vertices(
     :param data_client: ObjectDataClient used to create the TriangleVertices object
     :param attributes: List of attributes
 
-    :return: An EVO TrianglesVertices object
+    :return: An Evo TrianglesVertices object
 
     """
     schema = pa.schema(
@@ -270,7 +270,7 @@ def _build_indices(indices: npt.NDArray[np.intp], data_client: ObjectDataClient,
     :param data_client: ObjectDataClient used to create the TrianglesIndices object
     :param attributes: List of attributes
 
-    :return: An EVO TrianglesIndices object
+    :return: An Evo TrianglesIndices object
 
     """
     schema = pa.schema(
