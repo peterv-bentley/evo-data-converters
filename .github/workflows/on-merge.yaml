@@ -52,4 +52,4 @@ jobs:
       - name: Publish package
         shell: bash
         run: |
-          "Coming soon..."
+          echo "Coming soon..."
