@@ -37,7 +37,7 @@ from evo.data_converters.resqml.importer._grid_converter import (
     _get_metadata,
     _is_discrete,
 )
-from evo.data_converters.resqml.importer.conversion_options import ResqmlConversionOptions
+from evo.data_converters.resqml.importer.conversion_options import RESQMLConversionOptions
 
 
 class TestGridConverter(TestCase):
@@ -228,7 +228,7 @@ class TestGridConverter(TestCase):
         grid.uuid = None  # pyright: ignore
 
         # and default options
-        options = ResqmlConversionOptions()
+        options = RESQMLConversionOptions()
 
         # Then _get_metadata returns
         metadata = _get_metadata(grid, options)
@@ -249,7 +249,7 @@ class TestGridConverter(TestCase):
             dxyz=(100.0, 125.0, 10.0),
         )
         # and active_cells_only set false
-        options = ResqmlConversionOptions(active_cells_only=False)
+        options = RESQMLConversionOptions(active_cells_only=False)
 
         # Then _get_metadata returns
         metadata = _get_metadata(grid, options)

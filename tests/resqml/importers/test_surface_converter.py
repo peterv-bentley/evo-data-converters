@@ -32,7 +32,7 @@ from evo.data_converters.resqml.importer._surface_converter import (
     _get_surface_name,
 )
 from evo.data_converters.resqml.importer._utils import get_metadata
-from evo.data_converters.resqml.importer.conversion_options import ResqmlConversionOptions
+from evo.data_converters.resqml.importer.conversion_options import RESQMLConversionOptions
 
 
 class TestSurfaceConverter(TestCase):
@@ -134,7 +134,7 @@ class TestSurfaceConverter(TestCase):
             title=TITLE,
             originator=ORIGINATOR,
         )
-        ResqmlConversionOptions(active_cells_only=True)
+        RESQMLConversionOptions(active_cells_only=True)
 
         # Then get_metadata returns
         metadata = get_metadata(surface)
@@ -150,7 +150,7 @@ class TestSurfaceConverter(TestCase):
         surface = Surface(
             self.model,
         )
-        ResqmlConversionOptions(active_cells_only=True)
+        RESQMLConversionOptions(active_cells_only=True)
 
         # Then get_metadata returns
         metadata = get_metadata(surface)

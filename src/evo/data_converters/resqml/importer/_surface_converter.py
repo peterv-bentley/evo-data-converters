@@ -38,7 +38,7 @@ from evo.data_converters.resqml.importer._attribute_converters import (
 from evo.objects.utils.data import ObjectDataClient
 
 from ._utils import get_metadata
-from .conversion_options import ResqmlConversionOptions
+from .conversion_options import RESQMLConversionOptions
 
 logger = evo.logging.getLogger("data_converters.resqml")
 
@@ -47,7 +47,7 @@ def convert_surface(
     model: Model,
     surface: Surface,
     epsg_code: int,
-    options: ResqmlConversionOptions,
+    options: RESQMLConversionOptions,
     data_client: ObjectDataClient,
 ) -> Optional[TriangleMesh]:
     """Convert a resqpy Surface into a Evo TriangleMesh geo science object

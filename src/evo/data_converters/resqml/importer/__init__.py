@@ -32,10 +32,10 @@ import resqpy.well.well_utils as rqwu
 import evo.logging
 from evo.data_converters.resqml.utils import load_lattice_array
 
-from .conversion_options import ResqmlConversionOptions
+from .conversion_options import RESQMLConversionOptions
 from .resqml_to_evo import convert_resqml
 
-__all__ = ["convert_resqml", "ResqmlConversionOptions"]
+__all__ = ["convert_resqml", "RESQMLConversionOptions"]
 
 
 logger = evo.logging.getLogger("data_converters.resqml")

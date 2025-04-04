@@ -18,7 +18,7 @@ import tempfile
 import uuid
 
 from evo.data_converters.common import EvoWorkspaceMetadata
-from evo.data_converters.resqml.importer import ResqmlConversionOptions, convert_resqml
+from evo.data_converters.resqml.importer import RESQMLConversionOptions, convert_resqml
 
 parser = argparse.ArgumentParser(description="Publish elements from a RESQML file to Evo")
 
@@ -112,7 +112,7 @@ if args.redirect_url:
 
 logger.debug(f"Using Evo Workspace Metadata: {workspace_metadata}")
 
-options = ResqmlConversionOptions(active_cells_only=not args.all_grid_cells)
+options = RESQMLConversionOptions(active_cells_only=not args.all_grid_cells)
 if args.corner_points_array_threshold:
     options.memory_threshold = args.corner_points_array_threshold * 1024 * 1024 * 1024
 logger.debug(f"Using RESQML conversion options: {options}")

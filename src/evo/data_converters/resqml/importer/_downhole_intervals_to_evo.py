@@ -35,7 +35,7 @@ from evo.data_converters.resqml.importer._attribute_converters import convert_re
 from evo.data_converters.resqml.utils import get_crs_epsg_code
 from evo.objects.utils.data import ObjectDataClient
 
-from .conversion_options import ResqmlConversionOptions
+from .conversion_options import RESQMLConversionOptions
 
 logger = evo.logging.getLogger("data_converters.resqml")
 
@@ -46,7 +46,7 @@ def convert_downhole_intervals_for_trajectory(
     prefix: str,
     data_client: ObjectDataClient,
     epsg_code: Optional[int] = None,
-    options: Optional[ResqmlConversionOptions] = None,
+    options: Optional[RESQMLConversionOptions] = None,
 ) -> list[DownholeIntervals]:
     """
     Convert all downhole intervals for a given trajectory to Evo DownholeIntervals objects

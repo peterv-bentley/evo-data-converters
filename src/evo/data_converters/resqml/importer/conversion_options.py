@@ -13,7 +13,7 @@ from dataclasses import dataclass
 
 
 @dataclass
-class ResqmlConversionOptions:
+class RESQMLConversionOptions:
     """Options to control the conversion of RESQML files"""
 
     """Only the active cells in grids are to be exported (default True)"""
