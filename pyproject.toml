@@ -9,12 +9,12 @@ license = { file = "LICENSE.md", content-type = "text/markdown" }
 version = "0.0.3"
 dependencies = [
   "aiohttp",
-  "evo-client-common==0.1.0",
-  "evo-objects==0.1.0",
+  "evo-client-common>=0.1.0",
+  "evo-objects>=0.1.0",
   "nest-asyncio",
   "numpy<2.0.0",
   "omf>=1.0.1",
-  "omf2>=0.1.0-beta.1",
+  "omf2>=0.2.0-beta.1",
   "pandas==2.2.3",
   "pyarrow",
   "pure-interface",
@@ -36,7 +36,7 @@ dev = [
 ]
 
 # Optional dependencies for running notebooks
-notebooks = ["jupyter"]
+notebooks = ["evo-client-common[notebooks]", "jupyter"]
 
 [tool.setuptools.packages.find]
 where = ["src"]
@@ -73,7 +73,7 @@ warn_return_any = true
 warn_unused_ignores = true
 
 [tool.uv.sources]
-omf2 = { git = "https://github.com/seequent/omf-rust", subdirectory = "omf-python" }
-evo-objects = { git = "https://github.com/seequentevo/evo-python-sdk", subdirectory="packages/evo-objects", branch="rename-service-classes" }
-evo-client-common = { git = "https://github.com/seequentevo/evo-python-sdk", subdirectory="packages/evo-client-common", branch="rename-service-classes" }
+omf2 = { git = "https://github.com/gmggroup/omf-rust", subdirectory = "omf-python" }
+evo-objects = { git = "https://github.com/seequentevo/evo-python-sdk", subdirectory="packages/evo-objects" }
+evo-client-common = { git = "https://github.com/seequentevo/evo-python-sdk", subdirectory="packages/evo-client-common" }
 evo-schemas = { path = "temp/evo_schemas-2024.12.1.dev23-py3-none-any.whl" }
