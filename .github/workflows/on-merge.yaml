@@ -6,6 +6,16 @@ on:
       - main
 
 jobs:
+  run-linting:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/linting
+        with:
+          EVO_ARTIFACTORY_USER: ${{ vars.EVO_ARTIFACTORY_USER }}
+          EVO_ARTIFACTORY_TOKEN: ${{ secrets.EVO_ARTIFACTORY_TOKEN }}
+
   run-tests:
     name: Test
     strategy:
