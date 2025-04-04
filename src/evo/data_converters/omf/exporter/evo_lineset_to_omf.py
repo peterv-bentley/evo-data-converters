@@ -3,7 +3,7 @@ from typing import Optional
 from uuid import UUID
 
 import numpy as np
-from geoscience_object_models.objects import LineSegments_V2_0_0, LineSegments_V2_1_0
+from evo_schemas.objects import LineSegments_V2_0_0, LineSegments_V2_1_0
 from omf import LineSetElement, LineSetGeometry
 from omf.data import ProjectElementData
 

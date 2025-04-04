@@ -2,7 +2,7 @@ import uuid
 from pathlib import Path
 
 import pytest
-from geoscience_object_models.objects import Regular3DGrid_V1_2_0
+from evo_schemas.objects import Regular3DGrid_V1_2_0
 
 from evo.data_converters.common import EvoWorkspaceMetadata
 from evo.data_converters.common.utils import UnsupportedRotation

@@ -5,12 +5,12 @@ import numpy as np
 import numpy.typing as npt
 import pyarrow as pa
 import resqpy.olio.xml_et as rqet
-from geoscience_object_models.components import Crs_V1_0_1_EpsgCode as CrsEpsgCode
-from geoscience_object_models.components import OneOfAttribute_V1_1_0 as OneOfAttribute
-from geoscience_object_models.components import Triangles_V1_1_0 as Triangles
-from geoscience_object_models.components import Triangles_V1_1_0_Indices as TrianglesIndices
-from geoscience_object_models.components import Triangles_V1_1_0_Vertices as TrianglesVertices
-from geoscience_object_models.objects import TriangleMesh_V2_0_0 as TriangleMesh
+from evo_schemas.components import Crs_V1_0_1_EpsgCode as CrsEpsgCode
+from evo_schemas.components import OneOfAttribute_V1_1_0 as OneOfAttribute
+from evo_schemas.components import Triangles_V1_1_0 as Triangles
+from evo_schemas.components import Triangles_V1_1_0_Indices as TrianglesIndices
+from evo_schemas.components import Triangles_V1_1_0_Vertices as TrianglesVertices
+from evo_schemas.objects import TriangleMesh_V2_0_0 as TriangleMesh
 from resqpy.crs import Crs
 from resqpy.model import Model
 from resqpy.property import Property

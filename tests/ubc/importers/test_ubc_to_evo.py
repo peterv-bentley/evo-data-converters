@@ -1,7 +1,7 @@
 from unittest.mock import MagicMock, patch
 
 import pytest
-from geoscience_object_models.components import BaseSpatialDataProperties_V1_0_1
+from evo_schemas.components import BaseSpatialDataProperties_V1_0_1
 
 from evo.data_converters.common import EvoWorkspaceMetadata
 from evo.data_converters.common.exceptions import ConflictingConnectionDetailsError, MissingConnectionDetailsError

@@ -12,14 +12,14 @@ import pyarrow.parquet as pq
 import requests
 
 import evo.logging
-from evo.common import ApiConnector, Environment, HTTPHeaderDict
+from evo.common import APIConnector, Environment, HTTPHeaderDict
 from evo.data_converters.common.exceptions import ResponseError
 
 logger = evo.logging.getLogger("data_converters")
 
 
 class BlockSyncClient:
-    def __init__(self, environment: Environment, api_connector: ApiConnector):
+    def __init__(self, environment: Environment, api_connector: APIConnector):
         self.environment = environment
         self.api_connector = api_connector
         self.hub_url = self.environment.hub_url

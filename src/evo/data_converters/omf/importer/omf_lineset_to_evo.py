@@ -1,12 +1,12 @@
 import omf2
 import pyarrow as pa
-from geoscience_object_models.components import (
+from evo_schemas.components import (
     Crs_V1_0_1_EpsgCode,
     Segments_V1_2_0,
     Segments_V1_2_0_Indices,
     Segments_V1_2_0_Vertices,
 )
-from geoscience_object_models.objects import LineSegments_V2_1_0
+from evo_schemas.objects import LineSegments_V2_1_0
 
 import evo.logging
 from evo.objects.utils.data import ObjectDataClient

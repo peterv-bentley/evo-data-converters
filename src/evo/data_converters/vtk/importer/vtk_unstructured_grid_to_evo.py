@@ -1,7 +1,7 @@
 import numpy as np
 import pyarrow as pa
 import vtk
-from geoscience_object_models.components import (
+from evo_schemas.components import (
     Hexahedrons_V1_2_0,
     Hexahedrons_V1_2_0_Indices,
     Hexahedrons_V1_2_0_Vertices,
@@ -13,8 +13,8 @@ from geoscience_object_models.components import (
     UnstructuredGridGeometry_V1_2_0_Cells,
     UnstructuredGridGeometry_V1_2_0_Vertices,
 )
-from geoscience_object_models.elements import IndexArray1_V1_0_1
-from geoscience_object_models.objects import (
+from evo_schemas.elements import IndexArray1_V1_0_1
+from evo_schemas.objects import (
     UnstructuredGrid_V1_2_0,
     UnstructuredHexGrid_V1_2_0,
     UnstructuredTetGrid_V1_2_0,

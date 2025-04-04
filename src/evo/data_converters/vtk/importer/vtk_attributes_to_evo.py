@@ -4,7 +4,7 @@ import numpy as np
 import numpy.typing as npt
 import pyarrow as pa
 import vtk
-from geoscience_object_models.components import (
+from evo_schemas.components import (
     CategoryAttribute_V1_1_0,
     ContinuousAttribute_V1_1_0,
     IntegerAttribute_V1_1_0,
@@ -12,7 +12,7 @@ from geoscience_object_models.components import (
     NanContinuous_V1_0_1,
     OneOfAttribute_V1_2_0,
 )
-from geoscience_object_models.elements import FloatArray1_V1_0_1, IntegerArray1_V1_0_1, LookupTable_V1_0_1
+from evo_schemas.elements import FloatArray1_V1_0_1, IntegerArray1_V1_0_1, LookupTable_V1_0_1
 from vtk.util.numpy_support import vtk_to_numpy
 
 import evo.logging

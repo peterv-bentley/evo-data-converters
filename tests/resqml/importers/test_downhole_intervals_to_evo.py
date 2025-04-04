@@ -12,14 +12,14 @@ import resqpy.model as rq
 import resqpy.property as rqp
 import resqpy.property.property_common as rqp_c
 import resqpy.well as rqw
-from geoscience_object_models import DownholeIntervals_V1_1_0 as DownholeIntervals
-from geoscience_object_models.components import (
+from evo_schemas import DownholeIntervals_V1_1_0 as DownholeIntervals
+from evo_schemas.components import (
     BoundingBox_V1_0_1 as BoundingBox,
 )
-from geoscience_object_models.components import (
+from evo_schemas.components import (
     CategoryData_V1_0_1 as CategoryData,
 )
-from geoscience_object_models.components import (
+from evo_schemas.components import (
     Locations_V1_0_1 as Locations,
 )
 

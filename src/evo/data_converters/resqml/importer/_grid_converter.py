@@ -4,13 +4,13 @@ from typing import Optional
 import numpy as np
 import numpy.typing as npt
 import pyarrow as pa
-from geoscience_object_models.components import Crs_V1_0_1_EpsgCode as CrsEpsgCode
-from geoscience_object_models.components import Hexahedrons_V1_1_0 as Hexahedrons
-from geoscience_object_models.components import IntegerAttribute_V1_0_1 as IntegerAttribute
-from geoscience_object_models.components import NanCategorical_V1_0_1 as NanCategorical
-from geoscience_object_models.components import OneOfAttribute_V1_1_0 as OneOfAttribute
-from geoscience_object_models.elements import IntegerArray1_V1_0_1 as IntegerArray
-from geoscience_object_models.objects import UnstructuredHexGrid_V1_1_0 as UnstructuredHexGrid
+from evo_schemas.components import Crs_V1_0_1_EpsgCode as CrsEpsgCode
+from evo_schemas.components import Hexahedrons_V1_1_0 as Hexahedrons
+from evo_schemas.components import IntegerAttribute_V1_0_1 as IntegerAttribute
+from evo_schemas.components import NanCategorical_V1_0_1 as NanCategorical
+from evo_schemas.components import OneOfAttribute_V1_1_0 as OneOfAttribute
+from evo_schemas.elements import IntegerArray1_V1_0_1 as IntegerArray
+from evo_schemas.objects import UnstructuredHexGrid_V1_1_0 as UnstructuredHexGrid
 from resqpy.crs import Crs
 from resqpy.grid import Grid
 from resqpy.model import Model

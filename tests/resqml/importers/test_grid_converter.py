@@ -9,10 +9,10 @@ import resqpy.crs as rpc
 import resqpy.grid as rqg
 import resqpy.model as rqm
 import resqpy.property as rqp
-from geoscience_object_models.components import CategoryAttribute_V1_0_1 as CategoryAttribute
-from geoscience_object_models.components import ContinuousAttribute_V1_0_1 as ContinuousAttribute
-from geoscience_object_models.components import IntegerAttribute_V1_0_1 as IntegerAttribute
-from geoscience_object_models.components import VectorAttribute_V1_0_0 as VectorAttribute
+from evo_schemas.components import CategoryAttribute_V1_0_1 as CategoryAttribute
+from evo_schemas.components import ContinuousAttribute_V1_0_1 as ContinuousAttribute
+from evo_schemas.components import IntegerAttribute_V1_0_1 as IntegerAttribute
+from evo_schemas.components import VectorAttribute_V1_0_0 as VectorAttribute
 from numpy.typing import DTypeLike
 from resqpy.time_series import TimeSeries
 

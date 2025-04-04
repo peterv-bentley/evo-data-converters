@@ -5,8 +5,8 @@ from uuid import UUID
 
 import nest_asyncio
 import omf
-from geoscience_object_models import schema_lookup
-from geoscience_object_models.objects import (
+from evo_schemas import schema_lookup
+from evo_schemas.objects import (
     LineSegments_V2_0_0,
     LineSegments_V2_1_0,
     Pointset_V1_1_0,
@@ -21,7 +21,7 @@ from evo.data_converters.common import (
     EvoWorkspaceMetadata,
     create_evo_object_service_and_data_client,
 )
-from evo.objects.client import ObjectServiceClient
+from evo.objects.client import ObjectAPIClient
 from evo.objects.data import ObjectSchema
 from evo.objects.utils.data import ObjectDataClient
 
@@ -46,7 +46,7 @@ logger = evo.logging.getLogger("data_converters")
 
 
 def _download_evo_object_by_id(
-    service_client: ObjectServiceClient,
+    service_client: ObjectAPIClient,
     object_id: UUID,
     version_id: Optional[str] = None,
 ) -> dict[str, Any]:
@@ -57,7 +57,7 @@ def _download_evo_object_by_id(
 
 def _export_element(
     object_metadata: EvoObjectMetadata,
-    service_client: ObjectServiceClient,
+    service_client: ObjectAPIClient,
     data_client: ObjectDataClient,
 ) -> tuple[omf.base.ProjectElement, ObjectSchema]:
     object_id = object_metadata.object_id

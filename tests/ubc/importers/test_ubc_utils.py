@@ -3,7 +3,7 @@ from unittest.mock import MagicMock, patch
 
 import numpy as np
 import pytest
-from geoscience_object_models import Tensor3DGrid_V1_2_0
+from evo_schemas import Tensor3DGrid_V1_2_0
 
 from evo.data_converters.ubc.importer.utils import get_geoscience_object_from_ubc
 from evo.objects.utils.data import ObjectDataClient

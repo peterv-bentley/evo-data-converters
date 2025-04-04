@@ -1,10 +1,10 @@
 import asyncio
 
 import nest_asyncio
-from geoscience_object_models.components import BaseSpatialDataProperties_V1_0_1
+from evo_schemas.components import BaseSpatialDataProperties_V1_0_1
 
 import evo.logging
-from evo.objects import ObjectServiceClient
+from evo.objects import ObjectAPIClient
 from evo.objects.data import ObjectMetadata
 from evo.objects.utils import ObjectDataClient
 
@@ -15,7 +15,7 @@ logger = evo.logging.getLogger("data_converters")
 
 def publish_geoscience_objects(
     object_models: list[BaseSpatialDataProperties_V1_0_1],
-    object_service_client: ObjectServiceClient,
+    object_service_client: ObjectAPIClient,
     data_client: ObjectDataClient,
     path_prefix: str = "",
 ) -> list[ObjectMetadata]:
@@ -39,7 +39,7 @@ def publish_geoscience_objects(
 async def publish_geoscience_object(
     path: str,
     object_model: BaseSpatialDataProperties_V1_0_1,
-    object_service_client: ObjectServiceClient,
+    object_service_client: ObjectAPIClient,
     data_client: ObjectDataClient,
 ) -> ObjectMetadata:
     """

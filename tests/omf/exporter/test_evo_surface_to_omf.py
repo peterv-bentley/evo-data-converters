@@ -5,7 +5,7 @@ from uuid import uuid4
 
 import omf
 import pyarrow as pa
-from geoscience_object_models.components import (
+from evo_schemas.components import (
     ContinuousAttribute_V1_0_1,
     ContinuousAttribute_V1_1_0,
     EmbeddedTriangulatedMesh_V2_0_0_Parts,
@@ -13,8 +13,8 @@ from geoscience_object_models.components import (
     Triangles_V1_1_0_Indices,
     Triangles_V1_1_0_Vertices,
 )
-from geoscience_object_models.elements import IndexArray1_V1_0_1, IndexArray2_V1_0_1
-from geoscience_object_models.objects import (
+from evo_schemas.elements import IndexArray1_V1_0_1, IndexArray2_V1_0_1
+from evo_schemas.objects import (
     TriangleMesh_V2_0_0,
     TriangleMesh_V2_1_0,
 )

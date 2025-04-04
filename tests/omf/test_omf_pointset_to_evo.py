@@ -3,8 +3,8 @@ from os import path
 from unittest import TestCase
 
 import pyarrow.parquet as pq
-from geoscience_object_models.components import BoundingBox_V1_0_1, Crs_V1_0_1_EpsgCode
-from geoscience_object_models.objects import Pointset_V1_2_0
+from evo_schemas.components import BoundingBox_V1_0_1, Crs_V1_0_1_EpsgCode
+from evo_schemas.objects import Pointset_V1_2_0
 
 from evo.data_converters.common import EvoWorkspaceMetadata, create_evo_object_service_and_data_client
 from evo.data_converters.omf import OmfReaderContext

@@ -15,7 +15,7 @@ from omf.data import DateTimeData, Legend, MappedData, ProjectElementData, Scala
 from scipy.spatial.transform import Rotation as R
 
 import evo.logging
-from evo.common import ApiConnector, Environment
+from evo.common import APIConnector, Environment
 from evo.data_converters.common import BlockSyncClient, EvoWorkspaceMetadata, create_evo_object_service_and_data_client
 
 logger = evo.logging.getLogger("data_converters")
@@ -24,7 +24,7 @@ if TYPE_CHECKING:
     from evo.notebooks import ServiceManagerWidget
 
 
-def _create_block_sync_client(environment: Environment, api_connector: ApiConnector) -> BlockSyncClient:
+def _create_block_sync_client(environment: Environment, api_connector: APIConnector) -> BlockSyncClient:
     return BlockSyncClient(environment, api_connector)
 
 

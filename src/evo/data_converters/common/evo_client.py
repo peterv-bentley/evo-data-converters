@@ -5,12 +5,12 @@ from uuid import UUID
 
 import evo.logging
 from evo.aio import AioTransport
-from evo.common import ApiConnector, Environment, NoAuth
+from evo.common import APIConnector, Environment, NoAuth
 from evo.common.interfaces import ITransport
 from evo.common.utils.cache import Cache
 from evo.data_converters.common.exceptions import ConflictingConnectionDetailsError, MissingConnectionDetailsError
 from evo.oauth import AuthorizationCodeAuthorizer, ClientCredentialsAuthorizer, OAuthScopes, OIDCConnector
-from evo.objects import ObjectServiceClient
+from evo.objects import ObjectAPIClient
 from evo.objects.utils.data import ObjectDataClient
 
 if TYPE_CHECKING:
@@ -85,7 +85,7 @@ async def client_credentials_authorizer(
 def create_evo_object_service_and_data_client(
     evo_workspace_metadata: Optional[EvoWorkspaceMetadata] = None,
     service_manager_widget: Optional["ServiceManagerWidget"] = None,
-) -> tuple[ObjectServiceClient, ObjectDataClient]:
+) -> tuple[ObjectAPIClient, ObjectDataClient]:
     if evo_workspace_metadata and service_manager_widget:
         raise ConflictingConnectionDetailsError(
             "Please provide only one of EvoWorkspaceMetadata or ServiceManagerWidget."
@@ -95,17 +95,17 @@ def create_evo_object_service_and_data_client(
     elif service_manager_widget:
         return create_service_and_data_client_from_manager(service_manager_widget)
     raise MissingConnectionDetailsError(
-        "Missing one of EvoWorkspaceMetadata or ServiceManagerWidget needed to construct an ObjectServiceClient."
+        "Missing one of EvoWorkspaceMetadata or ServiceManagerWidget needed to construct an ObjectAPIClient."
     )
 
 
 def create_service_and_data_client_from_manager(
     service_manager_widget: "ServiceManagerWidget",
-) -> tuple[ObjectServiceClient, ObjectDataClient]:
-    logger.debug("Creating ObjectServiceClient from ServiceManagerWidget")
+) -> tuple[ObjectAPIClient, ObjectDataClient]:
+    logger.debug("Creating ObjectAPIClient from ServiceManagerWidget")
     environment = service_manager_widget.get_environment()
     connector = service_manager_widget.get_connector()
-    service_client = ObjectServiceClient(environment, connector)
+    service_client = ObjectAPIClient(environment, connector)
     data_client = service_client.get_data_client(service_manager_widget.cache)
 
     return service_client, data_client
@@ -113,9 +113,9 @@ def create_service_and_data_client_from_manager(
 
 def create_service_and_data_client_from_metadata(
     metadata: EvoWorkspaceMetadata,
-) -> tuple[ObjectServiceClient, ObjectDataClient]:
+) -> tuple[ObjectAPIClient, ObjectDataClient]:
     logger.debug(
-        "Creating evo.objects.ObjectServiceClient and evo.objects.utils.data.ObjectDataClient with "
+        "Creating evo.objects.ObjectAPIClient and evo.objects.utils.data.ObjectDataClient with "
         f"EvoWorkspaceMetadata={metadata}"
     )
 
@@ -126,7 +126,7 @@ def create_service_and_data_client_from_metadata(
     org_uuid = UUID(metadata.org_id) if metadata.org_id else metadata.org_id
     if metadata.has_client_credentials_params():
         authorizer = asyncio.run(client_credentials_authorizer(transport, metadata))
-        hub_connector = ApiConnector(
+        hub_connector = APIConnector(
             base_url=metadata.hub_url,
             transport=transport,
             authorizer=authorizer,
@@ -138,7 +138,7 @@ def create_service_and_data_client_from_metadata(
         else:
             logger.debug("Skipping authentication due to missing required parameters.")
 
-        hub_connector = ApiConnector(base_url=metadata.hub_url, transport=transport, authorizer=authorizer)
+        hub_connector = APIConnector(base_url=metadata.hub_url, transport=transport, authorizer=authorizer)
 
     workspace_uuid = UUID(metadata.workspace_id) if metadata.workspace_id else metadata.workspace_id
 
@@ -147,7 +147,7 @@ def create_service_and_data_client_from_metadata(
         org_id=org_uuid,
         workspace_id=workspace_uuid,
     )
-    service_client = ObjectServiceClient(environment, hub_connector)
+    service_client = ObjectAPIClient(environment, hub_connector)
     data_client = service_client.get_data_client(cache)
 
     return service_client, data_client

@@ -5,8 +5,8 @@ import numpy as np
 import numpy.testing
 import pytest
 import vtk
-from geoscience_object_models.components import BoundingBox_V1_0_1, Crs_V1_0_1_EpsgCode, Rotation_V1_1_0
-from geoscience_object_models.objects import Regular3DGrid_V1_2_0, RegularMasked3DGrid_V1_2_0
+from evo_schemas.components import BoundingBox_V1_0_1, Crs_V1_0_1_EpsgCode, Rotation_V1_1_0
+from evo_schemas.objects import Regular3DGrid_V1_2_0, RegularMasked3DGrid_V1_2_0
 from vtk.util.numpy_support import numpy_to_vtk
 from vtk_test_helpers import MockDataClient, add_ghost_value
 

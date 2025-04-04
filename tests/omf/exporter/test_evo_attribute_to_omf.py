@@ -8,7 +8,7 @@ from uuid import uuid4
 import numpy as np
 import pyarrow as pa
 import pyarrow.parquet as pq
-from geoscience_object_models.components import (
+from evo_schemas.components import (
     AttributeDescription_V1_0_1,
     CategoryAttribute_V1_1_0,
     ColorAttribute_V1_1_0,
@@ -18,8 +18,8 @@ from geoscience_object_models.components import (
     StringAttribute_V1_1_0,
     VectorAttribute_V1_0_0,
 )
-from geoscience_object_models.elements import UnitDimensionless_V1_0_1_UnitCategories
-from geoscience_object_models.objects import LineSegments_V2_1_0, Pointset_V1_2_0, TriangleMesh_V2_1_0
+from evo_schemas.elements import UnitDimensionless_V1_0_1_UnitCategories
+from evo_schemas.objects import LineSegments_V2_1_0, Pointset_V1_2_0, TriangleMesh_V2_1_0
 from omf.data import (
     ColorData,
     DateTimeArray,

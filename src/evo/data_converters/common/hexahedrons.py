@@ -5,9 +5,9 @@ Utility functions for manipulating Evo Hexahedrons
 import numpy as np
 import numpy.typing as npt
 import pyarrow as pa
-from geoscience_object_models.components import Hexahedrons_V1_1_0_Indices as HexahedronsIndices
-from geoscience_object_models.components import Hexahedrons_V1_1_0_Vertices as HexahedronsVertices
-from geoscience_object_models.components import OneOfAttribute_V1_1_0 as OneOfAttribute
+from evo_schemas.components import Hexahedrons_V1_1_0_Indices as HexahedronsIndices
+from evo_schemas.components import Hexahedrons_V1_1_0_Vertices as HexahedronsVertices
+from evo_schemas.components import OneOfAttribute_V1_1_0 as OneOfAttribute
 
 from evo.objects.utils.data import ObjectDataClient
 

@@ -6,7 +6,7 @@ import numpy.typing as npt
 import pyarrow as pa
 import pytest
 import vtk
-from geoscience_object_models.components import CategoryAttribute_V1_1_0
+from evo_schemas.components import CategoryAttribute_V1_1_0
 from vtk.util.numpy_support import numpy_to_vtk
 from vtk_test_helpers import MockDataClient
 

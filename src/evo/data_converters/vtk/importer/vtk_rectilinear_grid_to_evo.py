@@ -1,7 +1,7 @@
 import numpy as np
 import vtk
-from geoscience_object_models.components import Rotation_V1_1_0
-from geoscience_object_models.objects import Tensor3DGrid_V1_2_0, Tensor3DGrid_V1_2_0_GridCells3D
+from evo_schemas.components import Rotation_V1_1_0
+from evo_schemas.objects import Tensor3DGrid_V1_2_0, Tensor3DGrid_V1_2_0_GridCells3D
 from vtk.util.numpy_support import vtk_to_numpy
 
 import evo.logging

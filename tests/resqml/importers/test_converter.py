@@ -6,8 +6,8 @@ from unittest import TestCase
 from uuid import uuid4
 from zipfile import BadZipFile
 
-from geoscience_object_models.components import BoundingBox_V1_0_1, Crs_V1_0_1_EpsgCode
-from geoscience_object_models.objects import TriangleMesh_V2_0_0
+from evo_schemas.components import BoundingBox_V1_0_1, Crs_V1_0_1_EpsgCode
+from evo_schemas.objects import TriangleMesh_V2_0_0
 
 from evo.data_converters.common import EvoWorkspaceMetadata
 from evo.data_converters.resqml.importer import convert_resqml

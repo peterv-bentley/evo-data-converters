@@ -1,8 +1,8 @@
 import omf2
 import pyarrow as pa
-from geoscience_object_models.components import Crs_V1_0_1_EpsgCode
-from geoscience_object_models.elements import FloatArray3_V1_0_1
-from geoscience_object_models.objects import Pointset_V1_2_0, Pointset_V1_2_0_Locations
+from evo_schemas.components import Crs_V1_0_1_EpsgCode
+from evo_schemas.elements import FloatArray3_V1_0_1
+from evo_schemas.objects import Pointset_V1_2_0, Pointset_V1_2_0_Locations
 
 import evo.logging
 from evo.objects.utils.data import ObjectDataClient

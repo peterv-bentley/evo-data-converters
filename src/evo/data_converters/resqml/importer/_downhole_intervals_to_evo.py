@@ -8,16 +8,16 @@ import resqpy.crs as rqcrs
 import resqpy.model as rq
 import resqpy.property as rqp
 import resqpy.well as rqw
-from geoscience_object_models import DownholeIntervals_V1_1_0 as DownholeIntervals
-from geoscience_object_models.components import BoundingBox_V1_0_1 as BoundingBox
-from geoscience_object_models.components import CategoryData_V1_0_1 as CategoryData
-from geoscience_object_models.components import Intervals_V1_0_1 as Intervals
-from geoscience_object_models.components import IntervalTable_V1_1_0_FromTo as IntervalTable_FromTo
-from geoscience_object_models.components import Locations_V1_0_1 as Locations
-from geoscience_object_models.elements import FloatArray2_V1_0_1 as FloatArray2
-from geoscience_object_models.elements import FloatArray3_V1_0_1 as FloatArray3
-from geoscience_object_models.elements import IntegerArray1_V1_0_1 as IntegerArray1
-from geoscience_object_models.elements import LookupTable_V1_0_1 as LookupTable
+from evo_schemas import DownholeIntervals_V1_1_0 as DownholeIntervals
+from evo_schemas.components import BoundingBox_V1_0_1 as BoundingBox
+from evo_schemas.components import CategoryData_V1_0_1 as CategoryData
+from evo_schemas.components import Intervals_V1_0_1 as Intervals
+from evo_schemas.components import IntervalTable_V1_1_0_FromTo as IntervalTable_FromTo
+from evo_schemas.components import Locations_V1_0_1 as Locations
+from evo_schemas.elements import FloatArray2_V1_0_1 as FloatArray2
+from evo_schemas.elements import FloatArray3_V1_0_1 as FloatArray3
+from evo_schemas.elements import IntegerArray1_V1_0_1 as IntegerArray1
+from evo_schemas.elements import LookupTable_V1_0_1 as LookupTable
 
 import evo.logging
 from evo.data_converters.resqml.importer._attribute_converters import convert_resqml_properties_to_evo_attributes

@@ -3,10 +3,10 @@ from pathlib import Path
 from typing import TYPE_CHECKING, Optional
 
 import resqpy.well as rqw
-from geoscience_object_models import DownholeIntervals_V1_0_1 as DownholeIntervals
-from geoscience_object_models.components import BaseSpatialDataProperties_V1_0_1
-from geoscience_object_models.objects import TriangleMesh_V2_0_0 as TriangleMesh
-from geoscience_object_models.objects import UnstructuredHexGrid_V1_1_0 as UnstructuredHexGrid
+from evo_schemas import DownholeIntervals_V1_0_1 as DownholeIntervals
+from evo_schemas.components import BaseSpatialDataProperties_V1_0_1
+from evo_schemas.objects import TriangleMesh_V2_0_0 as TriangleMesh
+from evo_schemas.objects import UnstructuredHexGrid_V1_1_0 as UnstructuredHexGrid
 from resqpy.grid import Grid
 from resqpy.model import Model, ModelContext
 from resqpy.surface import Surface

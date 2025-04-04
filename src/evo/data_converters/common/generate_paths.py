@@ -1,7 +1,7 @@
 from collections import defaultdict
 from pathlib import PurePosixPath
 
-from geoscience_object_models.components import BaseSpatialDataProperties_V1_0_1
+from evo_schemas.components import BaseSpatialDataProperties_V1_0_1
 
 
 def generate_paths(object_models: list[BaseSpatialDataProperties_V1_0_1], path_prefix: str = "") -> list[str]:

@@ -3,13 +3,13 @@ from typing import Optional
 
 import numpy
 import pyarrow as pa
-from geoscience_object_models.components import (
+from evo_schemas.components import (
     ContinuousAttribute_V1_1_0,
     Crs_V1_0_1_EpsgCode,
     NanContinuous_V1_0_1,
 )
-from geoscience_object_models.elements import FloatArray1_V1_0_1
-from geoscience_object_models.objects import Regular3DGrid_V1_2_0
+from evo_schemas.elements import FloatArray1_V1_0_1
+from evo_schemas.objects import Regular3DGrid_V1_2_0
 from scipy.spatial.transform import Rotation
 
 from evo.data_converters.common.utils import check_rotation_matrix, convert_rotation, grid_bounding_box

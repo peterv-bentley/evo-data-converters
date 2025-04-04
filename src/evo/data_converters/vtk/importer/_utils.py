@@ -1,7 +1,7 @@
 import numpy as np
 import numpy.typing as npt
 import vtk
-from geoscience_object_models.components import BoundingBox_V1_0_1, Crs_V1_0_1_EpsgCode, Rotation_V1_1_0
+from evo_schemas.components import BoundingBox_V1_0_1, Crs_V1_0_1_EpsgCode, Rotation_V1_1_0
 from scipy.spatial.transform import Rotation
 from vtk.util.numpy_support import vtk_to_numpy
 

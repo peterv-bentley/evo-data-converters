@@ -5,19 +5,19 @@ import numpy.typing as npt
 import pandas as pd
 import pyarrow as pa
 import resqpy.property as rqp
-from geoscience_object_models.components import AttributeDescription_V1_0_1 as AttributeDescription
-from geoscience_object_models.components import CategoryAttribute_V1_0_1 as CategoryAttribute
-from geoscience_object_models.components import CategoryAttributeDescription_V1_0_1 as CategoryAttributeDescription
-from geoscience_object_models.components import ContinuousAttribute_V1_0_1 as ContinuousAttribute
-from geoscience_object_models.components import IntegerAttribute_V1_0_1 as IntegerAttribute
-from geoscience_object_models.components import NanCategorical_V1_0_1 as NanCategorical
-from geoscience_object_models.components import NanContinuous_V1_0_1 as NanContinuous
-from geoscience_object_models.components import OneOfAttribute_V1_1_0 as OneOfAttribute
-from geoscience_object_models.components import VectorAttribute_V1_0_0 as VectorAttribute
-from geoscience_object_models.elements import FloatArray1_V1_0_1 as FloatArray1
-from geoscience_object_models.elements import FloatArrayMd_V1_0_1 as FloatArrayMd
-from geoscience_object_models.elements import IntegerArray1_V1_0_1 as IntegerArray1
-from geoscience_object_models.elements import LookupTable_V1_0_1 as LookupTable
+from evo_schemas.components import AttributeDescription_V1_0_1 as AttributeDescription
+from evo_schemas.components import CategoryAttribute_V1_0_1 as CategoryAttribute
+from evo_schemas.components import CategoryAttributeDescription_V1_0_1 as CategoryAttributeDescription
+from evo_schemas.components import ContinuousAttribute_V1_0_1 as ContinuousAttribute
+from evo_schemas.components import IntegerAttribute_V1_0_1 as IntegerAttribute
+from evo_schemas.components import NanCategorical_V1_0_1 as NanCategorical
+from evo_schemas.components import NanContinuous_V1_0_1 as NanContinuous
+from evo_schemas.components import OneOfAttribute_V1_1_0 as OneOfAttribute
+from evo_schemas.components import VectorAttribute_V1_0_0 as VectorAttribute
+from evo_schemas.elements import FloatArray1_V1_0_1 as FloatArray1
+from evo_schemas.elements import FloatArrayMd_V1_0_1 as FloatArrayMd
+from evo_schemas.elements import IntegerArray1_V1_0_1 as IntegerArray1
+from evo_schemas.elements import LookupTable_V1_0_1 as LookupTable
 from resqpy.model import Model
 from resqpy.property import Property
 
