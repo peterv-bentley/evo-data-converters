@@ -29,7 +29,7 @@ from resqpy.property import Property
 
 import evo.logging
 from evo.data_converters.common.hexahedrons import build_indices, build_vertices
-from evo.data_converters.common.utils import vertices_bounding_box
+from evo.data_converters.common.utils import get_object_tags, vertices_bounding_box
 from evo.data_converters.resqml.importer._attribute_converters import (
     convert_categorical_property,
     convert_continuous_property,
@@ -80,18 +80,13 @@ def convert_grid(
     vertices = build_vertices(locs, data_client)
     indices = build_indices(idxs, data_client, attributes)
 
-    source = f"{pathlib.Path(grid.model.epc_file).name} (via Evo Data Converters)"
     hex_grid = UnstructuredHexGrid(
         name=_get_grid_name(grid),
         uuid=None,
         coordinate_reference_system=_get_crs(model, grid, epsg_code),
         bounding_box=bounding_box,
         hexahedrons=Hexahedrons(vertices=vertices, indices=indices),
-        tags={
-            "Source": source,
-            "Stage": "Experimental",
-            "InputType": "RESQML",
-        },
+        tags=get_object_tags(path=pathlib.Path(grid.model.epc_file).name, input_type="RESQML"),
         extensions=_get_metadata(grid, options),
     )
     return hex_grid

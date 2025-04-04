@@ -109,3 +109,12 @@ def convert_rotation(rotation: Rotation) -> Rotation_V1_1_0:
         dip = -dip
         pitch = (pitch + 180) % 360
     return Rotation_V1_1_0(dip_azimuth=azimuth, dip=dip, pitch=pitch)
+
+
+def get_object_tags(path: str, input_type: str, extra_tags: dict = None) -> dict[str, str]:
+    return {
+        "Source": f"{path} (via Evo Data Converters)",
+        "Stage": "Experimental",
+        "InputType": input_type,
+        **(extra_tags if extra_tags else {}),
+    }
