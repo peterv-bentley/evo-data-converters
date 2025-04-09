@@ -24,7 +24,7 @@ from evo_schemas.elements import FloatArray1_V1_0_1
 from evo_schemas.objects import Tensor3DGrid_V1_2_0, Tensor3DGrid_V1_2_0_GridCells3D
 
 import evo.logging
-from evo.data_converters.common.utils import grid_bounding_box
+from evo.data_converters.common.utils import get_object_tags, grid_bounding_box
 from evo.data_converters.ubc.importer.ubc_reader import UBCMeshFileImporter, UBCPropertyFileImporter
 from evo.objects.utils.data import ObjectDataClient
 
@@ -81,16 +81,6 @@ def get_geoscience_object_from_ubc(
     bbox = grid_bounding_box(origin, numpy.identity(3), numpy.array([numpy.sum(d) for d in spacings]))
     cell_attributes = _create_continuous_attributes(data_client, numerical_values)
 
-    object_tags = {
-        "Source": f"{os.path.basename(ubc_mesh_file)} (via Evo Data Converters)",
-        "Stage": "Experimental",
-        "InputType": "UBC",
-    }
-
-    # Add custom tags
-    if tags:
-        object_tags.update(tags)
-
     grid_cells_3d = Tensor3DGrid_V1_2_0_GridCells3D(
         cell_sizes_x=spacings[0].tolist(), cell_sizes_y=spacings[1].tolist(), cell_sizes_z=spacings[2].tolist()
     )
@@ -105,5 +95,5 @@ def get_geoscience_object_from_ubc(
         rotation=Rotation_V1_1_0(dip_azimuth=0.0, dip=0.0, pitch=0.0),
         cell_attributes=cell_attributes,
         uuid=None,
-        tags=object_tags,
+        tags=get_object_tags(path=os.path.basename(ubc_mesh_file), input_type="UBC", extra_tags=tags),
     )

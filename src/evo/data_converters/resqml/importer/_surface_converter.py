@@ -28,7 +28,7 @@ from resqpy.property import Property
 from resqpy.surface import Surface
 
 import evo.logging
-from evo.data_converters.common.utils import vertices_bounding_box
+from evo.data_converters.common.utils import get_object_tags, vertices_bounding_box
 from evo.data_converters.resqml.importer._attribute_converters import (
     convert_categorical_property,
     convert_continuous_property,
@@ -98,18 +98,13 @@ def convert_surface(
     indices = _build_indices(triangles, data_client, triangle_attributes)
 
     assert model.epc_file is not None  # Keep Pyright happy, can't happen as will have opened the file in the caller.
-    source = f"{pathlib.Path(model.epc_file).name} (via Evo Data Converters)"
     mesh = TriangleMesh(
         name=_get_surface_name(surface),
         uuid=None,
         coordinate_reference_system=evo_crs,
         bounding_box=vertices_bounding_box(points),
         triangles=Triangles(vertices=vertices, indices=indices),
-        tags={
-            "Source": source,
-            "Stage": "Experimental",
-            "InputType": "RESQML",
-        },
+        tags=get_object_tags(path=pathlib.Path(model.epc_file).name, input_type="RESQML"),
         extensions=get_metadata(surface),
     )
     return mesh

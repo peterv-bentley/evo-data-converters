@@ -16,7 +16,7 @@ import pytest
 from evo_schemas.components import BoundingBox_V1_0_1
 from scipy.spatial.transform import Rotation
 
-from evo.data_converters.common.utils import convert_rotation, grid_bounding_box, vertices_bounding_box
+from evo.data_converters.common.utils import convert_rotation, get_object_tags, grid_bounding_box, vertices_bounding_box
 
 
 class TestUtils(TestCase):
@@ -113,3 +113,20 @@ def test_get_bbox_non_orthogonal_with_offset() -> None:
         pytest.approx(21596281.65616, rel=1e-5),
         pytest.approx(6502.68848, rel=1e-5),
     )
+
+
+def test_get_object_tags_with_ubc_file() -> None:
+    assert get_object_tags("bar.txt", "UBC") == {
+        "Source": "bar.txt (via Evo Data Converters)",
+        "Stage": "Experimental",
+        "InputType": "UBC",
+    }
+
+
+def test_get_object_tags_with_extra_tags_provided_taking_precedence() -> None:
+    assert get_object_tags("test.omf", "OMF", {"InputType": "SomethingElse", "foo": "bar"}) == {
+        "Source": "test.omf (via Evo Data Converters)",
+        "Stage": "Experimental",
+        "InputType": "SomethingElse",
+        "foo": "bar",
+    }
