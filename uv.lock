@@ -603,9 +603,9 @@ notebooks = [
 [package.metadata]
 requires-dist = [
     { name = "aiohttp" },
-    { name = "evo-objects", git = "https://github.com/seequentevo/evo-python-sdk?subdirectory=packages%2Fevo-objects" },
+    { name = "evo-objects", specifier = ">=0.1.0" },
     { name = "evo-schemas", path = "temp/evo_schemas-2024.12.1.dev23-py3-none-any.whl" },
-    { name = "evo-sdk-common", git = "https://github.com/seequentevo/evo-python-sdk?subdirectory=packages%2Fevo-sdk-common" },
+    { name = "evo-sdk-common", specifier = ">=0.1.0" },
     { name = "nest-asyncio" },
     { name = "numpy", specifier = "<2.0.0" },
     { name = "omf", specifier = ">=1.0.1" },
@@ -629,17 +629,21 @@ dev = [
     { name = "ruff" },
 ]
 notebooks = [
-    { name = "evo-sdk-common", extras = ["notebooks"], git = "https://github.com/seequentevo/evo-python-sdk?subdirectory=packages%2Fevo-sdk-common" },
+    { name = "evo-sdk-common", extras = ["notebooks"] },
     { name = "jupyter" },
 ]
 
 [[package]]
 name = "evo-objects"
 version = "0.1.0"
-source = { git = "https://github.com/seequentevo/evo-python-sdk?subdirectory=packages%2Fevo-objects#00f6001040114f9f0df5380356b2785ec8a6cb83" }
+source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "evo-sdk-common" },
     { name = "pydantic" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/ab/10/aaf69c01e4185001a19b9afe6a9d0676a533fb9285aeb139af7b09eceeb7/evo_objects-0.1.0.tar.gz", hash = "sha256:adeb1d3a4e626c59deff64d4b29d91990cd5368d894ae85fd785a3ef9981a31c", size = 42277 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/5c/d2/25e1f158a7c02894d1935c5729dae622539e906548f2002cb0445db80e8b/evo_objects-0.1.0-py3-none-any.whl", hash = "sha256:204dac66797e198927fea244ab5372f8ae40fa2ada5ae84d561bcfed20cdc3e2", size = 45099 },
 ]
 
 [[package]]
@@ -680,12 +684,16 @@ requires-dist = [
 
 [[package]]
 name = "evo-sdk-common"
-version = "0.1.0"
-source = { git = "https://github.com/seequentevo/evo-python-sdk?subdirectory=packages%2Fevo-sdk-common#00f6001040114f9f0df5380356b2785ec8a6cb83" }
+version = "0.1.1"
+source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "pure-interface" },
     { name = "pydantic" },
     { name = "python-dateutil" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/7b/4d/157d9d42e473d9f27322a6fdad20f8a76cf0b8e6ada4991f49736e444d1b/evo_sdk_common-0.1.1.tar.gz", hash = "sha256:0508d0b803daca743054cc6fad3a154cfa0d66014ea7069b27f07b880bbef04b", size = 82127 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/e3/24/6462758f7fabe3877af3074cb237788393b56bacd65eac9e02c9c2c25503/evo_sdk_common-0.1.1-py3-none-any.whl", hash = "sha256:58943f3c8e21178151aaceec8c136eee631b71c806dac641d08bd1d2e7960fbd", size = 135022 },
 ]
 
 [package.optional-dependencies]
@@ -943,7 +951,7 @@ name = "importlib-metadata"
 version = "8.6.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "zipp" },
+    { name = "zipp", marker = "python_full_version < '3.11'" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/33/08/c1395a292bb23fd03bdf572a1357c5a733d3eecbab877641ceacab23db6e/importlib_metadata-8.6.1.tar.gz", hash = "sha256:310b41d755445d74569f993ccfc22838295d9fe005425094fad953d7f15c8580", size = 55767 }
 wheels = [
