@@ -17,7 +17,7 @@ from omf2 import OmfFileIoException
 from evo.data_converters.omf import is_omf
 
 
-class TestIsOmf(TestCase):
+class TestIsOMF(TestCase):
     def test_should_detect_omf1_file_as_omf(self) -> None:
         omf1_file = path.join(path.dirname(__file__), "data/omf1.omf")
         self.assertTrue(is_omf(omf1_file))

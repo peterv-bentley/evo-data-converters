@@ -21,7 +21,7 @@ from evo.data_converters.common import (
     create_evo_object_service_and_data_client,
     publish_geoscience_objects,
 )
-from evo.data_converters.omf import OmfReaderContext
+from evo.data_converters.omf import OMFReaderContext
 from evo.objects.data import ObjectMetadata
 
 from .omf_blockmodel_to_evo import convert_omf_blockmodel
@@ -80,7 +80,7 @@ def convert_omf(
         logger.debug("Publishing objects will be skipped due to missing hub_url.")
         publish_objects = False
 
-    context = OmfReaderContext(filepath)
+    context = OMFReaderContext(filepath)
     reader = context.reader()
 
     project, problems = reader.project()

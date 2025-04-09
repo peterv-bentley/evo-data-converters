@@ -15,7 +15,7 @@ import argparse
 import uuid
 
 from evo.data_converters.common import EvoWorkspaceMetadata
-from evo.data_converters.resqml.importer import ResqmlConversionOptions, convert_resqml
+from evo.data_converters.resqml.importer import RESQMLConversionOptions, convert_resqml
 
 parser = argparse.ArgumentParser(description="Convert a RESQML file and print the generated Evo objects")
 parser.add_argument("filename", help="Path to RESQML file", nargs="+")
@@ -35,7 +35,7 @@ args = parser.parse_args()
 file_names = args.filename
 meta_data = EvoWorkspaceMetadata(workspace_id=str(uuid.uuid4()))
 
-options = ResqmlConversionOptions(active_cells_only=not args.all_grid_cells)
+options = RESQMLConversionOptions(active_cells_only=not args.all_grid_cells)
 
 for file_name in file_names:
     objects = convert_resqml(file_name, args.epsg_code, meta_data, None, options=options)

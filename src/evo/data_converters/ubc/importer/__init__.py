@@ -9,7 +9,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-from evo.data_converters.ubc.importer.ubc_reader import UbcFileIOError, UbcInvalidDataError, UbcOOMError
+from evo.data_converters.ubc.importer.ubc_reader import UBCFileIOError, UBCInvalidDataError, UBCOOMError
 from evo.data_converters.ubc.importer.ubc_to_evo import convert_ubc
 
-__all__ = ["UbcFileIOError", "UbcInvalidDataError", "UbcOOMError", "convert_ubc"]
+__all__ = ["UBCFileIOError", "UBCInvalidDataError", "UBCOOMError", "convert_ubc"]

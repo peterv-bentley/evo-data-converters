@@ -26,11 +26,11 @@ from evo_schemas.elements.float_array_1 import FloatArray1_V1_0_1
 from evo_schemas.objects import LineSegments_V2_1_0
 
 from evo.data_converters.common import EvoWorkspaceMetadata, create_evo_object_service_and_data_client
-from evo.data_converters.omf import OmfReaderContext
+from evo.data_converters.omf import OMFReaderContext
 from evo.data_converters.omf.importer import convert_omf_lineset
 
 
-class TestOmfLineSetConverter(TestCase):
+class TestOMFLineSetConverter(TestCase):
     def setUp(self) -> None:
         self.cache_root_dir = TemporaryDirectory()
         metadata = EvoWorkspaceMetadata(
@@ -48,7 +48,7 @@ class TestOmfLineSetConverter(TestCase):
 
     def test_should_convert_omf_v1_lineset_geometry(self) -> None:
         omf_file = path.join(path.dirname(__file__), "data/lineset_v1.omf")
-        context = OmfReaderContext(omf_file)
+        context = OMFReaderContext(omf_file)
         reader = context.reader()
 
         project, _ = reader.project()
@@ -104,7 +104,7 @@ class TestOmfLineSetConverter(TestCase):
 
     def test_should_convert_omf_v2_lineset_geometry(self) -> None:
         omf_file = path.join(path.dirname(__file__), "data/lineset_v2.omf")
-        context = OmfReaderContext(omf_file)
+        context = OMFReaderContext(omf_file)
         reader = context.reader()
 
         project, _ = reader.project()
@@ -160,7 +160,7 @@ class TestOmfLineSetConverter(TestCase):
 
     def test_should_convert_omf_v1_lineset_vertex_attributes(self) -> None:
         omf_file = path.join(path.dirname(__file__), "data/lineset_v1.omf")
-        context = OmfReaderContext(omf_file)
+        context = OMFReaderContext(omf_file)
         reader = context.reader()
 
         project, _ = reader.project()
@@ -204,7 +204,7 @@ class TestOmfLineSetConverter(TestCase):
 
     def test_should_convert_omf_v2_lineset_vertex_attributes(self) -> None:
         omf_file = path.join(path.dirname(__file__), "data/lineset_v2.omf")
-        context = OmfReaderContext(omf_file)
+        context = OMFReaderContext(omf_file)
         reader = context.reader()
 
         project, _ = reader.project()
@@ -248,7 +248,7 @@ class TestOmfLineSetConverter(TestCase):
 
     def test_should_convert_omf_v1_lineset_segment_attributes(self) -> None:
         omf_file = path.join(path.dirname(__file__), "data/lineset_v1.omf")
-        context = OmfReaderContext(omf_file)
+        context = OMFReaderContext(omf_file)
         reader = context.reader()
 
         project, _ = reader.project()
@@ -291,7 +291,7 @@ class TestOmfLineSetConverter(TestCase):
 
     def test_should_convert_omf_v2_lineset_segment_attributes(self) -> None:
         omf_file = path.join(path.dirname(__file__), "data/lineset_v2.omf")
-        context = OmfReaderContext(omf_file)
+        context = OMFReaderContext(omf_file)
         reader = context.reader()
 
         project, _ = reader.project()

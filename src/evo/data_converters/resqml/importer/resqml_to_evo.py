@@ -36,7 +36,7 @@ from evo.objects.utils import ObjectDataClient
 from ._downhole_intervals_to_evo import convert_downhole_intervals_for_trajectory
 from ._grid_converter import convert_grid
 from ._surface_converter import convert_surface
-from .conversion_options import ResqmlConversionOptions
+from .conversion_options import RESQMLConversionOptions
 
 logger = evo.logging.getLogger("data_converters")
 
@@ -51,7 +51,7 @@ def convert_resqml(
     service_manager_widget: Optional["ServiceManagerWidget"] = None,
     tags: Optional[dict[str, str]] = None,
     upload_path: str = "",
-    options: ResqmlConversionOptions = ResqmlConversionOptions(),
+    options: RESQMLConversionOptions = RESQMLConversionOptions(),
 ) -> list[BaseSpatialDataProperties_V1_0_1 | ObjectMetadata]:
     """Converts a RESQML file into Evo Geoscience Objects.
     service_manager_widget: ServiceManagerWidget = None,
@@ -121,7 +121,7 @@ def convert_resqml(
 
 
 def _convert_grids(
-    model: Model, data_client: ObjectDataClient, epsg_code: int, options: ResqmlConversionOptions
+    model: Model, data_client: ObjectDataClient, epsg_code: int, options: RESQMLConversionOptions
 ) -> list[UnstructuredHexGrid]:
     """Convert the regular IJK grids in the Model to UnstructuredHexGrids
 
@@ -161,7 +161,7 @@ def _convert_downhole_intervals(
     model: Model,
     data_client: ObjectDataClient,
     epsg_code: Optional[int] = None,
-    options: Optional[ResqmlConversionOptions] = None,
+    options: Optional[RESQMLConversionOptions] = None,
 ) -> list[DownholeIntervals]:
     """
     Convert downhole intervals in a model to Evo DownholeIntervals objects. Based
@@ -194,7 +194,7 @@ def _convert_downhole_intervals(
 
 
 def _convert_surfaces(
-    model: Model, data_client: ObjectDataClient, epsg_code: int, options: ResqmlConversionOptions
+    model: Model, data_client: ObjectDataClient, epsg_code: int, options: RESQMLConversionOptions
 ) -> list[TriangleMesh]:
     """Convert TriangulatedSetRepresentations in the Model to TriangleMeshes
 

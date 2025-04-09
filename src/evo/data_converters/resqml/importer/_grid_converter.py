@@ -40,7 +40,7 @@ from evo.objects.utils.data import ObjectDataClient
 
 from ._time_series_converter import convert_time_series
 from ._utils import get_metadata
-from .conversion_options import ResqmlConversionOptions
+from .conversion_options import RESQMLConversionOptions
 
 logger = evo.logging.getLogger("data_converters.resqml")
 
@@ -49,7 +49,7 @@ def convert_grid(
     model: Model,
     grid: Grid,
     epsg_code: int,
-    options: ResqmlConversionOptions,
+    options: RESQMLConversionOptions,
     data_client: ObjectDataClient,
 ) -> UnstructuredHexGrid:
     """Convert a resqpy Grid object to an Evo UnstructuredHexGrid
@@ -422,7 +422,7 @@ def _build_integer_attribute(
     )
 
 
-def _get_metadata(grid: Grid, options: ResqmlConversionOptions) -> dict[str, dict[str, str | dict[str, str]]]:
+def _get_metadata(grid: Grid, options: RESQMLConversionOptions) -> dict[str, dict[str, str | dict[str, str]]]:
     """Generate meta data about the source file, the grid and the conversion options"""
     metadata = get_metadata(grid)
     opts = {"active_cells_only": str(options.active_cells_only)}

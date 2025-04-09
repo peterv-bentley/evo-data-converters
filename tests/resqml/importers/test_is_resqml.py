@@ -15,7 +15,7 @@ from unittest import TestCase
 from evo.data_converters.resqml import is_resqml
 
 
-class TestIsResqml(TestCase):
+class TestIsRESQML(TestCase):
     def test_should_not_detect_non_resqml_file_as_resqml(self) -> None:
         non_resqml_file = path.join(path.dirname(__file__), "data/invalid.epc")
         self.assertFalse(is_resqml(non_resqml_file))

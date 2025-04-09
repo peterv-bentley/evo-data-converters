@@ -22,7 +22,7 @@ from evo.data_converters.omf.importer import convert_omf
 
 
 @pytest.mark.usefixtures("caplog")
-class TestOmfToEvoProblems:
+class TestOMFToEvoProblems:
     def test_should_log_warnings(self, caplog: pytest.LogCaptureFixture) -> None:
         cache_root_dir = tempfile.TemporaryDirectory()
         metadata = EvoWorkspaceMetadata(
@@ -39,7 +39,7 @@ class TestOmfToEvoProblems:
         assert any(re.search(expected_log_message, line) for line in caplog.text.splitlines())
 
 
-class TestOmfToEvoConverter(TestCase):
+class TestOMFToEvoConverter(TestCase):
     def setUp(self) -> None:
         self.cache_root_dir = tempfile.TemporaryDirectory()
         self.metadata = EvoWorkspaceMetadata(

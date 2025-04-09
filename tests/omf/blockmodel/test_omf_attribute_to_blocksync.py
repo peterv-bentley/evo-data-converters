@@ -16,7 +16,7 @@ from unittest import TestCase
 import omf2
 import pyarrow as pa
 
-from evo.data_converters.omf import OmfReaderContext
+from evo.data_converters.omf import OMFReaderContext
 from evo.data_converters.omf.importer.blockmodel.omf_attributes_to_blocksync import convert_blockmodel_attribute
 from evo.data_converters.omf.importer.blockmodel.omf_blockmodel_to_blocksync import extract_regular_block_model_columns
 
@@ -24,7 +24,7 @@ from evo.data_converters.omf.importer.blockmodel.omf_blockmodel_to_blocksync imp
 class TestConvertBlockModelAttribute(TestCase):
     def test_convert_nullable_boolean_attribute(self) -> None:
         omf_file = path.join(path.dirname(__file__), "../data/null_attribute_values.omf")
-        context = OmfReaderContext(omf_file)
+        context = OMFReaderContext(omf_file)
         reader = context.reader()
         project, _ = reader.project()
 
@@ -47,7 +47,7 @@ class TestConvertBlockModelAttribute(TestCase):
 
     def test_convert_nullable_date_number_attribute(self) -> None:
         omf_file = path.join(path.dirname(__file__), "../data/null_attribute_values.omf")
-        context = OmfReaderContext(omf_file)
+        context = OMFReaderContext(omf_file)
         reader = context.reader()
         project, _ = reader.project()
 
@@ -70,7 +70,7 @@ class TestConvertBlockModelAttribute(TestCase):
 
     def test_convert_nullable_datetime_number_attribute(self) -> None:
         omf_file = path.join(path.dirname(__file__), "../data/null_attribute_values.omf")
-        context = OmfReaderContext(omf_file)
+        context = OMFReaderContext(omf_file)
         reader = context.reader()
         project, _ = reader.project()
 
@@ -98,7 +98,7 @@ class TestConvertBlockModelAttribute(TestCase):
 
     def test_convert_nullable_int64_number_attribute_to_float64(self) -> None:
         omf_file = path.join(path.dirname(__file__), "../data/null_attribute_values.omf")
-        context = OmfReaderContext(omf_file)
+        context = OMFReaderContext(omf_file)
         reader = context.reader()
         project, _ = reader.project()
 
@@ -121,7 +121,7 @@ class TestConvertBlockModelAttribute(TestCase):
 
     def test_convert_number_attribute(self) -> None:
         omf_file = path.join(path.dirname(__file__), "data/rotated_block_model_ijk.omf")
-        context = OmfReaderContext(omf_file)
+        context = OMFReaderContext(omf_file)
         reader = context.reader()
         project, _ = reader.project()
 
@@ -171,7 +171,7 @@ class TestConvertBlockModelAttribute(TestCase):
 
     def test_convert_category_attribute(self) -> None:
         omf_file = path.join(path.dirname(__file__), "data/bunny_blocks.omf")
-        context = OmfReaderContext(omf_file)
+        context = OMFReaderContext(omf_file)
         reader = context.reader()
         project, _ = reader.project()
 
@@ -196,7 +196,7 @@ class TestConvertBlockModelAttribute(TestCase):
 
     def test_should_prevent_duplicate_attribute_column_name(self) -> None:
         omf_file = path.join(path.dirname(__file__), "data/bunny_blocks.omf")
-        context = OmfReaderContext(omf_file)
+        context = OMFReaderContext(omf_file)
         reader = context.reader()
         project, _ = reader.project()
 
@@ -211,7 +211,7 @@ class TestConvertBlockModelAttribute(TestCase):
 
     def test_convert_attributes_with_illegal_column_names(self) -> None:
         omf_file = path.join(path.dirname(__file__), "data/rotated_block_model_ijk.omf")
-        context = OmfReaderContext(omf_file)
+        context = OMFReaderContext(omf_file)
         reader = context.reader()
         project, _ = reader.project()
 
