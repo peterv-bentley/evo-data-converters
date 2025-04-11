@@ -35,7 +35,15 @@ dev = [
   "requests-mock"
 ]
 [project.optional-dependencies]
-notebooks = ["evo-sdk-common[notebooks]", "jupyter"]
+notebooks = [
+  "evo-sdk-common[notebooks]",
+  "authlib",
+  "ipykernel",
+  "ipython",
+  "PyJWT",
+  "requests",
+  "jupyter"
+]
 
 [tool.setuptools.packages.find]
 where = ["src"]
