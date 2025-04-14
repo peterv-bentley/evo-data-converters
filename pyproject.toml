@@ -19,7 +19,7 @@ dependencies = [
   "pyarrow",
   "pure-interface",
   "resqpy==5.1.10",
-  "evo-schemas>=2024.6",
+  "evo-schemas>=2024.4",
   "scipy",
   "vtk",
 ]
@@ -81,4 +81,3 @@ warn_unused_ignores = true
 
 [tool.uv.sources]
 omf2 = { git = "https://github.com/gmggroup/omf-rust", subdirectory = "omf-python" }
-evo-schemas = { path = "temp/evo_schemas-2024.12.1.dev23-py3-none-any.whl" }
