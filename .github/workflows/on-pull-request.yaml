@@ -3,6 +3,9 @@ name: Tests and Linting
 on:
   pull_request:
 
+permissions:
+  contents: read
+
 jobs:
   run-linting:
     name: Lint
@@ -24,28 +27,3 @@ jobs:
       - uses: ./.github/actions/testing
         with:
           PYTHON_VERSION: ${{ matrix.python-version }}
-
-  build-dev:
-    needs: [run-linting, run-tests]
-    name: Build dev package
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: ./.github/actions/install-uv
-        with:
-          PYTHON_VERSION: "3.10"
-
-      - name: Build
-        shell: bash
-        run: |
-          VERSION=$(grep version pyproject.toml -m 1 | cut -d'"' -f2)
-          PACKAGE_VERSION=$VERSION.dev${{ github.run_number }}
-          echo "PACKAGE_VERSION=$PACKAGE_VERSION" >> $GITHUB_ENV
-          sed -i "s/^version.*=.*$/version = \"$PACKAGE_VERSION\"/" pyproject.toml
-          uv build
-      
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
-        with:
-          path: ./dist
-          name: Build-${{ env.PACKAGE_VERSION }}
