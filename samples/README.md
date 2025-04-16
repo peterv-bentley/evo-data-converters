@@ -5,18 +5,8 @@ examples for using the Data Converters library.
 
 ### Seequent Evo APIs
 
-Once you have obtained an Evo access token and found your organisation ID and Evo hub URL, you can start to explore the API samples in:
-
-- `auth-and-evo-discovery` - code samples relating to authentication and service discovery.
-- `data-converters` - code samples demonstrating how to use the Evo Data Converters library.
-
-## Python samples
-
-The following instructions relate to the Python samples code found in this directory.
-
-The Python samples are provided as Jupyter notebooks. 
-
-In order to run the Jupyter notebook the Evo samples virtual env can be used as per the [setup instructions](../README.md) with some additions to run the sample code.
+Once you have obtained an Evo access token and found your organisation ID and Evo hub URL, you can start to explore
+the example data converters Jupyter notebooks.
 
 ### Setting up and running Jupyter notebooks
 
