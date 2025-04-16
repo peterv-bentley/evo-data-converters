@@ -16,22 +16,14 @@ The following instructions relate to the Python samples code found in this direc
 
 The Python samples are provided as Jupyter notebooks. 
 
-In order to run the Jupyter notebook the Evo samples virtual env can be used as per the [setup instructions](../README.md#setting-up-environment) with some additions to run the sample code.
-
-### Installing additional packages
-
-Different samples may require additional packages to be installed.   Check for a requirements.txt file in the sample sub directory and if required run `pip install` on it.  e.g. for the data converters samples:
-
-```
-pip install -r samples/data-converters/python/requirements.txt
-```
+In order to run the Jupyter notebook the Evo samples virtual env can be used as per the [setup instructions](../README.md) with some additions to run the sample code.
 
 ### Setting up and running Jupyter notebooks
 
 Notebooks can be run in your tool of choice (e.g. VS Code). To use Jupyter (the default):
 
 ```
-pip install jupyter
+uv sync --all-extras
 ```
 
 Then in the directory of the notebook(s) you want to run, type:

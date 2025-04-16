@@ -9,7 +9,7 @@ license = { file = "LICENSE.md", content-type = "text/markdown" }
 version = "0.0.3"
 dependencies = [
   "aiohttp",
-  "evo-sdk-common>=0.1.0",
+  "evo-sdk-common>=0.1.2",
   "evo-objects>=0.1.0",
   "nest-asyncio",
   "numpy<2.0.0",
@@ -34,9 +34,16 @@ dev = [
   "ruff",
   "requests-mock"
 ]
-
-# Optional dependencies for running notebooks
-notebooks = ["evo-sdk-common[notebooks]", "jupyter"]
+[project.optional-dependencies]
+notebooks = [
+  "evo-sdk-common[notebooks]",
+  "authlib",
+  "ipykernel",
+  "ipython",
+  "PyJWT",
+  "requests",
+  "jupyter"
+]
 
 [tool.setuptools.packages.find]
 where = ["src"]

@@ -38,7 +38,7 @@ class EvoWorkspaceMetadata:
     client_secret: str = ""
     user_id: str = ""
     hub_url: str = ""
-    redirect_url: str = "http://localhost:32369/auth/callback"
+    redirect_url: str = "http://localhost:3000/signin-oidc"
     oidc_issuer: str = ""
     cache_root: str = "./data/cache"
 

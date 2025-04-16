@@ -1,8 +1,12 @@
 ## Getting started
 
-Create a Python environment and install the package requirements, eg.
+Create a Python environment and install the package requirements, e.g.
 
-```pip install -r requirements.txt```
+```
+uv sync --all-extras
+```
+
+For more instructions, refer to [the project readme.](../../../README.md)
 
 ## Create an Evo access token
 
