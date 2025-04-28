@@ -29,7 +29,11 @@ The existing data converters can be used without modification or used as a templ
 
 ## Installation
 
+**Note:** This project depends on `omf2`, which is not available in PyPI yet. You must install it from source before you can use this project.
+
 ```
+pip install -e "git+https://github.com/gmggroup/omf-rust.git#egg=omf2&subdirectory=omf-python"
+
 pip install evo-data-converters
 ```
 
