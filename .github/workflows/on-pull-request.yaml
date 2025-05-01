@@ -15,23 +15,4 @@ jobs:
       - uses: ./.github/actions/linting
 
   run-tests:
-    name: Test
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ windows-latest, ubuntu-latest, macos-latest ]
-        python-version: [ "3.10", "3.11", "3.12" ]
-        package:
-          - common
-          - gocad
-          - omf
-          - resqml
-          - ubc
-          - vtk
-    runs-on: ${{ matrix.os }}
-    steps:
-      - uses: actions/checkout@v4
-      - uses: ./.github/actions/testing
-        with:
-          PACKAGE: ${{ matrix.package }}
-          PYTHON_VERSION: ${{ matrix.python-version }}
+    uses: ./.github/workflows/run-all-tests.yaml
