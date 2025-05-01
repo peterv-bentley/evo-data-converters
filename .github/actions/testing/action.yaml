@@ -2,6 +2,9 @@ name: "Testing"
 description: "Run unit tests"
 
 inputs:
+  PACKAGE:
+    required: true
+    description: "The UV package to run tests for"
   PYTHON_VERSION:
     required: true
     description: "The Python version to run the test on"
@@ -16,4 +19,4 @@ runs:
     - name: Pytest
       shell: bash
       run: |
-        uv run pytest tests/
+        uv run --package evo-data-converters-${{ inputs.package }} pytest packages/${{ inputs.package }}/tests/
