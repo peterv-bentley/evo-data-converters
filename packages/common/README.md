@@ -95,6 +95,7 @@ any other utility modules specific to this converter type:
 │   └── publish.py
 │   └── utils.py
 │   └── (and more common modules)
+├── omf/samples/
 ├── omf/src/evo/data_converters/omf/
 │   ├── exporter/
 │   │   └── __init__.py
@@ -107,6 +108,7 @@ any other utility modules specific to this converter type:
 │   ├── __init__.py
 │   ├── utils.py
 │   └── (and more common modules for omf)
+├── resqml/samples/
 ├── resqml/src/evo/data_converters/resqml/
 │   ├── importer/
 │   │   └── __init__.py
