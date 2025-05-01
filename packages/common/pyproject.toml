@@ -20,6 +20,7 @@ dependencies = [
     "nest_asyncio",
     "numpy<2.0.0",
     "pyarrow",
+    "requests",
     "scipy",
 ]
 

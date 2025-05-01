@@ -334,6 +334,7 @@ dependencies = [
     { name = "nest-asyncio" },
     { name = "numpy" },
     { name = "pyarrow" },
+    { name = "requests" },
     { name = "scipy" },
 ]
 
@@ -353,6 +354,7 @@ requires-dist = [
     { name = "nest-asyncio" },
     { name = "numpy", specifier = "<2.0.0" },
     { name = "pyarrow" },
+    { name = "requests" },
     { name = "scipy" },
 ]
 
@@ -371,11 +373,16 @@ dependencies = [
     { name = "evo-data-converters-common" },
 ]
 
+[package.dev-dependencies]
+dev = [
+    { name = "pytest" },
+]
+
 [package.metadata]
 requires-dist = [{ name = "evo-data-converters-common", editable = "packages/common" }]
 
 [package.metadata.requires-dev]
-dev = []
+dev = [{ name = "pytest" }]
 
 [[package]]
 name = "evo-data-converters-omf"
@@ -387,6 +394,12 @@ dependencies = [
     { name = "omf2" },
 ]
 
+[package.dev-dependencies]
+dev = [
+    { name = "pytest" },
+    { name = "requests-mock" },
+]
+
 [package.metadata]
 requires-dist = [
     { name = "evo-data-converters-common", editable = "packages/common" },
@@ -395,7 +408,10 @@ requires-dist = [
 ]
 
 [package.metadata.requires-dev]
-dev = []
+dev = [
+    { name = "pytest" },
+    { name = "requests-mock" },
+]
 
 [[package]]
 name = "evo-data-converters-resqml"
@@ -406,6 +422,11 @@ dependencies = [
     { name = "resqpy" },
 ]
 
+[package.dev-dependencies]
+dev = [
+    { name = "pytest" },
+]
+
 [package.metadata]
 requires-dist = [
     { name = "evo-data-converters-common", editable = "packages/common" },
@@ -413,7 +434,7 @@ requires-dist = [
 ]
 
 [package.metadata.requires-dev]
-dev = []
+dev = [{ name = "pytest" }]
 
 [[package]]
 name = "evo-data-converters-ubc"
@@ -423,11 +444,16 @@ dependencies = [
     { name = "evo-data-converters-common" },
 ]
 
+[package.dev-dependencies]
+dev = [
+    { name = "pytest" },
+]
+
 [package.metadata]
 requires-dist = [{ name = "evo-data-converters-common", editable = "packages/common" }]
 
 [package.metadata.requires-dev]
-dev = []
+dev = [{ name = "pytest" }]
 
 [[package]]
 name = "evo-data-converters-vtk"
@@ -438,6 +464,11 @@ dependencies = [
     { name = "vtk" },
 ]
 
+[package.dev-dependencies]
+dev = [
+    { name = "pytest" },
+]
+
 [package.metadata]
 requires-dist = [
     { name = "evo-data-converters-common", editable = "packages/common" },
@@ -445,7 +476,7 @@ requires-dist = [
 ]
 
 [package.metadata.requires-dev]
-dev = []
+dev = [{ name = "pytest" }]
 
 [[package]]
 name = "evo-objects"
