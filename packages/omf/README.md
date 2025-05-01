@@ -1,4 +1,35 @@
-# OMF
+<p align="center"><a href="https://seequent.com" target="_blank"><picture><source media="(prefers-color-scheme: dark)" srcset="https://developer.seequent.com/img/seequent-logo-dark.svg" alt="Seequent logo" width="400" /><img src="https://developer.seequent.com/img/seequent-logo.svg" alt="Seequent logo" width="400" /></picture></a></p>
+<p align="center">
+    <a href="https://pypi.org/project/evo-data-converters-omf/"><img alt="PyPI - Version" src="https://img.shields.io/pypi/v/evo-data-converters-omf" /></a>
+    <a href="https://github.com/SeequentEvo/evo-data-converters/actions/workflows/on-merge.yaml"><img src="https://github.com/SeequentEvo/evo-data-converters/actions/workflows/on-merge.yaml/badge.svg" alt="" /></a>
+</p>
+<p align="center">
+    <a href="https://developer.seequent.com/" target="_blank">Seequent Developer Portal</a>
+    &bull; <a href="https://community.seequent.com/" target="_blank">Seequent Community</a>
+    &bull; <a href="https://seequent.com" target="_blank">Seequent website</a>
+</p>
+
+## Evo
+
+Evo is a unified platform for geoscience teams. It enables access, connection, computation, and management of subsurface data. This empowers better decision-making, simplified collaboration, and accelerated innovation. Evo is built on open APIs, allowing developers to build custom integrations and applications. Our open schemas, code examples, and SDK are available for the community to use and extend. 
+
+Evo is powered by Seequent, a Bentley organisation.
+
+## Pre-requisites
+
+* Python >= 3.10, <= 3.12
+
+## Installation
+
+**Note:** This project depends on `omf2`, which is not available in PyPI yet. You must install it from source before you can use this project.
+
+```
+pip install -e "git+https://github.com/gmggroup/omf-rust.git#egg=omf2&subdirectory=omf-python"
+
+pip install evo-data-converters
+```
+
+## OMF
 
 Open Mining Format (OMF) is a standard backed by the Global Mining Guidelines Group.
 
@@ -8,10 +39,10 @@ To work with OMF files the `omf2` module is used, which is a Python interface to
 
 https://github.com/gmggroup/omf-rust
 
-## Publish geoscience objects from an OMF file
+### Publish geoscience objects from an OMF file
 **Note**: For some OMF geometry types there is more than one possible way they could be converted to geoscience objects. For example, an OMF `LineSet` can be used to represent more than one thing (poly-lines, drillholes, a wireframe mesh, etc). In this example they are converted to `LineSegments`. Depending on your use case, you may want to convert them to a different geoscience object.
 
-[The `evo-sdk-common` Python library](https://pypi.org/project/evo-sdk-common/) can be used to sign in. After successfully signing in, the user can select an organisation, an Evo hub, and a workspace. Use [`evo-objects`](https://pypi.org/project/evo-objects/) to get an `ObjectAPIClient`, and [`evo-data-converters`](https://pypi.org/project/evo-data-converters/) to convert your file.
+[The `evo-sdk-common` Python library](https://pypi.org/project/evo-sdk-common/) can be used to sign in. After successfully signing in, the user can select an organisation, an Evo hub, and a workspace. Use [`evo-objects`](https://pypi.org/project/evo-objects/) to get an `ObjectAPIClient`, and [`evo-data-converters-common`](https://pypi.org/project/evo-data-converters-common/) to convert your file.
 
 Choose the OMF file you want to publish and set its path in the `omf_file` variable.
 Choose an EPSG code to use for the Coordinate Reference System.
@@ -21,10 +52,6 @@ You can also specify tags to add to the created geoscience objects.
 Then call `convert_omf`, passing it the OMF file path, EPSG code, the `ObjectAPIClient` from above, and finally a path you want the published objects to appear under in your workspace.
 
 **Note:** Some geometry types are not yet supported. A warning will be shown for each element that could not be converted.
-
-```bash
-pip install evo-data-converters
-```
 
 ```python
 import os
@@ -99,7 +126,7 @@ async with hub_connector:
         pprint.pp(metadata, indent=4)
 ```
 
-## Export objects to OMF
+### Export objects to OMF
 
 To export an object from Evo to an OMF file, specify the Evo object UUID of the object you want to export and the output file path, and then call `export_omf()`.
 See documentation on the `ObjectAPIClient` for listing objects and getting their IDs and versions.
@@ -135,7 +162,7 @@ export_omf(
 )
 ```
 
-## Block models
+### Block models
 
 [Block models](https://developer.seequent.com/docs/guides/blockmodel) can be imported using the standard `convert_omf` function.
 
@@ -147,7 +174,7 @@ from evo.data_converters.common import BlockSyncClient
 blocksync_client = BlockSyncClient(workspace_env, hub_connector)
 ```
 
-### Export a block model to OMF V1
+#### Export a block model to OMF V1
 
 Specify the block model UUID of the block model object you want to export and the output file path, then call `export_blocksync_omf()`.
 
@@ -198,3 +225,23 @@ table = pq.read_table(dest_file)
 for column in table.column_names:
     print(f"{column} is of type: {table.schema.field(column).type}")
 ```
+
+## Code of conduct
+
+We rely on an open, friendly, inclusive environment. To help us ensure this remains possible, please familiarise yourself with our [code of conduct.](https://github.com/SeequentEvo/evo-data-converters/blob/main/CODE_OF_CONDUCT.md)
+
+## License
+Evo data converters are open source and licensed under the [Apache 2.0 license.](./LICENSE.md)
+
+Copyright © 2025 Bentley Systems, Incorporated.
+
+Licensed under the Apache License, Version 2.0 (the "License").
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
