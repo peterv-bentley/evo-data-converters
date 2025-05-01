@@ -17,6 +17,12 @@ dependencies = [
   "evo-data-converters-vtk",
 ]
 
+[dependency-groups]
+dev = [
+  "mypy",
+  "ruff",
+]
+
 [tool.uv.sources]
 evo-data-converters-common = { workspace = true }
 evo-data-converters-gocad = { workspace = true }
