@@ -72,6 +72,22 @@ For information on accessing and listing Workspaces, see [Workspaces.](https://d
 
 There is more information in the [Welcome to Seequent Evo](https://developer.seequent.com/docs/guides/getting-started/) area of the Developer portal, so take a look there or ask questions in the [Community forum.](https://community.seequent.com/categories/evo)
 
+### Setting up and running Jupyter notebooks
+
+Notebooks can be run in your tool of choice (e.g. VS Code). To use Jupyter (the default):
+
+```
+uv sync --all-extras
+```
+
+Then in the directory of the notebook(s) you want to run, type:
+
+```
+jupyter notebook
+```
+
+It should open a browser where you can open the notebooks for the current directory.
+
 ## Contributing
 
 Thank you for your interest in contributing to Seequent software. Please have a look over our [contribution guide.](./CONTRIBUTING.md)

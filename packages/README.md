@@ -1,5 +1,7 @@
 # Data converters
 
+A framework package exists for developing converters: [`evo-data-converters-common`.](common/README.md)
+
 There are currently data converters for the following file formats:
 
 * [OMF](omf/README.md)
@@ -24,7 +26,7 @@ New converters can be created to support additional data file types.
 
 ## Working on data converters
 
-To work on your local version of the data converters module, first follow the directions in [Setting up your environment.](../../../README.md)
+To work on your local version of the data converters module, first follow the directions in [Setting up your environment.](../README.md)
 
 In the root directory of the project run:
 
@@ -34,7 +36,9 @@ uv sync --all-extras
 
 ## General converter architecture
 
-Within `src/evo/data_converters/` the directory structure for converters comprises a top level common directory, containing common modules that are usable across all converters, and a top level directory for each supported converter type:
+Within `packages/common` the directory structure for converters comprises a top level common directory, containing
+common modules that are usable across all converters. In the other `packages` folders are various supported data
+converter packages that build on the "common" library:
 
 ```
 .
@@ -42,14 +46,14 @@ Within `src/evo/data_converters/` the directory structure for converters compris
 ├── omf/
 ├── resqml/
 ├── vtk/
-├── __init__.py
 └── README.md
 ```
-Expanding this out, each converter type contains an `importer` directory, an `exporter` directory (if supported), and any other utility modules specific to this converter type:
+Expanding this out, each converter type contains an `importer` directory, an `exporter` directory (if supported), and
+any other utility modules specific to this converter type:
 
 ```
 .
-├── common/
+├── common/src/evo/data_converters/common/
 │   ├── __init__.py
 │   └── blockmodel_client.py
 │   └── evo_client.py
@@ -58,7 +62,7 @@ Expanding this out, each converter type contains an `importer` directory, an `ex
 │   └── publish.py
 │   └── utils.py
 │   └── (and more common modules)
-├── omf/
+├── omf/src/evo/data_converters/omf/
 │   ├── exporter/
 │   │   └── __init__.py
 │   │   └── evo_to_omf.py
@@ -70,7 +74,7 @@ Expanding this out, each converter type contains an `importer` directory, an `ex
 │   ├── __init__.py
 │   ├── utils.py
 │   └── (and more common modules for omf)
-├── resqml/
+├── resqml/src/evo/data_converters/resqml/
 │   ├── importer/
 │   │   └── __init__.py
 │   │   └── resqml_to_evo.py
@@ -78,25 +82,29 @@ Expanding this out, each converter type contains an `importer` directory, an `ex
 │   ├── __init__.py
 │   ├── utils.py
 │   └── (and more common modules for resqml)
-├── vtk/
+├── vtk/src/evo/data_converters/vtk/
 │   ├── importer/
 │   │   └── __init__.py
 │   │   └── vtk_to_evo.py
 │   │   └── (and more modules specific to vtk/importer)
 │   ├── __init__.py
-├── __init__.py
 └── README.md
 ```
 
 ## Structure of a converter
 
-The converters are designed to follow a consistent coding pattern to encourage reusability and commonality.  Within this pattern there is much room for flexibility, although this is expected to come at the lower level when addressing the needs of specific data sources.
+The converters are designed to follow a consistent coding pattern to encourage reusability and commonality.  Within
+this pattern there is much room for flexibility, although this is expected to come at the lower level when addressing
+the needs of specific data sources.
 
 ### Importer
 
-An importer takes geoscience data from a specific file type, converts it to Evo geoscience objects and uploads these objects to Evo.
+An importer takes geoscience data from a specific file type, converts it to Evo geoscience objects and uploads these
+objects to Evo.
 
-As observable in the example Jupyter notebook for [converting an OMF file](../../../samples/convert-omf/convert-omf.ipynb) the main interface to a convertor is the `convert_*` function.  This function will be in a module in the root directory of the named `yourfiletype_to_evo.py`.
+As observable in the example Jupyter notebook for [converting an OMF file](../../../samples/convert-omf/convert-omf.ipynb) the main interface to a convertor
+is the `convert_*` function.  This function will be in a module in the root directory of the
+named `yourfiletype_to_evo.py`.
 
 Within this function the following tasks must be completed:
 
@@ -105,15 +113,19 @@ Within this function the following tasks must be completed:
 * Convert source geoscience objects into Evo geoscience objects
 * Publish the geoscience objects to [the Geoscience Object API](https://developer.seequent.com/docs/guides/objects)
 
-By convention the convert function should return a list, and the items in the list are either instances of the `BaseSpatialDataProperties_V1_0_1` class or the `ObjectMetadata` class.
+By convention the convert function should return a list, and the items in the list are either instances of the
+`BaseSpatialDataProperties_V1_0_1` class or the `ObjectMetadata` class.
 
-The return items will be `BaseSpatialDataProperties_V1_0_1` class if returning geoscience objects directly.  The purpose of this option is if you wish to use the converter to transform data into Evo geoscience objects but not publish directly to the Geoscience Object API.
+The return items will be `BaseSpatialDataProperties_V1_0_1` class if returning geoscience objects directly.  The
+purpose of this option is if you wish to use the converter to transform data into Evo geoscience objects but not
+publish directly to the Geoscience Object API.
 
 The return items will be `ObjectMetadata` class if returning the output of the upload to the Geoscience Object API.
 
 ### Example importer
 
-The following pseudocode shows the bare basics of a new converter for `yourfiletype` importing point set data, based of the existing OMF importer.
+The following pseudocode shows the bare basics of a new converter for `yourfiletype` importing point set data, based
+of the existing OMF importer.
 
 ```python
 # Import common objects for working with the Geoscience Object API
@@ -166,12 +178,14 @@ def convert_yourfiletype(
 
 ```
 
-**Note:** this example only returns the `ObjectMetadata`, and will publish immediately.  Refer to the existing converter examples to see usage for the optional return of `BaseSpatialDataProperties_V1_0_1`.
+**Note:** this example only returns the `ObjectMetadata`, and will publish immediately.  Refer to the existing
+converter examples to see usage for the optional return of `BaseSpatialDataProperties_V1_0_1`.
 
 
 #### Parameters
 
-The following parameters are passed into the convert function.  By convention these are the typical minimum parameters a convert function should have, however additional ones can be added as needed for specific usage needs.
+The following parameters are passed into the convert function.  By convention these are the typical minimum parameters
+a convert function should have, however additional ones can be added as needed for specific usage needs.
 
 | Parameter          | Description  |
 |---------------|--------|
@@ -184,17 +198,23 @@ The following parameters are passed into the convert function.  By convention th
 
 #### File parsing
 
-Both the OMF and RESQML converters use external libraries for parsing the file into usable Python objects by the converter function.  This will vary for different file types and in some cases file parsers may need to be developed from scratch.  Refer to OMF and RESQML converters for existing examples of this (`omf2` and `resqpy` respectively).
+Both the OMF and RESQML converters use external libraries for parsing the file into usable Python objects by the
+converter function.  This will vary for different file types and in some cases file parsers may need to be developed
+from scratch.  Refer to OMF and RESQML converters for existing examples of this (`omf2` and `resqpy` respectively).
 
 #### Conversion to geoscience objects
 
-As observable in the example above, the top level convert function will then use specific conversion functions for each type of geoscience data.  As with file parsing, the specific method for conversion will vary depending on the data source.  All these functions should return an Evo supported geoscience object type ready for upload to Evo.  For the point set example, this will be `Pointset_V1_2_0`.
+As observable in the example above, the top level convert function will then use specific conversion functions for
+each type of geoscience data.  As with file parsing, the specific method for conversion will vary depending on the
+data source.  All these functions should return an Evo supported geoscience object type ready for upload to Evo.
+For the point set example, this will be `Pointset_V1_2_0`.
 
 ### Exporter
 
 An exporter takes specified geoscience objects from Evo and converts them to a specified file format on disk.
 
-Reversing the pattern of the importer, the main interface of an exporter is the `export_*` function that takes a specified list of Evo objects and a filepath to create the file.
+Reversing the pattern of the importer, the main interface of an exporter is the `export_*` function that takes a
+specified list of Evo objects and a filepath to create the file.
 
 ### Example exporter
 
