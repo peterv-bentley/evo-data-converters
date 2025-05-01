@@ -404,6 +404,7 @@ dependencies = [
     { name = "evo-data-converters-common" },
     { name = "omf" },
     { name = "omf2" },
+    { name = "pandas" },
 ]
 
 [package.dev-dependencies]
@@ -417,6 +418,7 @@ requires-dist = [
     { name = "evo-data-converters-common", editable = "packages/common" },
     { name = "omf", specifier = ">=1.0.1" },
     { name = "omf2", git = "https://github.com/gmggroup/omf-rust?subdirectory=omf-python" },
+    { name = "pandas" },
 ]
 
 [package.metadata.requires-dev]
@@ -436,6 +438,7 @@ dependencies = [
 
 [package.dev-dependencies]
 dev = [
+    { name = "pandas" },
     { name = "pytest" },
 ]
 
@@ -446,7 +449,10 @@ requires-dist = [
 ]
 
 [package.metadata.requires-dev]
-dev = [{ name = "pytest" }]
+dev = [
+    { name = "pandas" },
+    { name = "pytest" },
+]
 
 [[package]]
 name = "evo-data-converters-ubc"
