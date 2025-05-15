@@ -12,7 +12,8 @@ dependencies = [
     "evo-data-converters-common",
     "pandas",
     "omf>=1.0.1",
-    "omf2>=0.2.0-beta.1"
+    # Dependency is unstable. Provide a constraint when we have some published.
+    "omf2"
 ]
 
 [dependency-groups]
