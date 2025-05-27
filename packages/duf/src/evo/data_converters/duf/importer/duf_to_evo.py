@@ -1,7 +1,10 @@
 import os
+from collections import defaultdict
 from typing import TYPE_CHECKING, Optional
 
 import evo.logging
+from evo.objects.utils import ObjectDataClient
+
 from evo.data_converters.common import (
     EvoWorkspaceMetadata,
     create_evo_object_service_and_data_client,
@@ -10,15 +13,94 @@ from evo.data_converters.common import (
 from evo.objects.data import ObjectMetadata
 from evo_schemas.components import BaseSpatialDataProperties_V1_0_1
 
-from ..common import ObjectCollector, Polyface, Polyline
+from ..common import Category, ObjectCollector, Polyface, Polyline
 from ..duf_reader_context import DufCollectorContext
 from .duf_polyface_to_evo import convert_duf_polyface
-from .duf_polyline_to_evo import convert_duf_polyline
+from .duf_polyline_to_evo import convert_duf_polyline, combine_duf_polylines
 
 logger = evo.logging.getLogger("data_converters")
 
 if TYPE_CHECKING:
     from evo.notebooks import ServiceManagerWidget
+
+
+CONVERTERS = {Polyface: convert_duf_polyface, Polyline: convert_duf_polyline}
+
+COMBINING_CONVERTERS = {
+    # Polyface: combine_duf_polyfaces,
+    Polyline: combine_duf_polylines,
+}
+
+
+def _get_converter(klass, options, count=1, warn=True):
+    converter = next((conv for conv_klass, conv in options.items() if issubclass(klass, conv_klass)), None)
+    if converter is None and warn:
+        logger.warning(
+            f"Unsupported DUF object type: {klass.__name__}, ignoring {count} object{'s' if count > 1 else ''}."
+        )
+    return converter
+
+
+def _convert_object_list(klass, objs, data_client, epsg_code, tags):
+    if (converter := _get_converter(klass, CONVERTERS, len(objs))) is None:
+        return []
+
+    geoscience_objects = []
+    for obj in objs:
+        geoscience_object = converter(obj, data_client, epsg_code)
+
+        if geoscience_object:
+            if geoscience_object.tags is None:
+                geoscience_object.tags = {}
+
+            geoscience_object.tags.update(tags)
+
+            geoscience_objects.append(geoscience_object)
+    return geoscience_objects
+
+
+def _convert_and_combine_duf_objects(
+    collector: ObjectCollector, data_client: ObjectDataClient, epsg_code: int, tags: dict[str, str]
+):
+    geoscience_objects = []
+    for layer, objs in collector.get_objects_with_category_by_layer(Category.ModelEntities).items():
+        layer_by_type = defaultdict(list)
+        for obj in objs:
+            layer_by_type[type(obj)].append(obj)
+        layer_converter = None
+
+        # Try and find a single converter for the layer
+        for klass, _ in layer_by_type.items():
+            converter = _get_converter(klass, COMBINING_CONVERTERS, warn=False)
+            if converter is None or (layer_converter is not None and converter is not layer_converter):
+                # Either no converter found, or multiple converters found for the layer
+                layer_converter = None
+                break
+            layer_converter = converter
+
+        if layer_converter is None:
+            # Multiple types or non-combinable types, don't combine layer
+            for klass, objs in layer_by_type.items():
+                geoscience_objects.extend(_convert_object_list(klass, objs, data_client, epsg_code, tags))
+        else:
+            geoscience_object = layer_converter(objs, data_client, epsg_code)
+
+            if geoscience_object:
+                if geoscience_object.tags is None:
+                    geoscience_object.tags = {}
+                geoscience_object.tags.update(tags)
+
+                geoscience_objects.append(geoscience_object)
+    return geoscience_objects
+
+
+def _convert_duf_objects(
+    collector: ObjectCollector, data_client: ObjectDataClient, epsg_code: int, tags: dict[str, str]
+):
+    geoscience_objects = []
+    for klass, objs in collector.get_objects_with_category_by_type(Category.ModelEntities).items():
+        geoscience_objects.extend(_convert_object_list(klass, objs, data_client, epsg_code, tags))
+    return geoscience_objects
 
 
 def convert_duf(
@@ -27,6 +109,7 @@ def convert_duf(
     evo_workspace_metadata: Optional[EvoWorkspaceMetadata] = None,
     service_manager_widget: Optional["ServiceManagerWidget"] = None,
     tags: Optional[dict[str, str]] = None,
+    combine_objects_in_layers: bool = False,
     upload_path: str = "",
 ) -> list[BaseSpatialDataProperties_V1_0_1 | ObjectMetadata]:
     """Converts a DUF file into Geoscience Objects.
@@ -36,6 +119,7 @@ def convert_duf(
     :param evo_workspace_metadata: (Optional) Evo workspace metadata.
     :param service_manager_widget: (Optional) Service Manager Widget for use in jupyter notebooks.
     :param tags: (Optional) Dict of tags to add to the Geoscience Object(s).
+    :param combine_objects_in_layers: (Optional) If True, objects in the same layer will be combined if possible.
     :param upload_path: (Optional) Path objects will be published under.
 
     One of evo_workspace_metadata or service_manager_widget is required.
@@ -52,7 +136,6 @@ def convert_duf(
     :raise ConflictingConnectionDetailsError: If both evo_workspace_metadata and service_manager_widget present.
     """
     publish_objects = True
-    geoscience_objects = []
 
     object_service_client, data_client = create_evo_object_service_and_data_client(
         evo_workspace_metadata=evo_workspace_metadata,
@@ -62,32 +145,18 @@ def convert_duf(
         logger.debug("Publishing objects will be skipped due to missing hub_url.")
         publish_objects = False
 
+    tags = tags.copy() if tags is not None else {}
+    tags["Source"] = f"{os.path.basename(filepath)} (via Evo Data Converters)"
+    tags["Category"] = "ModelEntities"
+    tags["InputType"] = "DUF"
+
     with DufCollectorContext(filepath) as context:
         collector: ObjectCollector = context.collector
 
-    converters = {Polyface: convert_duf_polyface, Polyline: convert_duf_polyline}
-
-    for klass, objs in collector.get_all_objects_by_type().items():
-        converter = next((conv for conv_klass, conv in converters.items() if issubclass(klass, conv_klass)), None)
-        if converter is None:
-            logger.warning(f"Unsupported DUF object type: {klass.__name__}, ignoring {len(objs)} objects.")
-            continue
-
-        for cat, obj in objs:
-            geoscience_object = converter(obj, data_client, epsg_code)
-
-            if geoscience_object:
-                if geoscience_object.tags is None:
-                    geoscience_object.tags = {}
-                geoscience_object.tags["Source"] = f"{os.path.basename(filepath)} (via Evo Data Converters)"
-                geoscience_object.tags["InputType"] = "DUF"
-                geoscience_object.tags["Category"] = str(cat)
-
-                # Add custom tags
-                if tags:
-                    geoscience_object.tags.update(tags)
-
-                geoscience_objects.append(geoscience_object)
+    if not combine_objects_in_layers:
+        geoscience_objects = _convert_duf_objects(collector, data_client, epsg_code, tags)
+    else:
+        geoscience_objects = _convert_and_combine_duf_objects(collector, data_client, epsg_code, tags)
 
     objects_metadata = None
     if publish_objects:

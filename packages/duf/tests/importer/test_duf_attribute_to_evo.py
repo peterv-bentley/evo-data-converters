@@ -33,7 +33,7 @@ from evo_schemas.elements import (
 )
 
 from evo.data_converters.duf.importer.duf_attributes_to_evo import (
-    convert_duf_attributes,
+    convert_duf_single_value_attributes,
     convert_duf_single_value_attribute,
 )
 
@@ -113,7 +113,7 @@ def test_convert_sv_attr(
     assert [expected_value] == table.column("n0").to_pylist()
 
 
-def test_convert_list_of_attrs(
+def test_convert_list_of_sv_attrs(
     data_client: ObjectDataClient,
 ):
     attrs_to_pass = []
@@ -137,7 +137,7 @@ def test_convert_list_of_attrs(
             kwargs["nan_description"] = nan_cls(values=[])
         expected_attrs.append(attr_cls(**kwargs))
 
-    result = convert_duf_attributes(attrs_to_pass, data_client)
+    result = convert_duf_single_value_attributes(attrs_to_pass, data_client)
 
     assert len(result) == len(expected_attrs)
 

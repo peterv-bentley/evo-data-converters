@@ -21,7 +21,7 @@ from evo.data_converters.duf.importer import convert_duf
 def test_should_log_warnings(evo_metadata, simple_objects_path, caplog: pytest.LogCaptureFixture) -> None:
     convert_duf(filepath=simple_objects_path, evo_workspace_metadata=evo_metadata, epsg_code=32650)
 
-    expected_log_message = r"Unsupported DUF object type: Document, ignoring 1 objects."
+    expected_log_message = r"Unsupported DUF object type: Circle, ignoring 1 object."
     assert any(re.search(expected_log_message, line) for line in caplog.messages)
 
 
@@ -44,5 +44,5 @@ def test_should_add_expected_tags(evo_metadata, simple_objects_path) -> None:
 def test_should_convert_expected_geometry_types(evo_metadata, simple_objects_path) -> None:
     go_objects = convert_duf(filepath=simple_objects_path, evo_workspace_metadata=evo_metadata, epsg_code=32650)
 
-    expected_go_object_types = [TriangleMesh_V2_1_0, LineSegments_V2_1_0]
+    expected_go_object_types = [LineSegments_V2_1_0, TriangleMesh_V2_1_0]
     assert [type(obj) for obj in go_objects] == expected_go_object_types

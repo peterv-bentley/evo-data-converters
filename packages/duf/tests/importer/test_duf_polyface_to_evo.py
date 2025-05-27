@@ -34,7 +34,7 @@ def test_should_convert_duf_polyface_geometry(polyface_obj, data_client):
     triangle_mesh_go = convert_duf_polyface(polyface_obj, data_client, epsg_code)
 
     expected_triangle_mesh_go = TriangleMesh_V2_1_0(
-        name="0_FACELAYER-dwPolyface-1c14ef99-e5e3-4388-bbe6-6120344712b1",  # layer name - type - object guid
+        name="FACELAYER-dwPolyface-1c14ef99-e5e3-4388-bbe6-6120344712b1",  # layer name - type - object guid
         uuid=None,
         coordinate_reference_system=Crs_V1_0_1_EpsgCode(epsg_code=epsg_code),
         bounding_box=triangle_mesh_go.bounding_box,  # Tested later

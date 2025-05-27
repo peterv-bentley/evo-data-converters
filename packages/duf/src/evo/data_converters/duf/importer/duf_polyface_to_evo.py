@@ -16,9 +16,13 @@ from evo.objects.utils.data import ObjectDataClient
 from evo.data_converters.common.utils import vertices_bounding_box
 from ..common import Polyface
 from .utils import get_name
-from .duf_attributes_to_evo import convert_duf_attributes
+from .duf_attributes_to_evo import convert_duf_single_value_attributes
 
 logger = evo.logging.getLogger("data_converters")
+
+
+def combine_duf_polyfaces():
+    pass
 
 
 def convert_duf_polyface(
@@ -27,7 +31,7 @@ def convert_duf_polyface(
     epsg_code: int,
 ) -> TriangleMesh_V2_1_0:
     name = get_name(surface)
-    logger.debug(f'Converting Polyface: "{name}" to TriangleMesh_V2_1_0.')
+    logger.debug(f'Converting polyface: "{name}" to TriangleMesh_V2_1_0.')
 
     coordinate_reference_system = Crs_V1_0_1_EpsgCode(epsg_code=epsg_code)
 
@@ -51,7 +55,7 @@ def convert_duf_polyface(
     attributes = (
         [(xprop.Key, xprop.Value.Value[0].Value) for xprop in surface.XProperties] if surface.XProperties else []
     )
-    logger.debug(f"Num Surface Attributes: {len(attributes)}")
+    logger.debug(f"Num surface attributes: {len(attributes)}")
 
     bounding_box_go = vertices_bounding_box(vertices_array)
 
@@ -83,7 +87,7 @@ def convert_duf_polyface(
 
     if attributes:
         # Use parts to store object-level attributes
-        surface_attributes_go = convert_duf_attributes(attributes, data_client)
+        surface_attributes_go = convert_duf_single_value_attributes(attributes, data_client)
         parts_table = pa.Table.from_arrays(
             [pa.array([0], type=pa.uint64()), pa.array([num_vertices], type=pa.uint64())],
             schema=pa.schema([pa.field("offset", pa.uint64()), pa.field("count", pa.uint64())]),

@@ -50,10 +50,15 @@ Deswik Unified File (DUF) is a proprietary file format from Deswik Mining Consul
 in, the user can select an organisation, an Evo hub, and a workspace.
 
 Choose the DUF file you want to publish. Choose an EPSG code to use for the Coordinate Reference System. You can also
-specify tags to add to the created geoscience objects.
+specify tags to add to the created geoscience objects. The flag `combine_objects_in_layers` can be specified `True` to
+cause the convert to attempt to combine objects of the same type found in the same layer. For example, where a layer in
+the file contains only `Polyface` objects, these can all be published as parts on a single Evo triangle-mesh object. 
+Where a layer contains a mix of object types, or a single type, but the Evo type the objects map to does not support 
+multiple parts, the objects will be published as separate Evo objects.
 
 Then call `convert_duf`, passing it the DUF file path, EPSG code, the workspace metadata or service manager widget, the
-tags, and finally a path you want the published objects to appear under in your workspace.
+tags, optionally the flag `combine_objects_in_layers`, and finally a path you want the published objects to appear under
+in your workspace.
 
 **Note:** Some geometry types are not yet supported. A warning will be shown for each element that could not be
 converted.

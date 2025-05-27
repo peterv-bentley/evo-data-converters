@@ -79,11 +79,23 @@ class ObjectCollector:
         if self._verbose:
             print(f"Loaded from category {category} entity of type {item.GetType().FullName} with guid {item.Guid}.")
 
-    def get_objects_with_category_of_type(self, category: Category, object_type: BaseEntity) -> list[BaseEntity]:
-        return self._objs[category][object_type]
-
     def get_objects_with_category(self, category: Category) -> list[BaseEntity]:
         return [obj for cat_objs in self._objs[category].values() for obj in cat_objs]
+
+    def get_objects_with_category_by_type(self, category: Category):
+        return {klass: [obj for obj in objs] for klass, objs in self._objs[category].items()}
+
+    def get_objects_with_category_by_layer(self, category: Category):
+        by_layer = defaultdict(list)
+        for objs in self._objs[category].values():
+            for obj in objs:
+                layer = getattr(obj, "Layer", None)
+                if layer is not None:
+                    real_layer = self._layers_by_guid.get(layer.Guid, layer)
+                    by_layer[real_layer].append(obj)
+                else:
+                    by_layer[None].append(obj)
+        return by_layer
 
     def get_objects_of_type(self, object_type: type) -> list[tuple[Category, BaseEntity]]:
         return [

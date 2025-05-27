@@ -1,4 +1,5 @@
 from .duf_wrapper import (
+    Category,
     DufFileNotFoundException,
     DufWrapper,
     InvalidDufFileException,
@@ -8,6 +9,7 @@ from .duf_wrapper import (
 )
 
 __all__ = [
+    "Category",
     "DufFileNotFoundException",
     "DufWrapper",
     "InvalidDufFileException",
