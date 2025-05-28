@@ -15,7 +15,7 @@ from evo_schemas.components import BaseSpatialDataProperties_V1_0_1
 
 from ..common import Category, ObjectCollector, Polyface, Polyline
 from ..duf_reader_context import DufCollectorContext
-from .duf_polyface_to_evo import convert_duf_polyface
+from .duf_polyface_to_evo import convert_duf_polyface, combine_duf_polyfaces
 from .duf_polyline_to_evo import convert_duf_polyline, combine_duf_polylines
 
 logger = evo.logging.getLogger("data_converters")
@@ -27,7 +27,7 @@ if TYPE_CHECKING:
 CONVERTERS = {Polyface: convert_duf_polyface, Polyline: convert_duf_polyline}
 
 COMBINING_CONVERTERS = {
-    # Polyface: combine_duf_polyfaces,
+    Polyface: combine_duf_polyfaces,
     Polyline: combine_duf_polylines,
 }
 

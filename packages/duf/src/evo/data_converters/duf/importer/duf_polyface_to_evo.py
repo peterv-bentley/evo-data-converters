@@ -1,5 +1,4 @@
 import numpy as np
-import pyarrow as pa
 from evo_schemas.components import (
     Crs_V1_0_1_EpsgCode,
     EmbeddedTriangulatedMesh_V2_1_0_Parts,
@@ -7,110 +6,88 @@ from evo_schemas.components import (
     Triangles_V1_2_0_Indices,
     Triangles_V1_2_0_Vertices,
 )
-from evo_schemas.elements import IndexArray2_V1_0_1
 from evo_schemas.objects import TriangleMesh_V2_1_0
 
 import evo.logging
 from evo.objects.utils.data import ObjectDataClient
 
-from evo.data_converters.common.utils import vertices_bounding_box
 from ..common import Polyface
-from .utils import get_name
-from .duf_attributes_to_evo import convert_duf_single_value_attributes
+from .utils import (
+    get_name,
+    vertices_array_to_go_and_bbox,
+    indices_array_to_go,
+    parts_to_go,
+    obj_list_and_indices_to_arrays,
+)
 
 logger = evo.logging.getLogger("data_converters")
 
 
-def combine_duf_polyfaces():
-    pass
+def _create_triangle_mesh_obj(name, vertices_array, indices_array, parts, epsg_code, data_client):
+    vertices_go, bounding_box_go = vertices_array_to_go_and_bbox(data_client, vertices_array, Triangles_V1_2_0_Vertices)
 
+    indices_go = indices_array_to_go(data_client, indices_array, Triangles_V1_2_0_Indices)
 
-def convert_duf_polyface(
-    surface: Polyface,
-    data_client: ObjectDataClient,
-    epsg_code: int,
-) -> TriangleMesh_V2_1_0:
-    name = get_name(surface)
-    logger.debug(f'Converting polyface: "{name}" to TriangleMesh_V2_1_0.')
-
-    coordinate_reference_system = Crs_V1_0_1_EpsgCode(epsg_code=epsg_code)
-
-    num_faces = int(surface.FaceList.Count / 5)
-    num_vertices = surface.VertexList.Count
-
-    indices_array = (
-        np.fromiter(surface.FaceList, dtype=np.int32, count=num_faces * 5).reshape(num_faces, 5)[:, :3] - 1
-    )  # 1-indexed in the file, last element is -1 separator, 2nd last is same as 1st
-    indices_array = indices_array.astype("uint64")
-
-    axes = ("X", "Y", "Z")
-    vertices_array = np.fromiter(
-        (getattr(vert, axis) for vert in surface.VertexList for axis in axes),
-        dtype=np.float64,
-        count=num_vertices * 3,
-    ).reshape(num_vertices, 3)
-    logger.debug(f"Indices: {indices_array.shape}")
-    logger.debug(f"Vertices: {vertices_array.shape}")
-
-    attributes = (
-        [(xprop.Key, xprop.Value.Value[0].Value) for xprop in surface.XProperties] if surface.XProperties else []
-    )
-    logger.debug(f"Num surface attributes: {len(attributes)}")
-
-    bounding_box_go = vertices_bounding_box(vertices_array)
-
-    vertices_schema = pa.schema(
-        [
-            pa.field("x", pa.float64()),
-            pa.field("y", pa.float64()),
-            pa.field("z", pa.float64()),
-        ]
-    )
-
-    indices_schema = pa.schema(
-        [
-            pa.field("x", pa.uint64()),
-            pa.field("y", pa.uint64()),
-            pa.field("z", pa.uint64()),
-        ]
-    )
-
-    vertices_table = pa.Table.from_arrays(
-        [pa.array(vertices_array[:, i], type=pa.float64()) for i in range(len(vertices_schema))],
-        schema=vertices_schema,
-    )
-
-    indices_table = pa.Table.from_arrays(
-        [pa.array(indices_array[:, i], type=pa.uint64()) for i in range(len(indices_schema))],
-        schema=indices_schema,
-    )
-
-    if attributes:
-        # Use parts to store object-level attributes
-        surface_attributes_go = convert_duf_single_value_attributes(attributes, data_client)
-        parts_table = pa.Table.from_arrays(
-            [pa.array([0], type=pa.uint64()), pa.array([num_vertices], type=pa.uint64())],
-            schema=pa.schema([pa.field("offset", pa.uint64()), pa.field("count", pa.uint64())]),
-        )
-        mesh_parts_go = EmbeddedTriangulatedMesh_V2_1_0_Parts(
-            chunks=IndexArray2_V1_0_1(**data_client.save_table(parts_table)),
-            attributes=surface_attributes_go,
-        )
-    else:
-        mesh_parts_go = None
-
-    mesh_vertices_go = Triangles_V1_2_0_Vertices(**data_client.save_table(vertices_table))
-    mesh_triangle_indices_go = Triangles_V1_2_0_Indices(**data_client.save_table(indices_table))
+    parts_go = parts_to_go(data_client, parts, EmbeddedTriangulatedMesh_V2_1_0_Parts)
 
     triangle_mesh_go = TriangleMesh_V2_1_0(
         name=name,
         uuid=None,
         bounding_box=bounding_box_go,
-        coordinate_reference_system=coordinate_reference_system,
-        triangles=Triangles_V1_2_0(vertices=mesh_vertices_go, indices=mesh_triangle_indices_go),
-        parts=mesh_parts_go,
+        coordinate_reference_system=Crs_V1_0_1_EpsgCode(epsg_code=epsg_code),
+        triangles=Triangles_V1_2_0(vertices=vertices_go, indices=indices_go),
+        parts=parts_go,
     )
-
     logger.debug(f"Created: {triangle_mesh_go}")
-
     return triangle_mesh_go
+
+
+def combine_duf_polyfaces(
+    polyfaces: list[Polyface],
+    data_client: ObjectDataClient,
+    epsg_code: int,
+) -> TriangleMesh_V2_1_0 | None:
+    if not polyfaces:
+        logger.warning("No polyfaces to combine.")
+        return None
+
+    name = polyfaces[0].Layer.Name
+    logger.debug(f'Combining polyfaces from layer: "{name}" to TriangleMesh_V2_1_0.')
+
+    indices_arrays = []
+    for polyface in polyfaces:
+        count = int(polyface.FaceList.Count / 5)
+
+        pf_indices_array = (
+            np.fromiter(polyface.FaceList, dtype=np.int32, count=count * 5).reshape(count, 5)[:, :3].astype("uint64")
+            - 1
+        )  # 1-indexed in the file, last element is -1 separator, 2nd last is same as 1st
+
+        indices_arrays.append(pf_indices_array)
+
+    vertices_array, indices_array, parts = obj_list_and_indices_to_arrays(polyfaces, indices_arrays)
+
+    return _create_triangle_mesh_obj(name, vertices_array, indices_array, parts, epsg_code, data_client)
+
+
+def convert_duf_polyface(
+    polyface: Polyface,
+    data_client: ObjectDataClient,
+    epsg_code: int,
+) -> TriangleMesh_V2_1_0:
+    name = get_name(polyface)
+    logger.debug(f'Converting polyface: "{name}" to TriangleMesh_V2_1_0.')
+
+    num_faces = int(polyface.FaceList.Count / 5)
+
+    indices_array = (
+        np.fromiter(polyface.FaceList, dtype=np.int32, count=num_faces * 5).reshape(num_faces, 5)[:, :3] - 1
+    )  # 1-indexed in the file, last element is -1 separator, 2nd last is same as 1st
+    indices_array = indices_array.astype("uint64")
+
+    vertices_array, indices_array, parts = obj_list_and_indices_to_arrays([polyface], [indices_array])
+
+    if not parts["attributes"]:
+        parts = None  # No parts attributes present so don't bother creating the go object for them
+
+    return _create_triangle_mesh_obj(name, vertices_array, indices_array, parts, epsg_code, data_client)
