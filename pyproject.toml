@@ -21,6 +21,11 @@ Tracker = "https://github.com/SeequentEvo/evo-python-sdk/issues"
 Homepage = "https://www.seequent.com/"
 Documentation = "https://developer.seequent.com/"
 
+notebooks = [
+    "evo-sdk-common[notebooks]>=0.1.3",
+    "notebook>=7.4.3",
+]
+
 [dependency-groups]
 dev = [
   "pre-commit >= 4",

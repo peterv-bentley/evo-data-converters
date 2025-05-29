@@ -46,8 +46,10 @@ To do.
 Deswik Unified File (DUF) is a proprietary file format from Deswik Mining Consultants Pty Ltd.
 
 ### Publish geoscience objects from a DUF file
-[The `evo-data-converters-common` library](packages/common/README.md) can be used to sign in. After successfully signing
-in, the user can select an organisation, an Evo hub, and a workspace.
+[The `evo-sdk-common` Python library](https://pypi.org/project/evo-sdk-common/) can be used to sign in. After 
+successfully signing in, the user can select an organisation, an Evo hub, and a workspace. Use 
+[`evo-objects`](https://pypi.org/project/evo-objects/) to get an `ObjectAPIClient`, and 
+[`evo-data-converters-common`](https://pypi.org/project/evo-data-converters-common/) to convert your file.
 
 Choose the DUF file you want to publish. Choose an EPSG code to use for the Coordinate Reference System. You can also
 specify tags to add to the created geoscience objects. The flag `combine_objects_in_layers` can be specified `True` to
