@@ -51,7 +51,7 @@ def combine_duf_polyfaces(
         logger.warning("No polyfaces to combine.")
         return None
 
-    name = polyfaces[0].Layer.Name
+    name = get_name(polyfaces[0].Layer)
     logger.debug(f'Combining polyfaces from layer: "{name}" to TriangleMesh_V2_1_0.')
 
     indices_arrays = []
@@ -86,8 +86,5 @@ def convert_duf_polyface(
     indices_array = indices_array.astype("uint64")
 
     vertices_array, indices_array, parts = obj_list_and_indices_to_arrays([polyface], [indices_array])
-
-    if not parts["attributes"]:
-        parts = None  # No parts attributes present so don't bother creating the go object for them
 
     return _create_triangle_mesh_obj(name, vertices_array, indices_array, parts, epsg_code, data_client)

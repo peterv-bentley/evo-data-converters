@@ -50,7 +50,7 @@ def combine_duf_polylines(
         logger.warning("No polylines to combine.")
         return None
 
-    name = polylines[0].Layer.Name
+    name = get_name(polylines[0].Layer)
     logger.debug(f'Combining polylines from layer: "{name}" to LineSegments_V2_1_0.')
 
     indices_arrays = []
@@ -95,8 +95,5 @@ def convert_duf_polyline(
     )
 
     vertices_array, indices_array, parts = obj_list_and_indices_to_arrays([polyline], [indices_array])
-
-    if not parts["attributes"]:
-        parts = None  # No parts attributes present so don't bother creating the go object for them
 
     return _create_line_segments_obj(name, vertices_array, indices_array, parts, epsg_code, data_client)
