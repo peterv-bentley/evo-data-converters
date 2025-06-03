@@ -373,6 +373,7 @@ def obj_list_and_indices_to_arrays(obj_list: list[BaseEntity], indices_arrays: l
 
     # Work out indices in the combined original vertices array, and create parts with attributes
     attribute_specs = AttributeSpec.layer_attributes(layer)
+    attribute_names = {spec.name for spec in attribute_specs}
     if num_parts > 1 or attribute_specs:
         # We use parts to store object-level attributes, so we need at least a single part if we have any
         parts = {"offset": [], "count": [], "attributes": defaultdict(list)}
@@ -393,7 +394,7 @@ def obj_list_and_indices_to_arrays(obj_list: list[BaseEntity], indices_arrays: l
             vertex_offset += obj_num_vertices
 
             # Convert XProperties to attributes
-            assert len(attribute_specs) == len(obj.XProperties or []), "Different number of attributes in object"
+            assert not attribute_names or attribute_names.issubset(obj.XProperties.Keys), "Missing attributes in object"
             for spec in attribute_specs:
                 attr = value_from_xproperties(obj, spec.name, spec.attr_type)
                 if spec.required and attr is None:
