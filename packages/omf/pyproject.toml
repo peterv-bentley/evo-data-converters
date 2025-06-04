@@ -9,18 +9,18 @@ authors = [
     { name = "Seequent", email = "support@seequent.com" }
 ]
 
-[project.urls]
-Source = "https://github.com/SeequentEvo/evo-python-sdk"
-Tracker = "https://github.com/SeequentEvo/evo-python-sdk/issues"
-Homepage = "https://www.seequent.com/"
-Documentation = "https://developer.seequent.com/"
-
 dependencies = [
     "evo-data-converters-common",
     "pandas",
     "omf>=1.0.1",
     "omf2>=0.2.0-beta.1"
 ]
+
+[project.urls]
+Source = "https://github.com/SeequentEvo/evo-python-sdk"
+Tracker = "https://github.com/SeequentEvo/evo-python-sdk/issues"
+Homepage = "https://www.seequent.com/"
+Documentation = "https://developer.seequent.com/"
 
 [dependency-groups]
 dev = [
