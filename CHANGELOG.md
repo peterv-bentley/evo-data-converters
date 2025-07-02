@@ -1,5 +1,17 @@
 # Changelog
 
+## evo-data-converters-omf@v0.1.2
+### What's Changed
+#### evo-data-converters-omf
+* Update README.md by @davidknight-seequent in https://github.com/SeequentEvo/evo-data-converters/pull/59
+* Fix README images in PyPI by @GriffinBaxterSeequent in https://github.com/SeequentEvo/evo-data-converters/pull/63
+
+## New Contributors
+* @davidknight-seequent made their first contribution in https://github.com/SeequentEvo/evo-data-converters/pull/59
+* @GriffinBaxterSeequent made their first contribution in https://github.com/SeequentEvo/evo-data-converters/pull/63
+
+**Full Changelog**: https://github.com/SeequentEvo/evo-data-converters/compare/evo-data-converters-omf@v0.1.1...evo-data-converters-omf@v0.1.2
+
 ## evo-data-converters-vtk@v0.1.1
 ### What's changed
 #### evo-data-converters-vtk
