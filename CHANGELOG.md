@@ -1,5 +1,17 @@
 # Changelog
 
+## evo-data-converters-omf@v0.1.2
+### What's Changed
+#### evo-data-converters-omf
+* Update README.md by @davidknight-seequent in https://github.com/SeequentEvo/evo-data-converters/pull/59
+* Fix README images in PyPI by @GriffinBaxterSeequent in https://github.com/SeequentEvo/evo-data-converters/pull/63
+
+### New Contributors
+* @davidknight-seequent made their first contribution in https://github.com/SeequentEvo/evo-data-converters/pull/59
+* @GriffinBaxterSeequent made their first contribution in https://github.com/SeequentEvo/evo-data-converters/pull/63
+
+**Full Changelog**: https://github.com/SeequentEvo/evo-data-converters/compare/evo-data-converters-omf@v0.1.1...evo-data-converters-omf@v0.1.2
+
 ## evo-data-converters-vtk@v0.1.1
 ### What's changed
 #### evo-data-converters-vtk
@@ -26,7 +38,7 @@
 * Jupyter Notebook Clean up - Remove empty code cells by @shivangj10 in https://github.com/SeequentEvo/evo-data-converters/pull/48
 * Release workflows now only run tests for the package they are releasing, and the common package by @robbieaverill in https://github.com/SeequentEvo/evo-data-converters/pull/51
 
-## New contributors
+### New contributors
 * @shivangj10 made their first contribution in https://github.com/SeequentEvo/evo-data-converters/pull/48
 
 **Full changelog**: https://github.com/SeequentEvo/evo-data-converters/compare/evo-data-converters-resqml@v0.1.0...evo-data-converters-resqml@v0.1.1
