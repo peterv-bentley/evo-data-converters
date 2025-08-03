@@ -15,7 +15,7 @@ import tempfile
 import time
 from http import HTTPStatus
 from pathlib import Path
-from typing import Optional
+from typing import Optional, Any
 from urllib.parse import urlencode
 
 import pyarrow as pa
@@ -274,3 +274,22 @@ class BlockSyncClient:
         temp_file.close()
 
         return temp_file.name
+
+    def get_blockmodel_metadata(self, bm_uuid: str) -> dict[str, Any]:
+        auth_header = self.get_auth_header()
+
+        # Compose the URL
+        url = f"{self.hub_url}/blockmodel/orgs/{self.org_id}/workspaces/{self.workspace_id}/block-models/{bm_uuid}"
+
+        # Make a GET request and include the headers
+        response = requests.get(url=url, headers=auth_header)
+        if response.status_code != HTTPStatus.OK:
+            raise ResponseError(f"Request failed: \n Status: {response.status_code} \n Response: {response.content!r}")
+
+        response_json = response.json()
+        return {
+            "block model UUID": response_json["bm_uuid"],
+            "name": response_json["name"],
+            "model origin": response_json["model_origin"],
+            "size options": response_json["size_options"],
+        }
