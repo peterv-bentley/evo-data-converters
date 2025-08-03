@@ -283,14 +283,13 @@ class BlockSyncClient:
 
         # Make a GET request and include the headers
         response = requests.get(url=url, headers=auth_header)
-        metadata = {
-            "block model UUID": response.json()["bm_uuid"],
-            "name": response.json()["name"],
-            "model origin": response.json()["model_origin"],
-            "size options": response.json()["size_options"],
-        }
-
         if response.status_code != HTTPStatus.OK:
             raise ResponseError(f"Request failed: \n Status: {response.status_code} \n Response: {response.content!r}")
 
-        return metadata
+        response_json = response.json()
+        return {
+            "block model UUID": response_json["bm_uuid"],
+            "name": response_json["name"],
+            "model origin": response_json["model_origin"],
+            "size options": response_json["size_options"],
+        }
