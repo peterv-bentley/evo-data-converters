@@ -101,8 +101,12 @@ class AttributeSpec:
         ]
 
     def to_go(self, data_client: ObjectDataClient, values: list[Any]) -> OneOfAttribute_V1_2_0_Item:
+        category_set = None
+        if self.attr_type is AttributeType.String:
+            category_set = set(v for v in values if v)
+
         match self.attr_type:
-            case AttributeType.String:
+            case AttributeType.String if len(category_set) > 3_000:
                 table = pa.table(
                     [values],
                     schema=pa.schema(
@@ -117,12 +121,14 @@ class AttributeSpec:
                     key=self.name,
                     values=StringArray_V1_0_1(**table),
                 )
-            case AttributeType.Category:
+            case AttributeType.String | AttributeType.Category:
+                options = category_set if self.options is None else self.options
+
                 reverse_lookup = defaultdict(int)  # Default to zero
                 reverse_lookup.update(
-                    {value: idx for idx, value in enumerate(self.options, start=1)}
+                    {value: idx for idx, value in enumerate(options, start=1)}
                 )
-                lookup_keys_type = pa.int32() if numpy.can_cast(len(self.options), 'int32', 'safe') else pa.int64()
+                lookup_keys_type = pa.int32() if numpy.can_cast(len(options), 'int32', 'safe') else pa.int64()
                 lookup_table = pa.table(
                 [list(reverse_lookup.values()), list(reverse_lookup.keys())],
                     schema=pa.schema(
@@ -164,7 +170,7 @@ class AttributeSpec:
                 )
                 column = table.column(0)
                 if column.null_count:
-                    table.set_column(0, "n0", column.fill_null(nan_values[0]))
+                    table = table.set_column(0, "n0", column.fill_null(nan_values[0]))
                 else:
                     nan_values = []
                 table = data_client.save_table(table)
@@ -235,7 +241,7 @@ class AttributeSpec:
                     ),
                 )
                 if any_null:
-                    table.set_column(0, "n0", table.column(0).fill_null(nan_values[0]))
+                    table = table.set_column(0, "n0", table.column(0).fill_null(nan_values[0]))
 
                 table = data_client.save_table(table)
                 return DateTimeAttribute_V1_1_0(
