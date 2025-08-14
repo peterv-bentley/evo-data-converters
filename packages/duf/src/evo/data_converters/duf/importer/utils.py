@@ -372,10 +372,12 @@ def obj_list_and_indices_to_arrays(obj_list: list[BaseEntity], indices_arrays: l
         count=orig_num_vertices * 3,
     ).reshape(orig_num_vertices, 3)
 
-    vertices_array, orig_to_unique = np.unique(vertices_array, return_inverse=True, axis=0)  # Ensure unique vertices
-    if len(vertices_array) == orig_num_vertices:
+    new_vertices_array, orig_to_unique = np.unique(vertices_array, return_inverse=True, axis=0)  # Ensure unique
+    if len(new_vertices_array) == orig_num_vertices:
         # No duplicates
         orig_to_unique = None
+    else:
+        vertices_array = new_vertices_array
 
     # Work out indices in the combined original vertices array, and create parts with attributes
     attribute_specs = AttributeSpec.layer_attributes(layer)
