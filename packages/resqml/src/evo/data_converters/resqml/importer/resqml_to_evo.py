@@ -198,7 +198,7 @@ def _convert_surfaces(
 ) -> list[TriangleMesh]:
     """Convert TriangulatedSetRepresentations in the Model to TriangleMeshes
 
-    :param model:       The resqpy model, representation of the RESQML file
+    :param model:       The resqpy model, representation of the RESQML file.
     :param data_client: Wrapper around data upload and download functionality for geoscience objects.
     :param epsg_code:   The EPSG code to be used on grids without a coordinate reference system.
     :param options:     Import and conversion options for the RESQML file.
