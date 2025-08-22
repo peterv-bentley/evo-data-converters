@@ -1,5 +1,21 @@
 # Changelog
 
+## evo-data-converters-omf@v0.1.3
+### What's Changed
+#### evo-data-converters-omf
+* Bump versions by @davidknight-seequent in https://github.com/SeequentEvo/evo-data-converters/pull/72
+* Update pyproject.toml by @davidknight-seequent in https://github.com/SeequentEvo/evo-data-converters/pull/71
+
+**Full Changelog**: https://github.com/SeequentEvo/evo-data-converters/compare/evo-data-converters-common@v0.2.0...evo-data-converters-omf@v0.1.3
+
+## evo-data-converters-common@v0.2.1
+### What's Changed
+#### evo-data-converters-common
+* Update pyproject.toml by @davidknight-seequent in https://github.com/SeequentEvo/evo-data-converters/pull/71
+* Bump versions by @davidknight-seequent in https://github.com/SeequentEvo/evo-data-converters/pull/72
+
+**Full Changelog**: https://github.com/SeequentEvo/evo-data-converters/compare/evo-data-converters-common@v0.2.0...evo-data-converters-common@v0.2.1
+
 ## evo-data-converters-omf@v0.1.2
 ### What's Changed
 #### evo-data-converters-omf
