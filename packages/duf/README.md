@@ -34,12 +34,39 @@ Evo is powered by Seequent, a Bentley organisation.
 ## Pre-requisites
 
 * Python virtual environment with Python 3.10, 3.11, or 3.12
-* Git
+* Microsoft Windows - this package is not currently supported on Linux or macOS
 * Deswik Suite
+* .NET Framework v4.7.2 or higher (or other compatible .NET runtime)
 
 ## Installation
 
-To do.
+### Windows
+
+#### Deswik Suite
+
+The `duf` data-converter package depends on an installed version of `Deswik.Suite` for interacting with DUF files. The
+package will search for `Deswik.Suite` in `C:\Program Files\Deswik`, and use the latest version installed. If you have
+installed `Deswik.Suite` in a different location, you will need to set the environment variable `DESWIK_PATH` to point
+to your installation location, for example:
+
+    set DESWIK_PATH="D:\Applications\Deswik\Deswik.Suite 2024.1"
+
+This package has been tested with Deswik Suite version 2024.1.
+
+#### .NET Framework
+
+By default, the package will use [pythonnet](https://pythonnet.github.io/pythonnet/) to search for a .NET Framework 
+runtime, which must be version 4.7.2 or later. Different runtimes can be configured using environment variables, as
+described [here](https://pythonnet.github.io/pythonnet/python.html#loading-a-runtime). However, this is untested and not
+guaranteed to be compatible with your Deswik Suite installation.
+
+### macOS
+
+Not currently supported.
+
+### Linux
+
+Not currently supported.
 
 ## DUF
 
@@ -63,7 +90,21 @@ tags, optionally the flag `combine_objects_in_layers`, and finally a path you wa
 in your workspace.
 
 **Note:** Some geometry types are not yet supported. A warning will be shown for each element that could not be
-converted.
+#%% md
+In the cell below we choose the DUF file we want to publish and set its path in the `duf_file` variable.
+
+Then we choose an EPSG code to use for the Coordinate Reference System.
+
+You may also specify tags to add to the created Geoscience objects.
+
+Then we call `convert_duf`, passing it the DUF file path, EPSG code, the service manager widget from above and finally a
+path we want the published objects to appear under.
+
+Then we loop over the results from the `convert_duf` function, printing out each object that was published to Evo.
+
+_Note:_ Some geometry types are not yet supported. A warning will be shown for each element that could not be converted.
+Currently, for publishing we support polyface objects and polylines, and all attribute types except for color 
+attributes.
 
 ### Export objects to DUF
 
