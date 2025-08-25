@@ -73,6 +73,7 @@ Not currently supported.
 Deswik Unified File (DUF) is a proprietary file format from Deswik Mining Consultants Pty Ltd.
 
 ### Publish geoscience objects from a DUF file
+
 [The `evo-sdk-common` Python library](https://pypi.org/project/evo-sdk-common/) can be used to sign in. After 
 successfully signing in, the user can select an organisation, an Evo hub, and a workspace. Use 
 [`evo-objects`](https://pypi.org/project/evo-objects/) to get an `ObjectAPIClient`, and 
@@ -116,6 +117,7 @@ We rely on an open, friendly, inclusive environment. To help us ensure this rema
 yourself with our [code of conduct.](https://github.com/SeequentEvo/evo-data-converters/blob/main/CODE_OF_CONDUCT.md)
 
 ## License
+
 Evo data converters are open source and licensed under the [Apache 2.0 license.](./LICENSE.md)
 
 Copyright © 2025 Bentley Systems, Incorporated.
