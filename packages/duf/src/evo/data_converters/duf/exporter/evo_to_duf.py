@@ -69,7 +69,6 @@ async def _evo_objects_to_duf_async(
     duf.Dispose()
 
 
-
 async def export_duf(
     filepath,
     objects: list[_EvoMetadata],

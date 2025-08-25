@@ -39,6 +39,7 @@ from System.Collections.Generic import List
 from System.Reflection import BindingFlags
 
 import clr
+
 clr.AddReference("SimpleDuf")
 
 from SimpleDuf import Duf

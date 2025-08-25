@@ -1,15 +1,14 @@
-
 import numpy
 import pandas
 
 from evo.data_converters.duf.common.types import AttributedEvoData, FetchedTriangleMesh, FetchedLines, EvoAttributes
 
 EVO_TO_DW_TYPE_CONVERSION = {
-    'string': 'String',
-    'scalar': 'Double',
-    'category': 'String',
-    'date_time': 'DateTime',
-    'integer': 'Integer',
+    "string": "String",
+    "scalar": "Double",
+    "category": "String",
+    "date_time": "DateTime",
+    "integer": "Integer",
 }
 
 
@@ -20,15 +19,15 @@ def np_to_dw(maybe_np):
         f = float(maybe_np)
         if numpy.isnan(f):
             # It appears that missing attributes in Deswik CAD are represented as an empty string
-            return ''
+            return ""
         else:
             return f
     elif numpy.issubdtype(maybe_np, numpy.datetime64):
-        return pandas.to_datetime(maybe_np).strftime('%Y-%m-%d %H:%M:%S')
+        return pandas.to_datetime(maybe_np).strftime("%Y-%m-%d %H:%M:%S")
     elif isinstance(maybe_np, int) or numpy.issubdtype(maybe_np, numpy.integer):
         return int(maybe_np)
     else:
-        raise NotImplementedError(f'Unhandled type {type(maybe_np)}')
+        raise NotImplementedError(f"Unhandled type {type(maybe_np)}")
 
 
 class Layer:
@@ -39,11 +38,11 @@ class Layer:
     @staticmethod
     def _get_unique_layer_name(duf, name: str):
         if not name:
-            name = 'default'
+            name = "default"
         if not duf.LayerExists(name):
             return name
         suffix = 2
-        while duf.LayerExists(new_name := f'{name} ({suffix})'):
+        while duf.LayerExists(new_name := f"{name} ({suffix})"):
             suffix += 1
         return new_name
 

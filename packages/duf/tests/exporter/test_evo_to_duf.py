@@ -29,7 +29,9 @@ def _compare_evo_attributed_base(actual, expected):
 
 def _compare_evo_polylines(lines: list[LineSegments_V2_1_0], expected_lines: list[LineSegments_V2_1_0]):
     for line, expected_line in zip(lines, expected_lines, strict=True):
-        assert (line.parts is None and expected_line.parts is None) or (line.parts.chunks.length == expected_line.parts.chunks.length)
+        assert (line.parts is None and expected_line.parts is None) or (
+            line.parts.chunks.length == expected_line.parts.chunks.length
+        )
         assert line.segments.indices.length == expected_line.segments.indices.length
 
         _compare_evo_attributed_base(line, expected_line)
@@ -100,9 +102,9 @@ def test_multiple_objects_same_name(evo_metadata):
     final_evo_objects = _mock_convert_to_evo("test_out.duf", evo_metadata)
 
     # It might not be in the end, due to round-tripping details, but somewhere the (#) should be in the name
-    assert (')') not in final_evo_objects[0].name
-    assert '(2)' in final_evo_objects[1].name
-    assert '(3)' in final_evo_objects[2].name
+    assert (")") not in final_evo_objects[0].name
+    assert "(2)" in final_evo_objects[1].name
+    assert "(3)" in final_evo_objects[2].name
 
 
 # TODO More tests

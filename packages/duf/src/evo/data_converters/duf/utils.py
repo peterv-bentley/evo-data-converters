@@ -38,12 +38,12 @@ def reflect_method(method):
         try:
             if p.HasDefaultValue:
                 print(f"    Default value: {p.DefaultValue}")
-        except:
+        except:  # noqa: E722  # Do not use bare `except`
             print("    Can't have default value (?)")
 
     try:
         [print(f"    Return type: {p.ReturnType}")]
-    except:
+    except:  # noqa: E722  # Do not use bare `except`
         print("    No return type")
 
 
@@ -71,6 +71,3 @@ def reflect_constructors(csharp_type):
 
 def reflect_nested_type(csharp_type, nested: str):
     clr.GetClrType(csharp_type).GetNestedType(nested)
-
-
-
