@@ -223,7 +223,7 @@ class AttributeSpec:
                     else:
                         try:
                             timestamp = int(isoparse(value).timestamp() * 1_000_000)  # Convert to microseconds
-                        except (ParserError, ValueError):
+                        except (ParserError, ValueError, TypeError):
                             timestamp = None
                             any_null = True
                     timestamps.append(timestamp)
@@ -293,7 +293,7 @@ def value_from_xproperties(obj: dw.BaseEntity, key: str, attr_type: AttributeTyp
         return None
     match attr_type:
         case AttributeType.String | AttributeType.Category:
-            return value if value else None
+            return str(value) if value is not None else None
         case AttributeType.Integer:
             return int(value) if value not in {None, ""} else None
         case AttributeType.Double:
