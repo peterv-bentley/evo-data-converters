@@ -13,7 +13,7 @@ from pathlib import Path
 
 import pytest
 
-from evo.data_converters.duf import is_duf, DufFileNotFoundException
+from evo.data_converters.duf import is_duf, DUFFileNotFoundException
 
 
 def test_should_detect_duf_file_as_duf():
@@ -28,5 +28,5 @@ def test_should_not_detect_non_duf_file_as_duf():
 
 def test_should_raise_expected_exception_when_file_not_found():
     invalid_file_path = "invalid path"
-    with pytest.raises(DufFileNotFoundException, match=invalid_file_path):
+    with pytest.raises(DUFFileNotFoundException, match=invalid_file_path):
         is_duf(invalid_file_path)

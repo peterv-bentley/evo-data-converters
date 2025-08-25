@@ -86,15 +86,20 @@ successfully signing in, the user can select an organisation, an Evo hub, and a 
 [`evo-data-converters-common`](https://pypi.org/project/evo-data-converters-common/) to convert your file.
 
 Choose the DUF file you want to publish. Choose an EPSG code to use for the Coordinate Reference System. You can also
-specify tags to add to the created geoscience objects. The flag `combine_objects_in_layers` can be specified `True` to
-cause the convert to attempt to combine objects of the same type found in the same layer. For example, where a layer in
-the file contains only `Polyface` objects, these can all be published as parts on a single Evo triangle-mesh object.
-Where a layer contains a mix of object types, or a single type, but the Evo type the objects map to does not support
-multiple parts, the objects will be published as separate Evo objects.
+specify tags to add to the created geoscience objects.
+
+The flag `combine_objects_in_layers` can be specified `True` to cause the convert to attempt to combine objects of the 
+same type found in the same layer. For example, where a layer in the file contains only `Polyface` objects, these can
+all be published as parts on a single Evo triangle-mesh object. Where a layer contains a mix of object types, or a
+single type, but the Evo type the objects map to does not support multiple parts, the objects will be published as
+separate Evo objects.
 
 Then call `convert_duf`, passing it the DUF file path, EPSG code, the workspace metadata or service manager widget, the
 tags, optionally the flag `combine_objects_in_layers`, and finally a path you want the published objects to appear under
 in your workspace.
+
+See [the convert-duf sample notebook](https://github.com/ArthurGW/evo-data-converters/blob/main/packages/duf/samples/convert-duf/convert-duf.ipynb)
+for a complete example.
 
 **Note:** Some geometry types are not yet supported. A warning will be shown for each element that could not be
 converted. Currently, for publishing we support polyface objects and polylines, and all attribute types except for color

@@ -1,3 +1,14 @@
+#  Copyright © 2025 Bentley Systems, Incorporated
+#  Licensed under the Apache License, Version 2.0 (the "License");
+#  you may not use this file except in compliance with the License.
+#  You may obtain a copy of the License at
+#      http://www.apache.org/licenses/LICENSE-2.0
+#  Unless required by applicable law or agreed to in writing, software
+#  distributed under the License is distributed on an "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#  See the License for the specific language governing permissions and
+#  limitations under the License.
+
 import os
 from collections import defaultdict
 from typing import TYPE_CHECKING, Optional
@@ -15,9 +26,10 @@ from evo_schemas.components import BaseSpatialDataProperties_V1_0_1
 
 import evo.data_converters.duf.common.deswik_types as dw
 from ..common import ObjectCollector
-from ..duf_reader_context import DufCollectorContext
+from ..duf_reader_context import DUFCollectorContext
 from .duf_polyface_to_evo import convert_duf_polyface, combine_duf_polyfaces
 from .duf_polyline_to_evo import convert_duf_polyline, combine_duf_polylines
+from evo.data_converters.common.utils import get_object_tags
 
 logger = evo.logging.getLogger("data_converters")
 
@@ -146,12 +158,10 @@ def convert_duf(
         logger.debug("Publishing objects will be skipped due to missing hub_url.")
         publish_objects = False
 
-    tags = tags.copy() if tags is not None else {}
-    tags["Source"] = f"{os.path.basename(filepath)} (via Evo Data Converters)"
+    tags = get_object_tags(os.path.basename(filepath), "DUF", tags)
     tags["Category"] = "ModelEntities"
-    tags["InputType"] = "DUF"
 
-    with DufCollectorContext(filepath) as context:
+    with DUFCollectorContext(filepath) as context:
         collector: ObjectCollector = context.collector
 
     if not combine_objects_in_layers:

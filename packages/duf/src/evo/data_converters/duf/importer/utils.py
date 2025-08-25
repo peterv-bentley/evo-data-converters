@@ -1,3 +1,14 @@
+#  Copyright © 2025 Bentley Systems, Incorporated
+#  Licensed under the Apache License, Version 2.0 (the "License");
+#  you may not use this file except in compliance with the License.
+#  You may obtain a copy of the License at
+#      http://www.apache.org/licenses/LICENSE-2.0
+#  Unless required by applicable law or agreed to in writing, software
+#  distributed under the License is distributed on an "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#  See the License for the specific language governing permissions and
+#  limitations under the License.
+
 import re
 from collections import defaultdict
 from dataclasses import dataclass
@@ -306,12 +317,13 @@ def get_name(obj: dw.BaseEntity) -> str:
 
     if (label := getattr(obj, "Label", None)) is not None:
         return validify(label)
+
     obj_name = f"{type(obj).__name__}-{obj.Guid}"
     if (layer := getattr(obj, "Layer", None)) is not None:
         layer_name = get_name(layer)
         return validify(f"{layer_name}-{obj_name}".strip("-_"))
-    else:
-        return validify(obj_name)
+
+    return validify(obj_name)
 
 
 def vertices_array_to_go_and_bbox(data_client, vertices_array, table_klass):

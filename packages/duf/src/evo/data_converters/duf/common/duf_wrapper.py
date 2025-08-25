@@ -1,15 +1,29 @@
+#  Copyright © 2025 Bentley Systems, Incorporated
+#  Licensed under the Apache License, Version 2.0 (the "License");
+#  you may not use this file except in compliance with the License.
+#  You may obtain a copy of the License at
+#      http://www.apache.org/licenses/LICENSE-2.0
+#  Unless required by applicable law or agreed to in writing, software
+#  distributed under the License is distributed on an "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#  See the License for the specific language governing permissions and
+#  limitations under the License.
+
 import os
 from collections import defaultdict
 
 import evo.data_converters.duf.common.deswik_types as dw
+import evo.logging
+
+logger = evo.logging.getLogger("data_converters")
 
 
-class InvalidDufFileException(ValueError):
+class InvalidDUFFileException(ValueError):
     def __init__(self, message):
         super().__init__(message)
 
 
-class DufFileNotFoundException(FileNotFoundError):
+class DUFFileNotFoundException(FileNotFoundError):
     def __init__(self, message):
         super().__init__(message)
 
@@ -32,7 +46,9 @@ class ObjectCollector:
 
         self._objs[category][type(item)].append(item)
         if self._verbose:
-            print(f"Loaded from category {category} entity of type {item.GetType().FullName} with guid {item.Guid}.")
+            logger.info(
+                f"Loaded from category {category} entity of type {item.GetType().FullName} with guid {item.Guid}."
+            )
 
     def get_objects_with_category(self, category: dw.Category) -> list[dw.BaseEntity]:
         return [obj for cat_objs in self._objs[category].values() for obj in cat_objs]
@@ -72,7 +88,7 @@ class ObjectCollector:
         return [obj for cat_objs in self._objs.values() for obj in cat_objs.values()]
 
 
-class DufWrapper:
+class DUFWrapper:
     nameofImperialOption = "_dw_Options_Imperial"
     nameOfZeroLayer = "0"
     nameOfSettingsLayer = "_dw_Settings_Layer"
@@ -81,13 +97,13 @@ class DufWrapper:
 
     def __init__(self, path: str, collector: ObjectCollector | None = None):
         if not os.path.exists(path):
-            raise DufFileNotFoundException(f"DUF file not found: {path}")
+            raise DUFFileNotFoundException(f"DUF file not found: {path}")
 
         self._collector = collector or ObjectCollector()
         try:
             self._duf = dw.DufImplementation[dw.Category](path, dw.Activator(), dw.Upgrader())
         except (dw.NotDufFileException, dw.NullReferenceException):
-            raise InvalidDufFileException(f"Invalid DUF file: {path}")
+            raise InvalidDUFFileException(f"Invalid DUF file: {path}")
 
         self._document = None
 
