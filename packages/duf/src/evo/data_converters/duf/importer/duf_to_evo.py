@@ -158,8 +158,11 @@ def convert_duf(
         logger.debug("Publishing objects will be skipped due to missing hub_url.")
         publish_objects = False
 
+    had_stage = ("Stage" in tags) if tags is not None else False
     tags = get_object_tags(os.path.basename(filepath), "DUF", tags)
     tags["Category"] = "ModelEntities"
+    if not had_stage:
+        tags.pop("Stage", None)
 
     with DUFCollectorContext(filepath) as context:
         collector: ObjectCollector = context.collector
