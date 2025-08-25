@@ -91,20 +91,7 @@ tags, optionally the flag `combine_objects_in_layers`, and finally a path you wa
 in your workspace.
 
 **Note:** Some geometry types are not yet supported. A warning will be shown for each element that could not be
-#%% md
-In the cell below we choose the DUF file we want to publish and set its path in the `duf_file` variable.
-
-Then we choose an EPSG code to use for the Coordinate Reference System.
-
-You may also specify tags to add to the created Geoscience objects.
-
-Then we call `convert_duf`, passing it the DUF file path, EPSG code, the service manager widget from above and finally a
-path we want the published objects to appear under.
-
-Then we loop over the results from the `convert_duf` function, printing out each object that was published to Evo.
-
-_Note:_ Some geometry types are not yet supported. A warning will be shown for each element that could not be converted.
-Currently, for publishing we support polyface objects and polylines, and all attribute types except for color 
+converted. Currently, for publishing we support polyface objects and polylines, and all attribute types except for color 
 attributes.
 
 ### Export objects to DUF
