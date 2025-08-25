@@ -27,7 +27,7 @@
 Evo is a unified platform for geoscience teams. It enables access, connection, computation, and management of subsurface
 data. This empowers better decision-making, simplified collaboration, and accelerated innovation. Evo is built on open
 APIs, allowing developers to build custom integrations and applications. Our open schemas, code examples, and SDK are
-available for the community to use and extend. 
+available for the community to use and extend.
 
 Evo is powered by Seequent, a Bentley organisation.
 
@@ -42,6 +42,12 @@ Evo is powered by Seequent, a Bentley organisation.
 
 ### Windows
 
+#### Python package
+
+The package can be installed from PyPI using pip:
+
+    pip install evo-data-converters-duf
+
 #### Deswik Suite
 
 The `duf` data-converter package depends on an installed version of `Deswik.Suite` for interacting with DUF files. The
@@ -55,7 +61,7 @@ This package has been tested with Deswik Suite version 2024.1.
 
 #### .NET Framework
 
-By default, the package will use [pythonnet](https://pythonnet.github.io/pythonnet/) to search for a .NET Framework 
+By default, the package will use [pythonnet](https://pythonnet.github.io/pythonnet/) to search for a .NET Framework
 runtime, which must be version 4.7.2 or later. Different runtimes can be configured using environment variables, as
 described [here](https://pythonnet.github.io/pythonnet/python.html#loading-a-runtime). However, this is untested and not
 guaranteed to be compatible with your Deswik Suite installation.
@@ -74,16 +80,16 @@ Deswik Unified File (DUF) is a proprietary file format from Deswik Mining Consul
 
 ### Publish geoscience objects from a DUF file
 
-[The `evo-sdk-common` Python library](https://pypi.org/project/evo-sdk-common/) can be used to sign in. After 
-successfully signing in, the user can select an organisation, an Evo hub, and a workspace. Use 
-[`evo-objects`](https://pypi.org/project/evo-objects/) to get an `ObjectAPIClient`, and 
+[The `evo-sdk-common` Python library](https://pypi.org/project/evo-sdk-common/) can be used to sign in. After
+successfully signing in, the user can select an organisation, an Evo hub, and a workspace. Use
+[`evo-objects`](https://pypi.org/project/evo-objects/) to get an `ObjectAPIClient`, and
 [`evo-data-converters-common`](https://pypi.org/project/evo-data-converters-common/) to convert your file.
 
 Choose the DUF file you want to publish. Choose an EPSG code to use for the Coordinate Reference System. You can also
 specify tags to add to the created geoscience objects. The flag `combine_objects_in_layers` can be specified `True` to
 cause the convert to attempt to combine objects of the same type found in the same layer. For example, where a layer in
-the file contains only `Polyface` objects, these can all be published as parts on a single Evo triangle-mesh object. 
-Where a layer contains a mix of object types, or a single type, but the Evo type the objects map to does not support 
+the file contains only `Polyface` objects, these can all be published as parts on a single Evo triangle-mesh object.
+Where a layer contains a mix of object types, or a single type, but the Evo type the objects map to does not support
 multiple parts, the objects will be published as separate Evo objects.
 
 Then call `convert_duf`, passing it the DUF file path, EPSG code, the workspace metadata or service manager widget, the
@@ -91,7 +97,7 @@ tags, optionally the flag `combine_objects_in_layers`, and finally a path you wa
 in your workspace.
 
 **Note:** Some geometry types are not yet supported. A warning will be shown for each element that could not be
-converted. Currently, for publishing we support polyface objects and polylines, and all attribute types except for color 
+converted. Currently, for publishing we support polyface objects and polylines, and all attribute types except for color
 attributes.
 
 ### Export objects to DUF
