@@ -79,7 +79,7 @@ uv sync --all-packages --all-extras
 Then in the directory of the notebook(s) you want to run, type:
 
 ```shell
-jupyter notebook
+uv run jupyter notebook
 ```
 
 It should open a browser where you can open the notebooks for the current directory.
