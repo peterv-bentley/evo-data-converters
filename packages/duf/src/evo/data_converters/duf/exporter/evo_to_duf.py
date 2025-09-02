@@ -1,4 +1,3 @@
-import asyncio
 import os
 import shutil
 from typing import Optional
@@ -71,7 +70,7 @@ async def _evo_objects_to_duf_async(
 
 
 
-def export_duf(
+async def export_duf(
     filepath,
     objects: list[_EvoMetadata],
     evo_workspace_metadata: Optional[EvoWorkspaceMetadata] = None,
@@ -82,4 +81,4 @@ def export_duf(
         service_manager_widget=service_manager_widget,
     )
 
-    asyncio.run(_evo_objects_to_duf_async(filepath, objects, api_client, data_client))
+    await _evo_objects_to_duf_async(filepath, objects, api_client, data_client)
