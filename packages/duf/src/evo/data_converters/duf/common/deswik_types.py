@@ -1,4 +1,7 @@
+# ruff: noqa: E402
 
+# This links the C# libraries and sets up the Python runtime to import Deswik's C# libraries
+from evo.data_converters.duf.common import setup_deswik_lib_bindings  # noqa: F401
 
 from Deswik.Core.Structures import Vector3_dp, Vector4_dp
 from Deswik.Duf import (

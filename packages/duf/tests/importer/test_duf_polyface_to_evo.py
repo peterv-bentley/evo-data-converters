@@ -20,13 +20,13 @@ from evo_schemas.components import (
 )
 from evo_schemas.objects import TriangleMesh_V2_1_0
 
-from evo.data_converters.duf import Polyface
+import evo.data_converters.duf.common.deswik_types as dw
 from evo.data_converters.duf.importer import convert_duf_polyface
 
 
 @pytest.fixture(scope="module")
 def polyface_obj(simple_objects):
-    return simple_objects.get_objects_of_type(Polyface)[0][1]
+    return simple_objects.get_objects_of_type(dw.Polyface)[0][1]
 
 
 def test_should_convert_duf_polyface_geometry(polyface_obj, data_client):

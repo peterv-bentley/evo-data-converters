@@ -10,7 +10,7 @@ from evo_schemas.objects import LineSegments_V2_1_0, LineSegments_V2_1_0_Parts
 import evo.logging
 from evo.objects.utils.data import ObjectDataClient
 
-from ..common import Polyline
+import evo.data_converters.duf.common.deswik_types as dw
 from .utils import (
     get_name,
     vertices_array_to_go_and_bbox,
@@ -42,7 +42,7 @@ def _create_line_segments_obj(name, vertices_array, indices_array, parts, epsg_c
 
 
 def combine_duf_polylines(
-    polylines: list[Polyline],
+    polylines: list[dw.Polyline],
     data_client: ObjectDataClient,
     epsg_code: int,
 ) -> LineSegments_V2_1_0 | None:
@@ -74,7 +74,7 @@ def combine_duf_polylines(
 
 
 def convert_duf_polyline(
-    polyline: Polyline,
+    polyline: dw.Polyline,
     data_client: ObjectDataClient,
     epsg_code: int,
 ) -> LineSegments_V2_1_0:

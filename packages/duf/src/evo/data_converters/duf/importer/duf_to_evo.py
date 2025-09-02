@@ -13,7 +13,8 @@ from evo.data_converters.common import (
 from evo.objects.data import ObjectMetadata
 from evo_schemas.components import BaseSpatialDataProperties_V1_0_1
 
-from ..common import Category, ObjectCollector, Polyface, Polyline
+import evo.data_converters.duf.common.deswik_types as dw
+from ..common import ObjectCollector
 from ..duf_reader_context import DufCollectorContext
 from .duf_polyface_to_evo import convert_duf_polyface, combine_duf_polyfaces
 from .duf_polyline_to_evo import convert_duf_polyline, combine_duf_polylines
@@ -24,11 +25,11 @@ if TYPE_CHECKING:
     from evo.notebooks import ServiceManagerWidget
 
 
-CONVERTERS = {Polyface: convert_duf_polyface, Polyline: convert_duf_polyline}
+CONVERTERS = {dw.Polyface: convert_duf_polyface, dw.Polyline: convert_duf_polyline}
 
 COMBINING_CONVERTERS = {
-    Polyface: combine_duf_polyfaces,
-    Polyline: combine_duf_polylines,
+    dw.Polyface: combine_duf_polyfaces,
+    dw.Polyline: combine_duf_polylines,
 }
 
 
@@ -63,7 +64,7 @@ def _convert_and_combine_duf_objects(
     collector: ObjectCollector, data_client: ObjectDataClient, epsg_code: int, tags: dict[str, str]
 ):
     geoscience_objects = []
-    for layer, objs in collector.get_objects_with_category_by_layer(Category.ModelEntities).items():
+    for layer, objs in collector.get_objects_with_category_by_layer(dw.Category.ModelEntities).items():
         layer_by_type = defaultdict(list)
         for obj in objs:
             layer_by_type[type(obj)].append(obj)
@@ -98,7 +99,7 @@ def _convert_duf_objects(
     collector: ObjectCollector, data_client: ObjectDataClient, epsg_code: int, tags: dict[str, str]
 ):
     geoscience_objects = []
-    for klass, objs in collector.get_objects_with_category_by_type(Category.ModelEntities).items():
+    for klass, objs in collector.get_objects_with_category_by_type(dw.Category.ModelEntities).items():
         geoscience_objects.extend(_convert_object_list(klass, objs, data_client, epsg_code, tags))
     return geoscience_objects
 

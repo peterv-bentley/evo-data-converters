@@ -11,7 +11,7 @@ from evo_schemas.objects import TriangleMesh_V2_1_0
 import evo.logging
 from evo.objects.utils.data import ObjectDataClient
 
-from ..common import Polyface
+import evo.data_converters.duf.common.deswik_types as dw
 from .utils import (
     get_name,
     vertices_array_to_go_and_bbox,
@@ -19,6 +19,7 @@ from .utils import (
     parts_to_go,
     obj_list_and_indices_to_arrays,
 )
+
 
 logger = evo.logging.getLogger("data_converters")
 
@@ -43,7 +44,7 @@ def _create_triangle_mesh_obj(name, vertices_array, indices_array, parts, epsg_c
 
 
 def combine_duf_polyfaces(
-    polyfaces: list[Polyface],
+    polyfaces: list[dw.Polyface],
     data_client: ObjectDataClient,
     epsg_code: int,
 ) -> TriangleMesh_V2_1_0 | None:
@@ -71,7 +72,7 @@ def combine_duf_polyfaces(
 
 
 def convert_duf_polyface(
-    polyface: Polyface,
+    polyface: dw.Polyface,
     data_client: ObjectDataClient,
     epsg_code: int,
 ) -> TriangleMesh_V2_1_0:

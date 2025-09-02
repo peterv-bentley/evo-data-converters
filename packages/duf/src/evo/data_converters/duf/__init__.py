@@ -1,4 +1,4 @@
-from .common import DufFileNotFoundException, InvalidDufFileException, ObjectCollector, Polyface
+from .common import DufFileNotFoundException, InvalidDufFileException, ObjectCollector
 from .duf_reader_context import DufCollectorContext
 from .utils import is_duf
 
@@ -7,6 +7,5 @@ __all__ = [
     "DufFileNotFoundException",
     "InvalidDufFileException",
     "ObjectCollector",
-    "Polyface",
     "is_duf",
 ]
