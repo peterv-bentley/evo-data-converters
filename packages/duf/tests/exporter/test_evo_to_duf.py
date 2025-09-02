@@ -21,7 +21,7 @@ def _compare_evo_attributed_base(actual, expected):
 
     if actual.parts is not None:
         for line_attr, expected_line_attr in zip(actual.parts.attributes, expected.parts.attributes):
-            assert type(line_attr) == type(expected_line_attr)
+            assert type(line_attr) is type(expected_line_attr)
             assert line_attr.key == expected_line_attr.key
             assert line_attr.name == expected_line_attr.name
             assert line_attr.attribute_type == expected_line_attr.attribute_type
@@ -90,4 +90,20 @@ def test_convert_triangle_mesh(evo_metadata):
     _compare_evo_triangle_meshes(initial_evo_objects, final_evo_objects)
 
 
+def test_multiple_objects_same_name(evo_metadata):
+    initial_evo_objects = _mock_convert_to_evo("../data/pit_mesh_attrs.duf", evo_metadata)
+
+    # 3 objects, all with the same name
+    initial_evo_objects = initial_evo_objects + initial_evo_objects + initial_evo_objects
+
+    _mock_convert_to_duf(initial_evo_objects, "test_out.duf", evo_metadata)
+    final_evo_objects = _mock_convert_to_evo("test_out.duf", evo_metadata)
+
+    # It might not be in the end, due to round-tripping details, but somewhere the (#) should be in the name
+    assert (')') not in final_evo_objects[0].name
+    assert '(2)' in final_evo_objects[1].name
+    assert '(3)' in final_evo_objects[2].name
+
+
 # TODO More tests
+# TODO Test Geoscience Objects with unhandled schema ids

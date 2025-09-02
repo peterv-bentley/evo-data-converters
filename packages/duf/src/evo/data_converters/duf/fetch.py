@@ -2,8 +2,10 @@ import asyncio
 import copy
 import enum
 import json
+from dataclasses import dataclass
+
 import numpy
-from typing import Optional
+from typing import Optional, Any
 
 from evo.data_converters.common import EvoObjectMetadata
 from evo.objects import ObjectAPIClient
@@ -22,11 +24,20 @@ class FetchStatus(enum.Enum):
     downloaded = enum.auto()
     processing = enum.auto()
     processed = enum.auto()
+    failed = enum.auto()
+
+
+@dataclass
+class FetchResult:
+    status: FetchStatus
+    status_message: str
+    result: Any
 
 
 class Fetch:
     def __init__(self, object_metadata: EvoObjectMetadata):
         self.status = FetchStatus.not_begun
+        self.status_msg = ''
         self._object_metadata = object_metadata
         self._object_specific_fetcher: Optional[_ObjectSpecificFetch] = None
 
@@ -44,7 +55,12 @@ class Fetch:
         )
         geo_object: Serialiser = json_loads(json.dumps(downloaded_obj.as_dict(), cls=GSONEncoder))
 
-        self._object_specific_fetcher = self.get_fetcher(geo_object.SCHEMA_ID)
+        try:
+            self._object_specific_fetcher = self.get_fetcher(geo_object.SCHEMA_ID)
+        except NotImplementedError:
+            self.status = FetchStatus.failed
+            self.status_msg = f'Schema {geo_object.SCHEMA_ID} not supported'
+            return self
 
         self.status = FetchStatus.downloading_tables
 
@@ -74,7 +90,11 @@ class Fetch:
     async def _async_downloader(cls, as_completed_future):
         for result in as_completed_future:
             fetcher = await result
-            yield fetcher.process()
+            if fetcher.status == FetchStatus.failed:
+                yield FetchResult(status=fetcher.status, status_message=fetcher.status_msg, result=None)
+            else:
+                processed = fetcher.process()
+                yield FetchResult(status=fetcher.status, status_message=fetcher.status_msg, result=processed)
 
     @classmethod
     def download_all(

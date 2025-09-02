@@ -34,7 +34,7 @@ from Deswik.Entities.Cad import (
     dwPoint,
 )
 from Deswik.Serialization import GuidReferences
-from System import Boolean, Double, Guid, Int32, NullReferenceException, String, UInt32
+from System import ArgumentException, Boolean, Double, Guid, Int32, NullReferenceException, String, UInt32
 from System.Collections.Generic import List
 from System.Reflection import BindingFlags
 
@@ -81,6 +81,7 @@ __all__ = [
     "XProperty",
     "XProperties",
     # System
+    "ArgumentException",
     "Boolean",
     "Guid",
     "NullReferenceException",

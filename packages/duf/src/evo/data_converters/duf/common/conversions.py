@@ -19,13 +19,11 @@ def np_to_dw(maybe_np):
     elif isinstance(maybe_np, float) or numpy.issubdtype(maybe_np, numpy.floating):
         f = float(maybe_np)
         if numpy.isnan(f):
-            # TODO review returning an empty string. This is how it appeared to me when importing Deswik entities
-            #  that were missing attributes.
+            # It appears that missing attributes in Deswik CAD are represented as an empty string
             return ''
         else:
             return f
     elif numpy.issubdtype(maybe_np, numpy.datetime64):
-        # TODO Check the expected datetime format in Deswik.Cad
         return pandas.to_datetime(maybe_np).strftime('%Y-%m-%d %H:%M:%S')
     elif isinstance(maybe_np, int) or numpy.issubdtype(maybe_np, numpy.integer):
         return int(maybe_np)
@@ -39,9 +37,20 @@ class Layer:
         self._attributes = dw_attributes
 
     @staticmethod
+    def _get_unique_layer_name(duf, name: str):
+        if not name:
+            name = 'default'
+        if not duf.LayerExists(name):
+            return name
+        suffix = 2
+        while duf.LayerExists(new_name := f'{name} ({suffix})'):
+            suffix += 1
+        return new_name
+
+    @staticmethod
     def with_attributes(duf, evo_data: AttributedEvoData):
-        # TODO Need to handle duplicate names
-        new_layer = duf.NewLayer(evo_data.name)
+        new_layer_name = Layer._get_unique_layer_name(duf, evo_data.name)
+        new_layer = duf.NewLayer(new_layer_name)
         dw_attributes = {
             attr.name: new_layer.AddAttribute(attr.name, EVO_TO_DW_TYPE_CONVERSION[attr.type])
             for attr in evo_data.attributes
