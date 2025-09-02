@@ -376,6 +376,9 @@ def parts_to_go(
 
 
 def obj_list_and_indices_to_arrays(obj_list: list[dw.BaseEntity], indices_arrays: list[NDArray]):
+    # Avoid mutating the input later on in the function
+    indices_arrays = [arr.copy() for arr in indices_arrays]
+
     orig_num_vertices = sum(obj.VertexList.Count for obj in obj_list)
     num_parts = len(obj_list)
 
@@ -390,12 +393,10 @@ def obj_list_and_indices_to_arrays(obj_list: list[dw.BaseEntity], indices_arrays
         count=orig_num_vertices * 3,
     ).reshape(orig_num_vertices, 3)
 
-    new_vertices_array, orig_to_unique = np.unique(vertices_array, return_inverse=True, axis=0)  # Ensure unique
-    if len(new_vertices_array) == orig_num_vertices:
+    unique_vertices_array, orig_to_unique = np.unique(vertices_array, return_inverse=True, axis=0)  # Ensure unique
+    if len(unique_vertices_array) == orig_num_vertices:
         # No duplicates
         orig_to_unique = None
-    else:
-        vertices_array = new_vertices_array
 
     attribute_specs = AttributeSpec.layer_attributes(layer)
     attribute_names = {spec.name for spec in attribute_specs}
@@ -430,15 +431,15 @@ def obj_list_and_indices_to_arrays(obj_list: list[dw.BaseEntity], indices_arrays
     else:
         parts = None
 
-    indices_array = np.concatenate(indices_arrays, axis=0)
+    flattened_indices_array = np.concatenate(indices_arrays, axis=0)
 
     if orig_to_unique is not None:
         # Some duplicates were removed, remap to unique array
-        indices_array = orig_to_unique[indices_array]
+        flattened_indices_array = orig_to_unique[flattened_indices_array]
 
     logger.debug(f"Num parts: {num_parts}")
-    logger.debug(f"Indices: {indices_array.shape}")
-    logger.debug(f"Vertices: {vertices_array.shape}")
+    logger.debug(f"Indices: {flattened_indices_array.shape}")
+    logger.debug(f"Vertices: {unique_vertices_array.shape}")
     logger.debug(f"Num {type(obj_list[0]).__name__} attributes: {len(attribute_specs)}")
 
-    return vertices_array, indices_array, parts
+    return unique_vertices_array, flattened_indices_array, parts

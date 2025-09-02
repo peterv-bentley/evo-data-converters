@@ -54,7 +54,7 @@ class ObjectCollector:
         return [obj for cat_objs in self._objs[category].values() for obj in cat_objs]
 
     def get_objects_with_category_by_type(self, category: dw.Category):
-        return {klass: [obj for obj in objs] for klass, objs in self._objs[category].items()}
+        return {klass: list(objs) for klass, objs in self._objs[category].items()}
 
     def get_objects_with_category_by_layer(self, category: dw.Category):
         by_layer = defaultdict(list)
@@ -73,8 +73,8 @@ class ObjectCollector:
             (cat, obj)
             for cat, cat_objs in self._objs.items()
             for klass, objs in cat_objs.items()
-            for obj in objs
             if issubclass(klass, object_type)
+            for obj in objs
         ]
 
     def get_all_objects_by_type(self):
@@ -113,11 +113,11 @@ class DUFWrapper:
     def __exit__(self, exc_type, exc_value, traceback):
         self.Dispose()
         self._collector = None
-        self._duf = None
 
     def Dispose(self):
         if self._duf:
             self._duf.Dispose()
+            self._duf = None
 
     def LoadDocumentAndReferenceDataOnly(self):
         dufGuidReferences = dw.GuidReferences()
@@ -199,7 +199,7 @@ class DUFWrapper:
         self.LoadTopLevelEntitiesOfType(
             dw.Category.Palette,
             dufGuidReferences,
-            lambda item: self._collector.Loaded(dw.Category.Lights, item),
+            lambda item: self._collector.Loaded(dw.Category.Palette, item),
         )
 
     def LoadTopLevelEntitiesOfType(self, category, dufGuidReferences, callback):

@@ -33,7 +33,7 @@ if (deswik_path := os.getenv("DESWIK_PATH")) is None:
         year, month = version.split(".")
         return int(year), int(month)
 
-    deswik_path = os.path.join(r"C:\Program Files\Deswik", sorted(installs, key=by_version)[-1])
+    deswik_path = os.path.join(r"C:\Program Files\Deswik", sorted(installs, key=by_version, reverse=True)[0])
 
 logger = evo.logging.getLogger("data_converters")
 logger.debug("Looking for Deswik DLLs in: %s", deswik_path)
