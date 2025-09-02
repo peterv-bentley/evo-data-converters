@@ -2,7 +2,7 @@ import os
 from unittest import mock
 from uuid import uuid4
 
-from evo_schemas import LineSegments_V2_1_0
+from evo_schemas import LineSegments_V2_1_0, TriangleMesh_V2_1_0
 
 from evo.data_converters.common import EvoObjectMetadata
 from evo.data_converters.duf.exporter.evo_to_duf import (
@@ -11,16 +11,40 @@ from evo.data_converters.duf.exporter.evo_to_duf import (
 from evo.data_converters.duf.importer.duf_to_evo import convert_duf
 
 
-def _compare_evo_polylines(lines: list[LineSegments_V2_1_0], expected_lines: list[LineSegments_V2_1_0]):
-    for line, expected_line in zip(lines, expected_lines, strict=True):
-        assert line.parts.chunks.length == expected_line.parts.chunks.length
-        assert line.segments.indices.length == expected_line.segments.indices.length
+def _check_both_or_neither_none(a, b) -> bool:
+    assert (is_none := a is None) == (b is None)
+    return not is_none
 
-        for line_attr, expected_line_attr in zip(line.parts.attributes, expected_line.parts.attributes):
+
+def _compare_evo_attributed_base(actual, expected):
+    _check_both_or_neither_none(actual.parts, expected.parts)
+
+    if actual.parts is not None:
+        for line_attr, expected_line_attr in zip(actual.parts.attributes, expected.parts.attributes):
             assert type(line_attr) == type(expected_line_attr)
             assert line_attr.key == expected_line_attr.key
             assert line_attr.name == expected_line_attr.name
             assert line_attr.attribute_type == expected_line_attr.attribute_type
+
+
+def _compare_evo_polylines(lines: list[LineSegments_V2_1_0], expected_lines: list[LineSegments_V2_1_0]):
+    for line, expected_line in zip(lines, expected_lines, strict=True):
+        assert (line.parts is None and expected_line.parts is None) or (line.parts.chunks.length == expected_line.parts.chunks.length)
+        assert line.segments.indices.length == expected_line.segments.indices.length
+
+        _compare_evo_attributed_base(line, expected_line)
+
+
+def _compare_evo_triangle_meshes(meshes: list[TriangleMesh_V2_1_0], expected_meshes: list[TriangleMesh_V2_1_0]):
+    for mesh, expected_mesh in zip(meshes, expected_meshes, strict=True):
+        _compare_evo_attributed_base(mesh, expected_mesh)
+        if mesh.parts is not None:
+            assert mesh.parts.chunks.length == expected_mesh.parts.chunks.length
+
+            if _check_both_or_neither_none(mesh.parts.triangle_indices, expected_mesh.parts.triangle_indices):
+                assert mesh.parts.triangle_indices.length == expected_mesh.parts.triangle_indices.length
+
+        _compare_evo_attributed_base(mesh, expected_mesh)
 
 
 def _mock_convert_to_evo(filename: str, evo_metadata):
@@ -42,7 +66,7 @@ def _mock_convert_to_duf(evo_objects, out_filename, evo_metadata):
         export_duf("test_out.duf", metadata, evo_metadata)
 
 
-def test_convert(evo_metadata):
+def test_convert_polyline(evo_metadata):
     # Convert a DUF file to Evo and use the generated Parquet files to test the exporter
 
     initial_evo_objects = _mock_convert_to_evo("../data/polyline_attrs_boat.duf", evo_metadata)
@@ -53,6 +77,17 @@ def test_convert(evo_metadata):
     final_evo_objects = _mock_convert_to_evo("test_out.duf", evo_metadata)
 
     _compare_evo_polylines(initial_evo_objects, final_evo_objects)
+
+
+def test_convert_triangle_mesh(evo_metadata):
+    initial_evo_objects = _mock_convert_to_evo("../data/pit_mesh_attrs.duf", evo_metadata)
+
+    _mock_convert_to_duf(initial_evo_objects, "test_out.duf", evo_metadata)
+    assert os.path.exists("test_out.duf")
+
+    final_evo_objects = _mock_convert_to_evo("test_out.duf", evo_metadata)
+
+    _compare_evo_triangle_meshes(initial_evo_objects, final_evo_objects)
 
 
 # TODO More tests

@@ -13,6 +13,8 @@ from evo.data_converters.common import (
     EvoWorkspaceMetadata,
 )
 from evo.data_converters.duf.common import deswik_types as dw
+from evo.data_converters.duf.common.conversions import EvoDufWriter
+from evo.data_converters.duf.common.types import FetchedTriangleMesh
 from evo.data_converters.duf.fetch import Fetch, FetchedPolyline
 from evo.data_converters.duf.exporter.evo_to_polyline_duf import polyline_to_duf
 
@@ -44,12 +46,15 @@ async def _evo_objects_to_duf_async(
     # While the evo downloads are going, do some file IO stuff
 
     duf = dw.Duf(duf_file)
+    duf_writer = EvoDufWriter(duf)
 
     # Go ahead and wait for the next download
     async for fetched_object in async_fetch_futures:
         if isinstance(fetched_object, FetchedPolyline):
             # Process this polyline while we wait for the others to fetch
             polyline_to_duf(fetched_object, duf)
+        elif isinstance(fetched_object, FetchedTriangleMesh):
+            duf_writer.write_mesh_triangles(fetched_object)
         else:
             raise NotImplementedError(f"Unhandled object type: {type(fetched_object)}")
 
