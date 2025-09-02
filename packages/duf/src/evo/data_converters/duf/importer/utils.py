@@ -34,8 +34,8 @@ from evo_schemas.components import (
 )
 
 from evo.data_converters.common.utils import vertices_bounding_box
-from ..common.duf_wrapper import BaseEntity, Layer
-
+from evo.data_converters.duf.common import deswik_types as dw
+from evo.data_converters.duf.xprops import get_xprops_value
 
 logger = evo.logging.getLogger("data_converters")
 
@@ -63,14 +63,22 @@ class AttributeSpec:
         return f"_dw_Attribute[{attr_index}].{name}"
 
     @classmethod
-    def layer_attribute_by_index(cls, layer: Layer, attr_index: int) -> "AttributeSpec | None":
+    def layer_attribute_by_index(cls, layer: dw.Layer, attr_index: int) -> "AttributeSpec | None":
         assert 0 < attr_index + 1 <= value_from_xproperties(layer, "_dw_AttributeCount", AttributeType.Integer), (
             f"Attribute index {attr_index} exceeds the number of attributes in layer {layer.Name}."
         )
 
         options = None
         attr_type = value_from_xproperties(layer, cls.__attr_prop_name(attr_index, "Type"), AttributeType.String)
-        if attr_type == "String" and value_from_xproperties(layer, cls.__attr_prop_name(attr_index, "LimitToList"), AttributeType.Boolean) and (options := value_from_xproperties(layer, cls.__attr_prop_name(attr_index, "ValuesList"), AttributeType.String)):
+        if (
+            attr_type == "String"
+            and value_from_xproperties(layer, cls.__attr_prop_name(attr_index, "LimitToList"), AttributeType.Boolean)
+            and (
+                options := value_from_xproperties(
+                    layer, cls.__attr_prop_name(attr_index, "ValuesList"), AttributeType.String
+                )
+            )
+        ):
             attr_type = AttributeType.Category
             options = tuple(options.split("|"))
         elif attr_type is not None:
@@ -85,20 +93,18 @@ class AttributeSpec:
             attr_type=attr_type,
             options=options,
             required=value_from_xproperties(layer, cls.__attr_prop_name(attr_index, "Required"), AttributeType.Boolean),
-            description=value_from_xproperties(layer, cls.__attr_prop_name(attr_index, "Description"), AttributeType.String),
+            description=value_from_xproperties(
+                layer, cls.__attr_prop_name(attr_index, "Description"), AttributeType.String
+            ),
         )
 
     @classmethod
-    def layer_attributes(cls, layer: Layer) -> list["AttributeSpec"]:
+    def layer_attributes(cls, layer: dw.Layer) -> list["AttributeSpec"]:
         attr_count = value_from_xproperties(layer, "_dw_AttributeCount", AttributeType.Integer)
         if not attr_count:
             return []
 
-        return [
-            attr
-            for i in range(attr_count)
-            if (attr := cls.layer_attribute_by_index(layer, i)) is not None
-        ]
+        return [attr for i in range(attr_count) if (attr := cls.layer_attribute_by_index(layer, i)) is not None]
 
     def to_go(self, data_client: ObjectDataClient, values: list[Any]) -> OneOfAttribute_V1_2_0_Item:
         category_set = None
@@ -130,13 +136,13 @@ class AttributeSpec:
                 )
                 lookup_keys_type = pa.int32() if numpy.can_cast(len(options), 'int32', 'safe') else pa.int64()
                 lookup_table = pa.table(
-                [list(reverse_lookup.values()), list(reverse_lookup.keys())],
+                    [list(reverse_lookup.values()), list(reverse_lookup.keys())],
                     schema=pa.schema(
                         [
                             pa.field("key", lookup_keys_type),
                             pa.field("n1", pa.string()),
                         ]
-                    )
+                    ),
                 )
                 lookup_table = data_client.save_table(lookup_table)
 
@@ -159,7 +165,7 @@ class AttributeSpec:
                 )
             case AttributeType.Integer:
                 nan_values = [max((v for v in values if v is not None), default=-1) + 1]
-                data_type = pa.int32() if numpy.can_cast(nan_values[0], 'int32', 'safe') else pa.int64()
+                data_type = pa.int32() if numpy.can_cast(nan_values[0], "int32", "safe") else pa.int64()
                 table = pa.table(
                     [values],
                     schema=pa.schema(
@@ -198,8 +204,8 @@ class AttributeSpec:
                 )
             case AttributeType.DateTime:
                 # The conversion is a little painful here as pyarrow can't always find tzdata to handle the timezones
-                min_value = float('inf')
-                max_value = float('-inf')
+                min_value = float("inf")
+                max_value = float("-inf")
                 any_null = False
                 timestamps = []
                 for value in values:
@@ -223,11 +229,11 @@ class AttributeSpec:
                 if any_null:
                     if min_value > 0:
                         nan_values = [0]
-                    elif max_value < np.iinfo('float64').max:
-                        nan_values = [np.iinfo('float64').max]
+                    elif max_value < np.iinfo("float64").max:
+                        nan_values = [np.iinfo("float64").max]
                     else:
                         # Do it the very slow way
-                        for i in range(1, np.iinfo('float64').max):
+                        for i in range(1, np.iinfo("float64").max):
                             if i not in timestamps:
                                 nan_values = [i]
                                 break
@@ -266,25 +272,25 @@ class AttributeSpec:
                     values=BoolArray1_V1_0_1(**table),
                 )
             case _:
-                logger.warning(f"Skipping unsupported DUF attribute data type '{self.attr_type.name}' for attribute '{self.name}'.")
+                logger.warning(
+                    f"Skipping unsupported DUF attribute data type '{self.attr_type.name}' for attribute '{self.name}'."
+                )
                 return None
 
 
-def value_from_xproperties(obj: BaseEntity, key: str, attr_type: AttributeType) -> Any:
-    found, value = obj.XProperties.TryGetValue(key)
-    if not found:
+def value_from_xproperties(obj: dw.BaseEntity, key: str, attr_type: AttributeType) -> Any:
+    value = get_xprops_value(obj.XProperties, key)
+    if not value:
         return None
-
-    value = value.Value[0].Value
     match attr_type:
         case AttributeType.String | AttributeType.Category:
             return value if value else None
         case AttributeType.Integer:
-            return int(value) if value not in {None, ''} else None
+            return int(value) if value not in {None, ""} else None
         case AttributeType.Double:
-            return float(value) if value not in {None, ''} else None
+            return float(value) if value not in {None, ""} else None
         case AttributeType.DateTime | AttributeType.Boolean:
-            return value if value not in {None, ''} else None
+            return value if value not in {None, ""} else None
         # case AttributeType.Color:
         #     return value.ValueColor
         case _:
@@ -296,8 +302,8 @@ def validify(name: str) -> str:
     return re.sub(r'[<>:"/\\|?*]', "_", name)[-255:]  # limit to 255 chars, keep the end
 
 
-def get_name(obj: BaseEntity) -> str:
-    if isinstance(obj, Layer):
+def get_name(obj: dw.BaseEntity) -> str:
+    if isinstance(obj, dw.Layer):
         return obj.Name.split("\\")[-1]
 
     if (label := getattr(obj, "Label", None)) is not None:
@@ -336,7 +342,9 @@ def indices_array_to_go(data_client, indices_array, table_klass):
     return table_klass(**data_client.save_table(indices_table))
 
 
-def parts_to_go(data_client, parts: dict[str, int | dict[AttributeSpec, list]], parts_klass, chunks_klass=IndexArray2_V1_0_1):
+def parts_to_go(
+    data_client, parts: dict[str, int | dict[AttributeSpec, list]], parts_klass, chunks_klass=IndexArray2_V1_0_1
+):
     if parts:
         parts_schema = pa.schema([pa.field("offset", pa.uint64()), pa.field("count", pa.uint64())])
         parts_table = pa.Table.from_arrays(
@@ -357,7 +365,7 @@ def parts_to_go(data_client, parts: dict[str, int | dict[AttributeSpec, list]], 
     return None
 
 
-def obj_list_and_indices_to_arrays(obj_list: list[BaseEntity], indices_arrays: list[NDArray]):
+def obj_list_and_indices_to_arrays(obj_list: list[dw.BaseEntity], indices_arrays: list[NDArray]):
     orig_num_vertices = sum(obj.VertexList.Count for obj in obj_list)
     num_parts = len(obj_list)
 
@@ -379,7 +387,6 @@ def obj_list_and_indices_to_arrays(obj_list: list[BaseEntity], indices_arrays: l
     else:
         vertices_array = new_vertices_array
 
-    # Work out indices in the combined original vertices array, and create parts with attributes
     attribute_specs = AttributeSpec.layer_attributes(layer)
     attribute_names = {spec.name for spec in attribute_specs}
     if num_parts > 1 or attribute_specs:

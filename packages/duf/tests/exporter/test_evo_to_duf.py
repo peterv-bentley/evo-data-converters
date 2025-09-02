@@ -1,0 +1,58 @@
+import os
+from unittest import mock
+from uuid import uuid4
+
+from evo_schemas import LineSegments_V2_1_0
+
+from evo.data_converters.common import EvoObjectMetadata
+from evo.data_converters.duf.exporter.evo_to_duf import (
+    export_duf,
+)
+from evo.data_converters.duf.importer.duf_to_evo import convert_duf
+
+
+def _compare_evo_polylines(lines: list[LineSegments_V2_1_0], expected_lines: list[LineSegments_V2_1_0]):
+    for line, expected_line in zip(lines, expected_lines, strict=True):
+        assert line.parts.chunks.length == expected_line.parts.chunks.length
+        assert line.segments.indices.length == expected_line.segments.indices.length
+
+        for line_attr, expected_line_attr in zip(line.parts.attributes, expected_line.parts.attributes):
+            assert type(line_attr) == type(expected_line_attr)
+            assert line_attr.key == expected_line_attr.key
+            assert line_attr.name == expected_line_attr.name
+            assert line_attr.attribute_type == expected_line_attr.attribute_type
+
+
+def _mock_convert_to_evo(filename: str, evo_metadata):
+    return convert_duf(filepath=filename, evo_workspace_metadata=evo_metadata, epsg_code=32650)
+
+
+def _mock_convert_to_duf(evo_objects, out_filename, evo_metadata):
+    objects_downloaded = 0
+
+    async def mock_download(*a, **kw):
+        nonlocal objects_downloaded
+        result = evo_objects[objects_downloaded]
+        objects_downloaded += 1
+        return result
+
+    with mock.patch("evo.objects.client.ObjectAPIClient.download_object_by_id", new=mock_download):
+        # The metadata won't actually be used, because the download is mocked
+        metadata = [EvoObjectMetadata(uuid4()) for _ in evo_objects]
+        export_duf("test_out.duf", metadata, evo_metadata)
+
+
+def test_convert(evo_metadata):
+    # Convert a DUF file to Evo and use the generated Parquet files to test the exporter
+
+    initial_evo_objects = _mock_convert_to_evo("../data/polyline_attrs_boat.duf", evo_metadata)
+
+    _mock_convert_to_duf(initial_evo_objects, "test_out.duf", evo_metadata)
+    assert os.path.exists("test_out.duf")
+
+    final_evo_objects = _mock_convert_to_evo("test_out.duf", evo_metadata)
+
+    _compare_evo_polylines(initial_evo_objects, final_evo_objects)
+
+
+# TODO More tests

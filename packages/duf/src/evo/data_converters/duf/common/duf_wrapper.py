@@ -1,49 +1,14 @@
 # ruff: noqa: E402
 
 import os
-import platform
 from collections import defaultdict
 
-if not platform.system() == "Windows":
-    raise RuntimeError("This script is only supported on Windows.")
-
-if not os.path.exists(r"C:\Program Files\Deswik"):
-    raise RuntimeError("Deswik.Suite is not installed. Please install Deswik.Suite to run this script.")
-
-installs = [pth for pth in os.listdir(r"C:\Program Files\Deswik") if "Suite" in pth]
-if not installs:
-    raise RuntimeError("Deswik.Suite is not installed. Please install Deswik.Suite to run this script.")
-
-
-# Sort by version
-def by_version(path):
-    version = path.split(" ")[-1]
-    year, month = version.split(".")
-    return int(year), int(month)
-
-
-import evo.logging
-
-logger = evo.logging.getLogger("data_converters")
-
-newest = os.path.join(r"C:\Program Files\Deswik", sorted(installs, key=by_version)[-1])
-logger.debug("Looking for Deswik DLLs in: %s", newest)
-
-import sys
-
-sys.path.append(newest)
-
-import clr
-
-clr.AddReference("Deswik.Duf")
-clr.AddReference("Deswik.Entities")
-clr.AddReference("Deswik.Entities.Cad")
-clr.AddReference("Deswik.Serialization")
+from evo.data_converters.duf.common import setup_deswik_lib_bindings
 
 # Some imports below are unused but imported here to ensure the setup code above has run
 from Deswik.Duf import CompressionMethod, DufImplementation, FilterCriteria, NotDufFileException
 from Deswik.Entities import BaseEntity
-from Deswik.Entities.Cad import Activator, Category, Layer, Polyface, Polyline, Upgrader  # noqa: F401
+from Deswik.Entities.Cad import Activator, Category, Document, Layer, Figure, Polyface, Polyline, Upgrader  # noqa: F401
 from Deswik.Serialization import GuidReferences
 from System import Guid, NullReferenceException
 from System.Collections.Generic import List
@@ -134,6 +99,8 @@ class DufWrapper:
         except (NotDufFileException, NullReferenceException):
             raise InvalidDufFileException(f"Invalid DUF file: {path}")
 
+        self._document = None
+
     def __enter__(self):
         return self
 
@@ -155,6 +122,7 @@ class DufWrapper:
         dufGuidReferences = GuidReferences()
         self.LoadDocInternal(dufGuidReferences)
         self.LoadEntitiesInternal(None, dufGuidReferences)
+        _, self._document = self._collector.get_objects_of_type(Document)[0]
 
     def LoadSingleEntity(self, entityId, guidReferences):
         return self._duf.LoadSingleEntityFromLatest(entityId, guidReferences, False, None)
@@ -219,6 +187,11 @@ class DufWrapper:
         )
         self.LoadTopLevelEntitiesOfType(
             Category.Lights,
+            dufGuidReferences,
+            lambda item: self._collector.Loaded(Category.Lights, item),
+        )
+        self.LoadTopLevelEntitiesOfType(
+            Category.Palette,
             dufGuidReferences,
             lambda item: self._collector.Loaded(Category.Lights, item),
         )
