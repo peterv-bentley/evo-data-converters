@@ -9,6 +9,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+import asyncio
 import os
 from unittest import mock
 from uuid import uuid4
@@ -76,7 +77,7 @@ def _mock_convert_to_duf(evo_objects, out_filename, evo_metadata):
     with mock.patch("evo.objects.client.ObjectAPIClient.download_object_by_id", new=mock_download):
         # The metadata won't actually be used, because the download is mocked
         metadata = [EvoObjectMetadata(uuid4()) for _ in evo_objects]
-        export_duf("test_out.duf", metadata, evo_metadata)
+        asyncio.run(export_duf("test_out.duf", metadata, evo_metadata))
 
 
 def test_convert_polyline(evo_metadata):
