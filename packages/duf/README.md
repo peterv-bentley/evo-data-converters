@@ -35,7 +35,7 @@ Evo is powered by Seequent, a Bentley organisation.
 
 * Python virtual environment with Python 3.10, 3.11, or 3.12
 * Microsoft Windows - this package is not currently supported on Linux or macOS
-* Deswik Suite
+* Deswik Spatial - https://www.deswik.com/products/spatial
 * .NET Framework v4.7.2 or higher (or other compatible .NET runtime)
 
 ## Installation
@@ -98,11 +98,11 @@ Then call `convert_duf`, passing it the DUF file path, EPSG code, the workspace 
 tags, optionally the flag `combine_objects_in_layers`, and finally a path you want the published objects to appear under
 in your workspace.
 
-See [the convert-duf sample notebook](https://github.com/ArthurGW/evo-data-converters/blob/main/packages/duf/samples/convert-duf/convert-duf.ipynb)
+See [the convert-duf sample notebook](https://github.com/seequentevo/evo-data-converters/blob/main/packages/duf/samples/convert-duf/convert-duf.ipynb)
 for a complete example.
 
 **Note:** Some geometry types are not yet supported. A warning will be shown for each element that could not be
-converted. Currently, for publishing we support polyface objects and polylines, and all attribute types except for color
+converted. Currently, for publishing we support polyface objects and polylines, and all attribute types except for colour
 attributes.
 
 ### Export objects to DUF

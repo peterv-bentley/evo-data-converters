@@ -30,3 +30,6 @@ changelog:
     - title: Other Changes
       labels:
         - "*"
+    - title: evo-data-converters-duf import
+      labels:
+        - duf
