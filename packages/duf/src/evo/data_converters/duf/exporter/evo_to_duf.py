@@ -14,9 +14,9 @@ from evo.data_converters.common import (
 )
 from evo.data_converters.duf.common import deswik_types as dw
 from evo.data_converters.duf.common.conversions import EvoDufWriter
-from evo.data_converters.duf.common.types import FetchedTriangleMesh
-from evo.data_converters.duf.fetch import Fetch, FetchedPolyline
-from evo.data_converters.duf.exporter.evo_to_polyline_duf import polyline_to_duf
+from evo.data_converters.duf.common.types import FetchedLines, FetchedTriangleMesh
+from evo.data_converters.duf.fetch import Fetch
+
 
 _EvoMetadata = ObjectMetadata | EvoObjectMetadata
 
@@ -50,9 +50,9 @@ async def _evo_objects_to_duf_async(
 
     # Go ahead and wait for the next download
     async for fetched_object in async_fetch_futures:
-        if isinstance(fetched_object, FetchedPolyline):
+        if isinstance(fetched_object, FetchedLines):
             # Process this polyline while we wait for the others to fetch
-            polyline_to_duf(fetched_object, duf)
+            duf_writer.write_lines(fetched_object)
         elif isinstance(fetched_object, FetchedTriangleMesh):
             duf_writer.write_mesh_triangles(fetched_object)
         else:

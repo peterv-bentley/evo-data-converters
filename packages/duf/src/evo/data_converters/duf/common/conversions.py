@@ -2,7 +2,7 @@
 import numpy
 import pandas
 
-from evo.data_converters.duf.common.types import AttributedEvoData, FetchedTriangleMesh
+from evo.data_converters.duf.common.types import AttributedEvoData, FetchedTriangleMesh, FetchedLines, EvoAttributes
 
 EVO_TO_DW_TYPE_CONVERSION = {
     'string': 'String',
@@ -40,6 +40,7 @@ class Layer:
 
     @staticmethod
     def with_attributes(duf, evo_data: AttributedEvoData):
+        # TODO Need to handle duplicate names
         new_layer = duf.NewLayer(evo_data.name)
         dw_attributes = {
             attr.name: new_layer.AddAttribute(attr.name, EVO_TO_DW_TYPE_CONVERSION[attr.type])
@@ -49,6 +50,13 @@ class Layer:
 
     def __getitem__(self, item: str):
         return self._attributes[item]
+
+    def set_attributes_to_entity(self, dw_entity, evo_attributes: list[EvoAttributes], i: int):
+        for attr in evo_attributes:
+            value = attr.values[i]
+            converted = np_to_dw(value)
+            dw_attr = self[attr.name]
+            dw_entity.SetAttribute(dw_attr, converted)
 
 
 class EvoDufWriter:
@@ -68,8 +76,13 @@ class EvoDufWriter:
             flattened_triangles = part.flatten().tolist()
             new_polyface.SetVertices3D(flattened_vertices, flattened_triangles)
 
-            for attr in mesh_triangles.attributes:
-                value = attr.values[i]
-                converted = np_to_dw(value)
-                dw_attr = new_layer[attr.name]
-                new_polyface.SetAttribute(dw_attr, converted)
+            new_layer.set_attributes_to_entity(new_polyface, mesh_triangles.attributes, i)
+
+    def write_lines(self, lines: FetchedLines):
+        new_layer = Layer.with_attributes(self._duf, lines)
+
+        for i, path in enumerate(lines.paths):
+            new_polyline = self._duf.NewPolyline(new_layer.layer)
+            new_polyline.SetVertices3D(path.flatten())
+
+            new_layer.set_attributes_to_entity(new_polyline, lines.attributes, i)
