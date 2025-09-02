@@ -21,6 +21,7 @@ from evo_schemas.objects import TriangleMesh_V2_1_0
 
 import evo.logging
 from evo.objects.utils.data import ObjectDataClient
+from numpy._typing import NDArray
 
 import evo.data_converters.duf.common.deswik_types as dw
 from .utils import (
@@ -54,6 +55,49 @@ def _create_triangle_mesh_obj(name, vertices_array, indices_array, parts, epsg_c
     return triangle_mesh_go
 
 
+def indices_from_polyface(dw_facelist) -> NDArray[np.uint64]:
+    """
+    Extracts triangles from the PolyFace's FaceList.
+
+    Returns a numpy uint64 array of shape (*, 3).
+
+    The FaceList is a flat integer array. Each face is represented by 5 consecutive integers. The faces can be triangles
+    or quads.
+    - triangle: [..., 1, 2, 3, 1, -1, ...]
+    - quad: [..., 1, 2, 3, 4, -1, ...]
+    The first four integers describe the triangle/quad. The 5th integer can optionally represent colour information,
+    but we don't care about this and I don't know the details.
+
+    The FaceList is 1-indexed, and indices can be negative. Indices being negative has a special meaning for the
+    visibility of parts of the geometry, but we ignore that and force everything to be positive.
+    """
+    count = dw_facelist.Count // 5
+    assert dw_facelist.Count % 5 == 0, f"Expected a multiple of 5 indicies, but got {dw_facelist.Count}"
+
+    # The indices are 1-indexed and possibly negative
+    indices_arr = np.abs(np.fromiter(dw_facelist, dtype=np.int32, count=count * 5).reshape(count, 5)) - 1
+
+    # Triangles repeat the 0th and 3rd indices, and quads have 4 distinct indices (not considering degenerate cases)
+    quads_mask = indices_arr[:, 0] != indices_arr[:, 3]
+
+    # The first three indices are either the entire triangle we care about, or the first half of a quad
+    tris = indices_arr[:, [0, 1, 2]]
+
+    # Split off an extra triangle for each quad
+    extra_tris_from_quads = indices_arr[quads_mask][:, [2, 3, 0]]
+
+    result = np.vstack([tris, extra_tris_from_quads])
+
+    # We're not expecting the FaceList to have indices of `0`, which will have been shifted to `-1` by this point.
+    rows_with_negative_value = np.any(result < 0, axis=1)
+    if rows_with_negative_value.any():
+        msg = "The FaceList values were expected to be 1-index, but there was a zero value"
+        assert False, msg
+        logger.error(msg)
+
+    return result[~rows_with_negative_value].astype("uint64")
+
+
 def combine_duf_polyfaces(
     polyfaces: list[dw.Polyface],
     data_client: ObjectDataClient,
@@ -68,14 +112,7 @@ def combine_duf_polyfaces(
 
     indices_arrays = []
     for polyface in polyfaces:
-        count = int(polyface.FaceList.Count / 5)
-
-        pf_indices_array = (
-            np.fromiter(polyface.FaceList, dtype=np.int32, count=count * 5).reshape(count, 5)[:, :3].astype("uint64")
-            - 1
-        )  # 1-indexed in the file, last element is -1 separator, 2nd last is same as 1st
-
-        indices_arrays.append(pf_indices_array)
+        indices_arrays.append(indices_from_polyface(polyface.FaceList))
 
     vertices_array, indices_array, parts = obj_list_and_indices_to_arrays(polyfaces, indices_arrays)
 
@@ -90,12 +127,7 @@ def convert_duf_polyface(
     name = get_name(polyface)
     logger.debug(f'Converting polyface: "{name}" to TriangleMesh_V2_1_0.')
 
-    num_faces = int(polyface.FaceList.Count / 5)
-
-    indices_array = (
-        np.fromiter(polyface.FaceList, dtype=np.int32, count=num_faces * 5).reshape(num_faces, 5)[:, :3] - 1
-    )  # 1-indexed in the file, last element is -1 separator, 2nd last is same as 1st
-    indices_array = indices_array.astype("uint64")
+    indices_array = indices_from_polyface(polyface.FaceList)
 
     vertices_array, indices_array, parts = obj_list_and_indices_to_arrays([polyface], [indices_array])
 
