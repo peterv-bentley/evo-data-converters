@@ -16,16 +16,26 @@ import os
 import evo.logging
 
 
+DEFAULT_WINDOWS_INSTALL_ROOT = r"C:\Program Files\Deswik"
+DESWIK_INSTALL_PATH_ENV = "DESWIK_PATH"
+
+
 if platform.system() != "Windows":
     raise RuntimeError("This script is only supported on Windows.")
 
-if (deswik_path := os.getenv("DESWIK_PATH")) is None:
-    if not os.path.exists(r"C:\Program Files\Deswik"):
-        raise RuntimeError("Deswik.Suite is not installed. Please install Deswik.Suite to run this script.")
 
-    installs = [pth for pth in os.listdir(r"C:\Program Files\Deswik") if "Suite" in pth]
+if (deswik_path := os.getenv(DESWIK_INSTALL_PATH_ENV)) is None:
+    missing_install_msg = (
+        f"Deswik.Suite is expected to be installed somewhere under {DEFAULT_WINDOWS_INSTALL_ROOT}, but nothing is "
+        f"there. If you know the install directory, then you can set the environment variable `DESWIK_PATH`."
+    )
+
+    if not os.path.exists(DEFAULT_WINDOWS_INSTALL_ROOT):
+        raise OSError(missing_install_msg)
+
+    installs = [path for path in os.listdir(DEFAULT_WINDOWS_INSTALL_ROOT) if "Suite" in path]
     if not installs:
-        raise RuntimeError("Deswik.Suite is not installed. Please install Deswik.Suite to run this script.")
+        raise OSError(missing_install_msg)
 
     # Sort by version
     def by_version(path):
@@ -33,7 +43,16 @@ if (deswik_path := os.getenv("DESWIK_PATH")) is None:
         year, month = version.split(".")
         return int(year), int(month)
 
-    deswik_path = os.path.join(r"C:\Program Files\Deswik", sorted(installs, key=by_version, reverse=True)[0])
+    most_recent_install_dir = sorted(installs, key=by_version, reverse=True)[0]
+    deswik_path = os.path.join(DEFAULT_WINDOWS_INSTALL_ROOT, most_recent_install_dir)
+
+if not os.path.exists(deswik_path):
+    missing_install_msg = (
+        f"Deswik.Suite is expected to be installed at {deswik_path}, but nothing is there. If you "
+        f"know the install directory, then you can set the environment variable `DESWIK_PATH`."
+    )
+    raise OSError(missing_install_msg)
+
 
 logger = evo.logging.getLogger("data_converters")
 logger.debug("Looking for Deswik DLLs in: %s", deswik_path)
