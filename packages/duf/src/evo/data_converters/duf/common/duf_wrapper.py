@@ -41,8 +41,10 @@ class ObjectCollector:
             self._layers_by_guid[item.Guid] = item
         elif hasattr(item, "Layer"):
             # Sometimes the loaded layer on the object is not the same as the one in the layer collection, fix this
-            if item.Layer is not None and item.Layer is not self._layers_by_guid[item.Layer.Guid]:
-                item.Layer = self._layers_by_guid[item.Layer.Guid]
+            if item.Layer is not None and item.Layer is not (
+                real_layer := self._layers_by_guid.get(item.Layer.Guid, item.Layer)
+            ):
+                item.Layer = real_layer
 
         self._objs[category][type(item)].append(item)
         if self._verbose:

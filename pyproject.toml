@@ -15,18 +15,19 @@ dependencies = [
   "evo-data-converters-vtk",
 ]
 
+[project.optional-dependencies]
+"notebooks" = [
+    "evo-sdk-common[notebooks]>=0.4.2",
+    "notebook>=7.4.3",
+]
+
 [project.urls]
 Source = "https://github.com/SeequentEvo/evo-python-sdk"
 Tracker = "https://github.com/SeequentEvo/evo-python-sdk/issues"
 Homepage = "https://www.seequent.com/"
 Documentation = "https://developer.seequent.com/"
 
-
 [dependency-groups]
-notebooks = [
-    "evo-sdk-common[notebooks]>=0.4.2",
-    "notebook>=7.4.3",
-]
 dev = [
   "pre-commit >= 4",
   "ruff==0.9.1",              # keep in sync with .pre-commit-config.yaml

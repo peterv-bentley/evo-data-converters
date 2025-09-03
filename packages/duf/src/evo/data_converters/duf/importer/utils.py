@@ -120,7 +120,8 @@ class AttributeSpec:
     def to_go(self, data_client: ObjectDataClient, values: list[Any]) -> OneOfAttribute_V1_2_0_Item:
         category_set = None
         if self.attr_type is AttributeType.String:
-            category_set = set(v for v in values if v is not None)
+            null_categories = {None, ""}
+            category_set = set(v for v in values if v not in null_categories)
 
         match self.attr_type:
             case AttributeType.String if len(category_set) > 3_000:
@@ -238,11 +239,11 @@ class AttributeSpec:
                 if any_null:
                     if min_value > 0:
                         nan_values = [0]
-                    elif max_value < np.iinfo("float64").max:
-                        nan_values = [np.iinfo("float64").max]
+                    elif max_value < np.iinfo("int64").max:
+                        nan_values = [np.iinfo("int64").max]
                     else:
                         # Do it the very slow way
-                        for i in range(1, np.iinfo("float64").max):
+                        for i in range(1, np.iinfo("int64").max):
                             if i not in timestamps:
                                 nan_values = [i]
                                 break
@@ -397,6 +398,7 @@ def obj_list_and_indices_to_arrays(obj_list: list[dw.BaseEntity], indices_arrays
     if len(unique_vertices_array) == orig_num_vertices:
         # No duplicates
         orig_to_unique = None
+        unique_vertices_array = vertices_array  # np.unique sorts the returned array, we need to use the original here
 
     attribute_specs = AttributeSpec.layer_attributes(layer)
     attribute_names = {spec.name for spec in attribute_specs}

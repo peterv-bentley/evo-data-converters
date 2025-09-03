@@ -25,3 +25,14 @@ def simple_objects_path():
 def simple_objects(simple_objects_path):
     with DUFCollectorContext(simple_objects_path) as context:
         yield context.collector
+
+
+@pytest.fixture(scope="session")
+def multiple_objects_path():
+    return str((Path(__file__).parent.parent / "data" / "multiple_objects.duf").resolve())
+
+
+@pytest.fixture(scope="session")
+def multiple_objects(multiple_objects_path):
+    with DUFCollectorContext(multiple_objects_path) as context:
+        yield context.collector
