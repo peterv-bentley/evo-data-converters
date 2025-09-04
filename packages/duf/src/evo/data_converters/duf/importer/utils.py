@@ -120,8 +120,7 @@ class AttributeSpec:
     def to_go(self, data_client: ObjectDataClient, values: list[Any]) -> OneOfAttribute_V1_2_0_Item:
         category_set = None
         if self.attr_type is AttributeType.String:
-            null_categories = {None, ""}
-            category_set = set(v for v in values if v not in null_categories)
+            category_set = set(v for v in values if v)
 
         match self.attr_type:
             case AttributeType.String if len(category_set) > 3_000:
