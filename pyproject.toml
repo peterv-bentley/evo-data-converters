@@ -7,11 +7,18 @@ license = { file = "LICENSE.md", content-type = "text/markdown" }
 version = "0.1.0"
 dependencies = [
   "evo-data-converters-common",
+  "evo-data-converters-duf ; platform_system == \"Windows\"",
   "evo-data-converters-gocad",
   "evo-data-converters-omf",
   "evo-data-converters-resqml",
   "evo-data-converters-ubc",
   "evo-data-converters-vtk",
+]
+
+[project.optional-dependencies]
+"notebooks" = [
+    "evo-sdk-common[notebooks]>=0.4.2",
+    "notebook>=7.4.3",
 ]
 
 [project.urls]
@@ -29,6 +36,7 @@ dev = [
 
 [tool.uv.sources]
 evo-data-converters-common = { workspace = true }
+evo-data-converters-duf = { workspace = true }
 evo-data-converters-gocad = { workspace = true }
 evo-data-converters-omf = { workspace = true }
 evo-data-converters-resqml = { workspace = true }
