@@ -12,6 +12,7 @@ from collections import defaultdict
 from os import path
 
 import numpy as np
+import pandas as pd
 import pyarrow.parquet as pq
 import pytest
 from evo_schemas.components import (
@@ -23,6 +24,7 @@ from evo_schemas.objects import LineSegments_V2_1_0
 import evo.data_converters.duf.common.deswik_types as dw
 from evo.data_converters.duf.importer import convert_duf_polyline
 from evo.data_converters.duf.importer.duf_polyline_to_evo import combine_duf_polylines
+from utils import extract_single_attr_value, extract_attr_values
 
 
 @pytest.fixture(scope="module")
@@ -150,3 +152,65 @@ def test_combining_duf_polyline_geometry(multiple_objects, data_client):
         ]
     )
     np.testing.assert_equal(indices.to_pandas(), expected_indices)
+
+
+def test_polyline_obj_attrs(polyline_attrs_boat, data_client):
+    polyline_objs = [obj for _, obj in polyline_attrs_boat.get_objects_of_type(dw.Polyline)]
+    polyline_objs = sorted(polyline_objs, key=lambda pl: pl.VertexList[0].X)  # Ensure consistent order
+
+    line_segments_gos = [convert_duf_polyline(pl, data_client, 12345) for pl in polyline_objs]
+    all_attrs = [ls.parts.attributes for ls in line_segments_gos]
+    for attrs in all_attrs:
+        assert [attr.name for attr in attrs] == ["Part", "Date", "Doub", "Int", "Choice"]
+        assert [attr.attribute_type for attr in attrs] == ["category", "date_time", "scalar", "integer", "category"]
+
+    part_values = [extract_single_attr_value(attrs[0], data_client) for attrs in all_attrs]
+    datetime_values = [extract_single_attr_value(attrs[1], data_client) for attrs in all_attrs]
+    doub_values = [extract_single_attr_value(attrs[2], data_client) for attrs in all_attrs]
+    int_values = [extract_single_attr_value(attrs[3], data_client) for attrs in all_attrs]
+    choice_values = [extract_single_attr_value(attrs[4], data_client) for attrs in all_attrs]
+
+    assert part_values == ["Hull", "Mast", "Mast", "Anchor"]
+    assert datetime_values == [
+        pd.Timestamp(year=2025, month=8, day=13, hour=0, minute=0, second=0, tz="UTC"),
+        pd.Timestamp(year=2025, month=8, day=13, hour=0, minute=0, second=0, tz="UTC"),
+        pd.Timestamp(year=2025, month=8, day=13, hour=0, minute=0, second=0, tz="UTC"),
+        pd.Timestamp(year=2025, month=7, day=1, hour=12, minute=34, second=56, tz="UTC"),
+    ]
+    np.testing.assert_equal(doub_values, [np.nan, 1.1, 2.2, 2.2])
+    np.testing.assert_equal(int_values, [np.nan, 5, 5, 7])
+    assert choice_values == ["C", "A", "B", "C"]
+
+
+def test_combine_polyline_attrs(polyline_attrs_boat, data_client):
+    polyline_objs = [obj for _, obj in polyline_attrs_boat.get_objects_of_type(dw.Polyline)]
+    polyline_objs = sorted(polyline_objs, key=lambda pl: pl.VertexList[0].X)  # Ensure consistent order
+
+    line_segments_go = combine_duf_polylines(polyline_objs, data_client, 12345)
+    attrs = line_segments_go.parts.attributes
+    assert [attr.name for attr in attrs] == ["Part", "Date", "Doub", "Int", "Choice"]
+    assert [attr.attribute_type for attr in attrs] == ["category", "date_time", "scalar", "integer", "category"]
+
+    part_values, datetime_values, doub_values, int_values, choice_values = [
+        extract_attr_values(attr, data_client) for attr in attrs
+    ]
+
+    pd.testing.assert_series_equal(
+        part_values, pd.Series(["Hull", "Mast", "Mast", "Anchor"]), check_index=False, check_names=False
+    )
+    pd.testing.assert_series_equal(
+        datetime_values,
+        pd.Series(
+            [
+                pd.Timestamp(year=2025, month=8, day=13, hour=0, minute=0, second=0, tz="UTC"),
+                pd.Timestamp(year=2025, month=8, day=13, hour=0, minute=0, second=0, tz="UTC"),
+                pd.Timestamp(year=2025, month=8, day=13, hour=0, minute=0, second=0, tz="UTC"),
+                pd.Timestamp(year=2025, month=7, day=1, hour=12, minute=34, second=56, tz="UTC"),
+            ],
+            dtype="datetime64[us, UTC]",
+        ),
+        check_names=False,
+    )
+    pd.testing.assert_series_equal(doub_values, pd.Series([np.nan, 1.1, 2.2, 2.2]), check_names=False)
+    pd.testing.assert_series_equal(int_values, pd.Series([np.nan, 5, 5, 7]), check_names=False)
+    pd.testing.assert_series_equal(choice_values, pd.Series(["C", "A", "B", "C"]), check_index=False, check_names=False)

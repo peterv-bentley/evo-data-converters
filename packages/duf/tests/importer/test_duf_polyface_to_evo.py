@@ -12,6 +12,7 @@ from collections import defaultdict
 from os import path
 
 import numpy as np
+import pandas as pd
 import pyarrow.parquet as pq
 import pytest
 from evo_schemas.components import (
@@ -23,6 +24,7 @@ from evo_schemas.objects import TriangleMesh_V2_1_0
 import evo.data_converters.duf.common.deswik_types as dw
 from evo.data_converters.duf.importer import convert_duf_polyface
 from evo.data_converters.duf.importer.duf_polyface_to_evo import indices_from_polyface, combine_duf_polyfaces
+from utils import extract_single_attr_value, extract_attr_values
 
 
 @pytest.fixture(scope="module")
@@ -215,3 +217,38 @@ def test_indices_from_polyface_incomplete():
     else:
         # Test this branch by running Python with `-O`
         _run_indices_from_polyface_test(incomplete, expected)
+
+
+def test_polyface_obj_attrs(pit_mesh_attrs, data_client):
+    polyface = [obj for _, obj in pit_mesh_attrs.get_objects_of_type(dw.Polyface)][0]
+
+    triangle_mesh_go = convert_duf_polyface(polyface, data_client, 12345)
+    attrs = triangle_mesh_go.parts.attributes
+    assert [attr.name for attr in attrs] == ["String attr", "Double attr", "Integer attr", "DateTime attr", "Choice"]
+    assert [attr.attribute_type for attr in attrs] == ["category", "scalar", "integer", "date_time", "category"]
+
+    assert extract_single_attr_value(attrs[0], data_client) == "a string value"
+    assert extract_single_attr_value(attrs[1], data_client) == 3.3
+    assert extract_single_attr_value(attrs[2], data_client) == 33
+    assert extract_single_attr_value(attrs[3], data_client) == pd.Timestamp(
+        year=2025, month=8, day=15, hour=0, minute=0, second=0, tz="UTC"
+    )
+    assert extract_single_attr_value(attrs[4], data_client) == "Four"
+
+
+def test_combine_polyface_attrs(simple_objects_with_attrs, data_client):
+    polyface_objs = [obj for _, obj in simple_objects_with_attrs.get_objects_of_type(dw.Polyface)]
+    polyface_objs = sorted(polyface_objs, key=lambda pl: pl.VertexList[0].Y)  # Ensure consistent order
+
+    triangle_mesh_go = combine_duf_polyfaces(polyface_objs, data_client, 12345)
+    attrs = triangle_mesh_go.parts.attributes
+    assert [attr.name for attr in attrs] == ["integer", "string", "enum"]
+    assert [attr.attribute_type for attr in attrs] == ["integer", "category", "category"]
+
+    integer_values, string_values, enum_values = [extract_attr_values(attr, data_client) for attr in attrs]
+
+    pd.testing.assert_series_equal(integer_values, pd.Series([np.nan, 1, np.nan]), check_names=False)
+    pd.testing.assert_series_equal(string_values, pd.Series(["no", "yes", "yes"]), check_index=False, check_names=False)
+    pd.testing.assert_series_equal(
+        enum_values, pd.Series(["three", "two", "one"]), check_index=False, check_names=False
+    )

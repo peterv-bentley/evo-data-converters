@@ -12,7 +12,7 @@
 import re
 from collections import defaultdict
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import auto, Enum
 from typing import Any
 
@@ -150,7 +150,7 @@ class AttributeSpec:
                     schema=pa.schema(
                         [
                             pa.field("key", lookup_keys_type),
-                            pa.field("n1", pa.string()),
+                            pa.field("value", pa.string()),
                         ]
                     ),
                 )
@@ -223,7 +223,7 @@ class AttributeSpec:
                         timestamp = int(value.timestamp() * 1_000_000)  # Convert to microseconds
                     else:
                         try:
-                            timestamp = int(isoparse(value).timestamp() * 1_000_000)  # Convert to microseconds
+                            timestamp = int(isoparse(value).replace(tzinfo=timezone.utc).timestamp() * 1_000_000)
                         except (ParserError, ValueError, TypeError):
                             timestamp = None
                             any_null = True
