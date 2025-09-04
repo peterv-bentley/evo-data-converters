@@ -12,7 +12,7 @@
 import re
 from collections import defaultdict
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import auto, Enum
 from typing import Any
 
@@ -149,7 +149,7 @@ class AttributeSpec:
                     schema=pa.schema(
                         [
                             pa.field("key", lookup_keys_type),
-                            pa.field("n1", pa.string()),
+                            pa.field("value", pa.string()),
                         ]
                     ),
                 )
@@ -222,7 +222,7 @@ class AttributeSpec:
                         timestamp = int(value.timestamp() * 1_000_000)  # Convert to microseconds
                     else:
                         try:
-                            timestamp = int(isoparse(value).timestamp() * 1_000_000)  # Convert to microseconds
+                            timestamp = int(isoparse(value).replace(tzinfo=timezone.utc).timestamp() * 1_000_000)
                         except (ParserError, ValueError, TypeError):
                             timestamp = None
                             any_null = True
@@ -238,11 +238,11 @@ class AttributeSpec:
                 if any_null:
                     if min_value > 0:
                         nan_values = [0]
-                    elif max_value < np.iinfo("float64").max:
-                        nan_values = [np.iinfo("float64").max]
+                    elif max_value < np.iinfo("int64").max:
+                        nan_values = [np.iinfo("int64").max]
                     else:
                         # Do it the very slow way
-                        for i in range(1, np.iinfo("float64").max):
+                        for i in range(1, np.iinfo("int64").max):
                             if i not in timestamps:
                                 nan_values = [i]
                                 break
@@ -397,6 +397,7 @@ def obj_list_and_indices_to_arrays(obj_list: list[dw.BaseEntity], indices_arrays
     if len(unique_vertices_array) == orig_num_vertices:
         # No duplicates
         orig_to_unique = None
+        unique_vertices_array = vertices_array  # np.unique sorts the returned array, we need to use the original here
 
     attribute_specs = AttributeSpec.layer_attributes(layer)
     attribute_names = {spec.name for spec in attribute_specs}

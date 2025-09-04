@@ -25,3 +25,47 @@ def simple_objects_path():
 def simple_objects(simple_objects_path):
     with DUFCollectorContext(simple_objects_path) as context:
         yield context.collector
+
+
+@pytest.fixture(scope="session")
+def simple_objects_with_attrs_path():
+    return str((Path(__file__).parent.parent / "data" / "simple_objects_with_attributes.duf").resolve())
+
+
+@pytest.fixture(scope="session")
+def simple_objects_with_attrs(simple_objects_with_attrs_path):
+    with DUFCollectorContext(simple_objects_with_attrs_path) as context:
+        yield context.collector
+
+
+@pytest.fixture(scope="session")
+def multiple_objects_path():
+    return str((Path(__file__).parent.parent / "data" / "multiple_objects.duf").resolve())
+
+
+@pytest.fixture(scope="session")
+def multiple_objects(multiple_objects_path):
+    with DUFCollectorContext(multiple_objects_path) as context:
+        yield context.collector
+
+
+@pytest.fixture(scope="session")
+def polyline_attrs_boat_path():
+    return str((Path(__file__).parent.parent / "data" / "polyline_attrs_boat.duf").resolve())
+
+
+@pytest.fixture(scope="session")
+def polyline_attrs_boat(polyline_attrs_boat_path):
+    with DUFCollectorContext(polyline_attrs_boat_path) as context:
+        yield context.collector
+
+
+@pytest.fixture(scope="session")
+def pit_mesh_attrs_path():
+    return str((Path(__file__).parent.parent / "data" / "pit_mesh_attrs.duf").resolve())
+
+
+@pytest.fixture(scope="session")
+def pit_mesh_attrs(pit_mesh_attrs_path):
+    with DUFCollectorContext(pit_mesh_attrs_path) as context:
+        yield context.collector

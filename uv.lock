@@ -728,15 +728,17 @@ dependencies = [
     { name = "evo-data-converters-vtk" },
 ]
 
+[package.optional-dependencies]
+notebooks = [
+    { name = "evo-sdk-common", extra = ["notebooks"] },
+    { name = "notebook" },
+]
+
 [package.dev-dependencies]
 dev = [
     { name = "mypy" },
     { name = "pre-commit" },
     { name = "ruff" },
-]
-notebooks = [
-    { name = "evo-sdk-common", extra = ["notebooks"] },
-    { name = "notebook" },
 ]
 
 [package.metadata]
@@ -748,17 +750,16 @@ requires-dist = [
     { name = "evo-data-converters-resqml", editable = "packages/resqml" },
     { name = "evo-data-converters-ubc", editable = "packages/ubc" },
     { name = "evo-data-converters-vtk", editable = "packages/vtk" },
+    { name = "evo-sdk-common", extras = ["notebooks"], marker = "extra == 'notebooks'", specifier = ">=0.4.2" },
+    { name = "notebook", marker = "extra == 'notebooks'", specifier = ">=7.4.3" },
 ]
+provides-extras = ["notebooks"]
 
 [package.metadata.requires-dev]
 dev = [
     { name = "mypy" },
     { name = "pre-commit", specifier = ">=4" },
     { name = "ruff", specifier = "==0.9.1" },
-]
-notebooks = [
-    { name = "evo-sdk-common", extras = ["notebooks"], specifier = ">=0.4.2" },
-    { name = "notebook", specifier = ">=7.4.3" },
 ]
 
 [[package]]

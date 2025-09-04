@@ -52,6 +52,15 @@ def _create_line_segments_obj(name, vertices_array, indices_array, parts, epsg_c
     return line_segments_go
 
 
+def _polyline_indices_array(num_vertices):
+    return np.column_stack(
+        (
+            np.arange(0, num_vertices - 1, dtype="uint64"),
+            np.arange(1, num_vertices, dtype="uint64"),
+        )
+    )
+
+
 def combine_duf_polylines(
     polylines: list[dw.Polyline],
     data_client: ObjectDataClient,
@@ -67,16 +76,7 @@ def combine_duf_polylines(
     indices_arrays = []
     for polyline in polylines:
         pl_num_vertices = polyline.VertexList.Count
-        pl_indices_array = (
-            np.row_stack(
-                (
-                    np.arange(pl_num_vertices - 1),
-                    np.arange(1, pl_num_vertices),
-                )
-            )
-            .astype("uint64")
-            .T
-        )
+        pl_indices_array = _polyline_indices_array(pl_num_vertices)
         indices_arrays.append(pl_indices_array)
 
     vertices_array, indices_array, parts = obj_list_and_indices_to_arrays(polylines, indices_arrays)
@@ -94,16 +94,7 @@ def convert_duf_polyline(
 
     num_vertices = polyline.VertexList.Count
 
-    indices_array = (
-        np.row_stack(
-            (
-                np.arange(num_vertices - 1),
-                np.arange(1, num_vertices),
-            )
-        )
-        .astype("uint64")
-        .T
-    )
+    indices_array = _polyline_indices_array(num_vertices)
 
     vertices_array, indices_array, parts = obj_list_and_indices_to_arrays([polyline], [indices_array])
 
