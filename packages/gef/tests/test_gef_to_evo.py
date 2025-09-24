@@ -13,6 +13,7 @@ import tempfile
 from pathlib import Path
 from unittest.mock import Mock, patch
 from uuid import uuid4
+from os import path
 
 import pytest
 
@@ -86,3 +87,10 @@ class TestConvertGef:
         }
         for key, value in expected_tags.items():
             assert mock_downhole_collection.tags[key] == value
+
+
+def test_conversion():
+    gef_file = path.join(path.dirname(__file__), "data/cpt.gef")
+    tags = ({"test": "true"},)
+
+    convert_gef(filepaths=[gef_file], tags=tags)

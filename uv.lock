@@ -838,7 +838,7 @@ dev = [
 
 [[package]]
 name = "evo-data-converters-gef"
-version = "0.0.1"
+version = "0.0.2"
 source = { editable = "packages/gef" }
 dependencies = [
     { name = "evo-data-converters-common" },

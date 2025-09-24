@@ -11,6 +11,9 @@
 
 from pathlib import Path
 from typing import TYPE_CHECKING, Optional
+import json
+
+from pygef import read_cpt
 
 from evo_schemas.objects import DownholeCollection_V1_3_0 as DownholeCollection
 
@@ -68,6 +71,19 @@ def convert_gef(
 
     gef_cpt_data = parse_gef_files(filepaths)
     geoscience_object = create_downhole_collection(gef_cpt_data)
+
+    gef_data = read_cpt(filepaths[0])
+    gef_object = {
+        "schema": "/objects/downhole-collection/1.3.1/downhole-collection.schema.json",
+        "name": "my test object",  # TODO: how will this work?
+        "uuid": "07d26297-b50e-4491-aeb4-7f9ce37c47f4",  # TODO: possibly you're not supposed to allocate a UUID yourself
+        "description": "my CPT data",  # TODO: how will this work?
+        "extensions": {"project_id": gef_data.project_id},  # TODO: can we put some data from the header in this?
+        "tags": tags,
+    }
+
+    json_string = json.dumps(gef_object, indent=4)
+    print(json_string)
 
     if geoscience_object:
         if geoscience_object.tags is None:

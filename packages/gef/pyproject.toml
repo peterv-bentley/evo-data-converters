@@ -1,7 +1,7 @@
 [project]
 name = "evo-data-converters-gef"
 description = "Python data converters for GEF to Evo geoscience objects"
-version = "0.0.1"
+version = "0.0.2"
 requires-python = ">=3.10"
 license-files = ["LICENSE.md"]
 dynamic = ["readme"]
@@ -30,6 +30,7 @@ dev = [
 [tool.ruff]
 src = ["src", "tests"]
 line-length = 120
+
 [build-system]
 requires = ["hatchling", "hatch-fancy-pypi-readme"]
 build-backend = "hatchling.build"
