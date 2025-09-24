@@ -10,7 +10,7 @@
 
 ## Evo
 
-Evo is a unified platform for geoscience teams. It enables access, connection, computation, and management of subsurface data. This empowers better decision-making, simplified collaboration, and accelerated innovation. Evo is built on open APIs, allowing developers to build custom integrations and applications. Our open schemas, code examples, and SDK are available for the community to use and extend. 
+Evo is a unified platform for geoscience teams. It enables access, connection, computation, and management of subsurface data. This empowers better decision-making, simplified collaboration, and accelerated innovation. Evo is built on open APIs, allowing developers to build custom integrations and applications. Our open schemas, code examples, and SDK are available for the community to use and extend.
 
 Evo is powered by Seequent, a Bentley organisation.
 
@@ -41,6 +41,7 @@ The existing data converters can be used without modification or used as a templ
 Whether using the converters or undertaking development work on the modules themselves, integration with Evo will require that you are granted access as an Evo Partner or Customer, along with access to a specific Evo Workspace. Access is granted via a token. For more information on getting started, see the [Seequent Evo Developer Portal.](https://developer.seequent.com/)
 
 ### Using the data converters
+
 See the documentation for each converter for information on how to use the data converters to upload or download geoscience objects from Seequent Evo.
 
 For the data converter's common framework package, see [`evo-data-converters-common`](packages/common/README.md).
@@ -106,6 +107,7 @@ converters, including both importers and exporters, and how to extend this libra
 We rely on an open, friendly, inclusive environment. To help us ensure this remains possible, please familiarise yourself with our [code of conduct.](./CODE_OF_CONDUCT.md)
 
 ## License
+
 Evo data converters are open source and licensed under the [Apache 2.0 license.](./LICENSE.md)
 
 Copyright © 2025 Bentley Systems, Incorporated.
