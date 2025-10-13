@@ -15,6 +15,7 @@ from evo_schemas.components import BaseSpatialDataProperties_V1_0_1
 
 import evo.logging
 from evo.data_converters.common import (
+    BaseGridData,
     EvoWorkspaceMetadata,
     create_evo_object_service_and_data_client,
     publish_geoscience_objects,
@@ -26,6 +27,18 @@ logger = evo.logging.getLogger("data_converters")
 
 if TYPE_CHECKING:
     from evo.notebooks import ServiceManagerWidget
+
+
+def get_ubc_grids(files_path: list[str]) -> list[BaseGridData]:
+    """Extract grid data from a UBC file without converting to Geoscience Objects.
+
+    :param files_path: list of paths to the UBC .msh/.nev files.
+    :return: List of grid data objects.
+
+    :raise UBCFileIOError: If failed to read UBC file.
+    :raise UBCInvalidDataError: If an error was detected within the UBC file.
+    :raise UBCOOMError: If out of memory error occurred while handling the UBC file.
+    """
 
 
 def convert_ubc(
