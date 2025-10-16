@@ -9,19 +9,61 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-import pyarrow as pa
 import vtk
-from evo_schemas.components import BoolAttribute_V1_1_0
-from evo_schemas.elements import BoolArray1_V1_0_1
 from evo_schemas.objects import Regular3DGrid_V1_2_0, RegularMasked3DGrid_V1_2_0
 
 import evo.logging
+from evo.data_converters.common import RegularGridData
 from evo.objects.utils.data import ObjectDataClient
 
-from ._utils import check_for_ghosts, common_fields, get_rotation
-from .vtk_attributes_to_evo import convert_attributes
+from ._utils import check_for_ghosts, common_fields, get_bounding_box, get_rotation
+from .vtk_attributes_to_grid import convert_attributes_to_grid
 
 logger = evo.logging.getLogger("data_converters")
+
+
+def get_vtk_image_data(image_data: vtk.vtkImageData) -> RegularGridData:
+    """Convert a vtkImageData object to a RegularGridData object."""
+    # GetDimensions returns the number of points in each dimension, so we need to subtract 1 to get the number of cells
+    size = image_data.GetDimensions()
+    size = [dim - 1 for dim in size]
+    spacing = image_data.GetSpacing()
+
+    # VTK supports the origin being offset from the corner of the grid, but Geoscience Objects don't.
+    # So, get the location of the corner of grid extent, and use that as the origin.
+    i1, _, j1, _, k1, _ = image_data.GetExtent()
+    origin = [0.0, 0.0, 0.0]
+    image_data.TransformIndexToPhysicalPoint(i1, j1, k1, origin)
+
+    mask = check_for_ghosts(image_data)
+
+    cell_data = image_data.GetCellData()
+    vertex_data = image_data.GetPointData()
+
+    # if mask is not None and not mask.all():
+    #     if vertex_data.GetNumberOfArrays() > 0:
+    #         logger.warning("Blank cells are not supported with point data, skipping the point data")
+
+    #     cell_attributes = convert_attributes_to_grid(cell_data, mask=mask, grid_is_filtered=True)
+    #     mask_attributes = BoolAttribute_V1_1_0( # TODO how to deal with masking?
+    #         name="mask",
+    #         key="mask",
+    #         values=BoolArray1_V1_0_1(**data_client.save_table(pa.table({"mask": mask}))),
+    #     )
+    # else:
+    cell_attributes = convert_attributes_to_grid(cell_data)
+    vertex_attributes = convert_attributes_to_grid(vertex_data)
+
+    return RegularGridData(
+        origin=origin,
+        size=list(size),
+        cell_size=list(spacing),
+        rotation=get_rotation(image_data.GetDirectionMatrix()),
+        bounding_box=get_bounding_box(image_data),
+        mask=mask,
+        cell_attributes=cell_attributes,
+        vertex_attributes=vertex_attributes,
+    )
 
 
 def convert_vtk_image_data(
@@ -34,50 +76,42 @@ def convert_vtk_image_data(
     vtkImageData object has any blanked cells.
     """
 
-    # GetDimensions returns the number of points in each dimension, so we need to subtract 1 to get the number of cells
-    dimensions = image_data.GetDimensions()
-    dimensions = [dim - 1 for dim in dimensions]
-    spacing = image_data.GetSpacing()
+    grid_data = get_vtk_image_data(image_data)
 
-    # VTK supports the origin being offset from the corner of the grid, but Geoscience Objects don't.
-    # So, get the location of the corner of grid extent, and use that as the origin.
-    i1, _, j1, _, k1, _ = image_data.GetExtent()
-    origin = [0.0, 0.0, 0.0]
-    image_data.TransformIndexToPhysicalPoint(i1, j1, k1, origin)
+    # cell_data = image_data.GetCellData()
+    # vertex_data = image_data.GetPointData()
 
-    cell_data = image_data.GetCellData()
-    vertex_data = image_data.GetPointData()
+    # mask = grid_data.mask
 
-    mask = check_for_ghosts(image_data)
-    if mask is not None and not mask.all():
-        if vertex_data.GetNumberOfArrays() > 0:
-            logger.warning("Blank cells are not supported with point data, skipping the point data")
+    # if mask is not None and not mask.all():
+    #     if vertex_data.GetNumberOfArrays() > 0:
+    #         logger.warning("Blank cells are not supported with point data, skipping the point data")
 
-        cell_attributes = convert_attributes(cell_data, data_client, mask=mask, grid_is_filtered=True)
-        mask_attributes = BoolAttribute_V1_1_0(
-            name="mask",
-            key="mask",
-            values=BoolArray1_V1_0_1(**data_client.save_table(pa.table({"mask": mask}))),
-        )
-        return RegularMasked3DGrid_V1_2_0(
-            **common_fields(name, epsg_code, image_data),
-            origin=origin,
-            size=list(dimensions),
-            cell_size=list(spacing),
-            rotation=get_rotation(image_data.GetDirectionMatrix()),
-            cell_attributes=cell_attributes,
-            mask=mask_attributes,
-            number_of_active_cells=int(mask.sum()),
-        )
-    else:
-        cell_attributes = convert_attributes(cell_data, data_client)
-        vertex_attributes = convert_attributes(vertex_data, data_client)
-        return Regular3DGrid_V1_2_0(
-            **common_fields(name, epsg_code, image_data),
-            origin=origin,
-            size=list(dimensions),
-            cell_size=list(spacing),
-            rotation=get_rotation(image_data.GetDirectionMatrix()),
-            cell_attributes=cell_attributes,
-            vertex_attributes=vertex_attributes,
-        )
+    #     cell_attributes = convert_attributes(cell_data, data_client, mask=mask, grid_is_filtered=True)
+    #     mask_attributes = BoolAttribute_V1_1_0(
+    #         name="mask",
+    #         key="mask",
+    #         values=BoolArray1_V1_0_1(**data_client.save_table(pa.table({"mask": mask}))),
+    #     ) # TODO reinstate this code once you sort out the masking stuff
+    #     return RegularMasked3DGrid_V1_2_0(
+    #         **common_fields(name, epsg_code, image_data),
+    #         origin=grid_data.origin,
+    #         size=list(grid_data.size),
+    #         cell_size=list(grid_data.cell_size),
+    #         rotation=get_rotation(image_data.GetDirectionMatrix()),
+    #         cell_attributes=cell_attributes,
+    #         mask=mask_attributes,
+    #         number_of_active_cells=int(mask.sum()),
+    #     )
+    # else:
+    #     cell_attributes = convert_attributes(cell_data, data_client)
+    #     vertex_attributes = convert_attributes(vertex_data, data_client)
+    return Regular3DGrid_V1_2_0(
+        **common_fields(name, epsg_code, image_data),
+        origin=grid_data.origin,
+        size=list(grid_data.size),
+        cell_size=list(grid_data.cell_size),
+        rotation=get_rotation(image_data.GetDirectionMatrix()),
+        cell_attributes=list(grid_data.cell_attributes),
+        vertex_attributes=list(grid_data.vertex_attributes),
+    )

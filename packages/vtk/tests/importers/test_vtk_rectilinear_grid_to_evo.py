@@ -14,14 +14,19 @@ from unittest.mock import MagicMock
 import numpy as np
 import numpy.testing
 import pytest
+import pyarrow
 import vtk
+from evo.data_converters.common import TensorGridData
 from evo_schemas.components import BoundingBox_V1_0_1, Crs_V1_0_1_EpsgCode, Rotation_V1_1_0
 from evo_schemas.objects import Tensor3DGrid_V1_2_0
 from vtk.util.numpy_support import numpy_to_vtk
 from vtk_test_helpers import MockDataClient, add_ghost_value
 
 from evo.data_converters.vtk.importer.exceptions import GhostValueError
-from evo.data_converters.vtk.importer.vtk_rectilinear_grid_to_evo import convert_vtk_rectilinear_grid
+from evo.data_converters.vtk.importer.vtk_rectilinear_grid_to_evo import (
+    convert_vtk_rectilinear_grid,
+    get_vtk_rectilinear_grid,
+)
 
 
 def _create_rectilinear_grid() -> vtk.vtkRectilinearGrid:
@@ -65,6 +70,35 @@ def test_convert() -> None:
     assert result.cell_attributes[0].name == "cell_data"
     cell_attribute_table = data_client.tables[result.cell_attributes[0].values.data]
     numpy.testing.assert_array_equal(cell_attribute_table[0].to_numpy(), np.linspace(0, 1, 6))
+
+
+def test_get_rectilinear_grid() -> None:
+    vtk_data = _create_rectilinear_grid()
+
+    point_data = numpy_to_vtk(np.linspace(0, 1, 24), deep=True)
+    point_data.SetName("point_data")
+    vtk_data.GetPointData().AddArray(point_data)
+
+    cell_data = numpy_to_vtk(np.linspace(0, 1, 6), deep=True)
+    cell_data.SetName("cell_data")
+    vtk_data.GetCellData().AddArray(cell_data)
+
+    grid_data = get_vtk_rectilinear_grid(vtk_data)
+    assert isinstance(grid_data, TensorGridData)
+    assert grid_data.origin == [2.4, 1.2, -1.3]
+    assert grid_data.cell_sizes_x == pytest.approx([0.8])
+    assert grid_data.cell_sizes_y == pytest.approx([2.1, 1.8])
+    assert grid_data.cell_sizes_z == pytest.approx([1.4, 4.8, 0.1])
+    assert grid_data.bounding_box == BoundingBox_V1_0_1(
+        min_x=2.4, min_y=1.2, min_z=-1.3, max_x=3.2, max_y=5.1, max_z=5.0
+    )
+    assert grid_data.size == [1, 2, 3]
+    numpy.testing.assert_array_equal(grid_data.rotation, [0.0, 0.0, 0.0])
+    assert grid_data.vertex_attributes["name"] == "point_data"
+    assert grid_data.vertex_attributes["type"] == "continuous"
+    assert isinstance(grid_data.vertex_attributes["values"], pyarrow.Table)
+    # assert grid_data.vertex_attributes is None # [{'name': 'point_data', 'type': 'continuous', 'values': pyarrow.Table\nvalues: double\n----\nvalues: [[0,0.043478260869565216,0.08695652173913043,0.13043478260869565,0.17391304347826086,...,0.8260869565217391,0.8695652173913043,0.9130434782608695,0.9565217391304348,1]]}]
+    assert grid_data.cell_attributes is None
 
 
 def test_blanked_cell(caplog: pytest.LogCaptureFixture) -> None:

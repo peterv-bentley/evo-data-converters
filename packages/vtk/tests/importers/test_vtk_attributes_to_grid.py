@@ -9,20 +9,16 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-import uuid
 from unittest.mock import MagicMock
 
 import numpy as np
 import numpy.typing as npt
 import pyarrow as pa
-import pandas as pd
 import pytest
 import vtk
-from evo_schemas.components import CategoryAttribute_V1_1_0
 from vtk.util.numpy_support import numpy_to_vtk
-from vtk_test_helpers import MockDataClient
 
-from evo.data_converters.vtk.importer.vtk_attributes_to_evo import convert_attributes
+from evo.data_converters.vtk.importer.vtk_attributes_to_grid import convert_attributes_to_grid
 
 
 def _create_string_array(values: list[str]) -> vtk.vtkStringArray:
@@ -34,28 +30,22 @@ def _create_string_array(values: list[str]) -> vtk.vtkStringArray:
 
 @pytest.mark.parametrize("dtype", [np.float32, np.float64])
 def test_convert_attributes_with_float_data(dtype: np.dtype) -> None:
-    # vtk_data = vtk.vtkDataSetAttributes()
-    # array = numpy_to_vtk(np.array([1.0, 2.0, 3.0], dtype=dtype))
-    # array.SetName("float_attr")
-    # vtk_data.AddArray(array)
+    vtk_data = vtk.vtkDataSetAttributes()
+    array = numpy_to_vtk(np.array([1.0, 2.0, 3.0], dtype=dtype))
+    array.SetName("float_attr")
+    vtk_data.AddArray(array)
 
-    data = pd.DataFrame(np.array([1.0, 2.0, 3.0]))
-    grid_data = [{"name": "float_attr", "type": "continuous", "values": pa.Table.from_pandas(data)}]
-    print("convert float, table ends up as ", grid_data[0]["values"])
     data_client = MagicMock()
-    data_client.save_table.return_value = {
-        "data": uuid.uuid4(),
-        "length": 3,
-        "width": 1,
-        "data_type": "float64",
-    }
 
-    result = convert_attributes(attribute_data=grid_data, data_client=data_client)
+    result = convert_attributes_to_grid(vtk_data)
     assert len(result) == 1
-    assert result[0].name == "float_attr"
+    assert result[0]["name"] == "float_attr"
 
-    table = data_client.save_table.call_args[0][0]
+    table = result[0]["values"]
+
     assert table[0].type == pa.float64()
+
+    data_client.assert_not_called()
 
 
 @pytest.mark.parametrize(
@@ -71,50 +61,42 @@ def test_convert_attributes_with_float_data(dtype: np.dtype) -> None:
     ],
 )
 def test_convert_attributes_with_int_data(input_dtype: np.dtype, go_dtype: pa.DataType) -> None:
-    # vtk_data = vtk.vtkDataSetAttributes()
-    # array = numpy_to_vtk(np.array([1, 2, 3], dtype=input_dtype))
-    # array.SetName("int_attr")
-    # vtk_data.AddArray(array)
+    vtk_data = vtk.vtkDataSetAttributes()
+    array = numpy_to_vtk(np.array([1, 2, 3], dtype=input_dtype))
+    array.SetName("int_attr")
+    vtk_data.AddArray(array)
 
     data_client = MagicMock()
-    data_client.save_table.return_value = {
-        "data": uuid.uuid4(),
-        "length": 3,
-        "width": 1,
-        "data_type": str(go_dtype),
-    }
 
-    data = pd.DataFrame(np.array([1, 2, 3]))
-    grid_data = [{"name": "int_attr", "type": "integer", "values": pa.Table.from_pandas(data)}]
-
-    result = convert_attributes(attribute_data=grid_data, data_client=data_client)
+    result = convert_attributes_to_grid(vtk_data)
     assert len(result) == 1
-    assert result[0].name == "int_attr"
+    assert result[0]["name"] == "int_attr"
+    table = result[0]["values"]
 
-    table = data_client.save_table.call_args[0][0]
     assert table[0].type == go_dtype
+
+    data_client.assert_not_called()
 
 
 def test_convert_attributes_with_string_data() -> None:
-    # vtk_data = vtk.vtkDataSetAttributes()
-    # array = _create_string_array(["A", "B", "C", "A", "A"])
-    # array.SetName("string_attr")
-    # vtk_data.AddArray(array)
+    vtk_data = vtk.vtkDataSetAttributes()
+    array = _create_string_array(["A", "B", "C", "A", "A"])
+    array.SetName("string_attr")
+    vtk_data.AddArray(array)
 
-    lookup_data = pa.table({"key": pa.array([0, 1, 2], type=pa.int32()), "value": ["A", "B", "C"]})
-    data = pd.DataFrame(np.array([0, 1, 2, 0, 0]))
-    grid_data = [{"name": "string_attr", "type": "integer", "values": pa.Table.from_pandas(data), "table": lookup_data}]
+    data_client = MagicMock()
 
-    data_client = MockDataClient()
-    result = convert_attributes(attribute_data=grid_data, data_client=data_client)
+    result = convert_attributes_to_grid(vtk_data)
     assert len(result) == 1
-    assert isinstance(result[0], CategoryAttribute_V1_1_0)
-    assert result[0].name == "string_attr"
+    assert isinstance(result[0], dict)
+    assert result[0]["name"] == "string_attr"
 
-    lookup_table = data_client.tables[result[0].table.data]
+    lookup_table = result[0]["table"]
     assert lookup_table == pa.table({"key": pa.array([0, 1, 2], type=pa.int32()), "value": ["A", "B", "C"]})
-    values_table = data_client.tables[result[0].values.data]
+    values_table = result[0]["values"]
     assert values_table[0].combine_chunks() == pa.array([0, 1, 2, 0, 0], type=pa.int32())
+
+    data_client.assert_not_called()
 
 
 @pytest.mark.parametrize(
@@ -125,10 +107,16 @@ def test_convert_attributes_with_string_data() -> None:
     ],
 )
 def test_convert_attributes_unsupported_data_types(array: npt.NDArray) -> None:
-    data = pd.DataFrame(array)
-    grid_data = [{"name": "fail", "type": "should not be possible", "values": pa.Table.from_pandas(data)}]
+    vtk_data = vtk.vtkDataSetAttributes()
+    if array.dtype == object:
+        vtk_array = vtk.vtkStringArray()
+        for value in array:
+            vtk_array.InsertNextValue(value)
+    else:
+        vtk_array = numpy_to_vtk(array)
+    vtk_data.AddArray(vtk_array)
 
-    result = convert_attributes(attribute_data=grid_data, data_client=MagicMock())
+    result = convert_attributes_to_grid(vtk_data)
     assert len(result) == 0
 
 
@@ -146,20 +134,16 @@ def test_convert_attributes_with_mask(grid_is_filtered: bool, expected_values: l
     vtk_data.AddArray(array)
 
     data_client = MagicMock()
-    data_client.save_table.return_value = {
-        "data": uuid.uuid4(),
-        "length": 2,
-        "width": 1,
-        "data_type": "int32",
-    }
-    # TODO fix mask problem
-    result = convert_attributes(vtk_data, data_client, np.array([True, False, True]), grid_is_filtered=grid_is_filtered)
-    assert len(result) == 1
-    assert result[0].name == "int_attr"
 
-    table = data_client.save_table.call_args[0][0]
+    result = convert_attributes_to_grid(vtk_data, np.array([True, False, True]), grid_is_filtered=grid_is_filtered)
+    assert len(result) == 1
+    assert result[0]["name"] == "int_attr"
+    table = result[0]["values"]
+
     array = table[0].combine_chunks()
     assert array == pa.array(expected_values, type=pa.int32())
+
+    data_client.assert_not_called()
 
 
 @pytest.mark.parametrize(
@@ -175,16 +159,17 @@ def test_convert_string_attributes_with_mask(grid_is_filtered: bool, expected_va
     array.SetName("string_attr")
     vtk_data.AddArray(array)
 
-    data_client = MockDataClient()
-    # TODO fix mask problem
-    result = convert_attributes(
-        vtk_data, data_client, np.array([True, False, True, False, True]), grid_is_filtered=grid_is_filtered
+    data_client = MagicMock()
+    result = convert_attributes_to_grid(
+        vtk_data, np.array([True, False, True, False, True]), grid_is_filtered=grid_is_filtered
     )
     assert len(result) == 1
-    assert isinstance(result[0], CategoryAttribute_V1_1_0)
-    assert result[0].name == "string_attr"
+    assert isinstance(result[0], dict)
+    assert result[0]["name"] == "string_attr"
 
-    lookup_table = data_client.tables[result[0].table.data]
+    lookup_table = result[0]["table"]
     assert lookup_table == pa.table({"key": pa.array([0, 1], type=pa.int32()), "value": ["A", "C"]})
-    values_table = data_client.tables[result[0].values.data]
+    values_table = result[0]["values"]
     assert values_table[0].combine_chunks() == pa.array(expected_values, type=pa.int32())
+
+    data_client.assert_not_called()
