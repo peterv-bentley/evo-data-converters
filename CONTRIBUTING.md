@@ -22,6 +22,20 @@ If you can't find an existing issue that represents your request, open a new iss
 provide a clear description of the problem or idea, along with any necessary context (software version, operating
 system, example code, steps to reproduce, etc.). We also welcome pull requests to fix bugs instead of opening issues!
 
+### Adding a new project
+A project is defined as a self-contained piece of functionality. Each new project is in a sub-folder of the `./packages/` folder in this repository. The folder name should match the package name that will be published and contain the source code for that project.
+
+Because each project is self-contained, contributors must specify maintainers for each new package. These maintainers are responsible for reviewing pull requests, ensuring code quality, maintaining security standards, and providing ongoing project maintenance. Add an entry to the [CODEOWNERS file](.github/CODEOWNERS) in the root directory, for example:
+
+```
+# Package maintainers for the new project
+packages/mypackage/  @seequentEvo/mypackage-maintainers
+```
+
+Where possible, assign code ownership to a team rather than individuals.
+Remember that more specific rules override general ones, so package-specific entries will take precedence over the global fallback rule.
+
+
 ## Opening a pull request
 
 We welcome all forms of pull requests, and strive to ensure contributions are reviewed and merged promptly.
