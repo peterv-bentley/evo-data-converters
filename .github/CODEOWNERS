@@ -1,6 +1,3 @@
-* @SeequentEvo/evo-data-converters-maintainers
-/packages/duf/ @SeequentEvo/evo-data-converters-duf-maintainers
-
 # CODEOWNERS - Code ownership and review assignments
 #
 # This file defines who is responsible for reviewing and maintaining code in different parts of the repository.
