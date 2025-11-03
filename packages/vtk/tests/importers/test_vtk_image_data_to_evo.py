@@ -21,8 +21,9 @@ from evo_schemas.objects import Regular3DGrid_V1_2_0, RegularMasked3DGrid_V1_2_0
 from vtk.util.numpy_support import numpy_to_vtk
 from vtk_test_helpers import MockDataClient, add_ghost_value
 
+from evo.data_converters.common import RegularGridData
 from evo.data_converters.vtk.importer.exceptions import GhostValueError
-from evo.data_converters.vtk.importer.vtk_image_data_to_evo import convert_vtk_image_data
+from evo.data_converters.vtk.importer.vtk_image_data_to_evo import convert_vtk_image_data, get_vtk_image_data
 
 
 @pytest.mark.parametrize(
@@ -53,6 +54,33 @@ def test_metadata(data_object_type: Callable[[], vtk.vtkImageData]) -> None:
     assert result.rotation == Rotation_V1_1_0(dip_azimuth=0.0, dip=0.0, pitch=0.0)
     assert result.cell_attributes == []
     assert result.vertex_attributes == []
+
+
+@pytest.mark.parametrize(
+    "data_object_type",
+    [
+        pytest.param(vtk.vtkImageData, id="vtkImageData"),
+        pytest.param(vtk.vtkStructuredPoints, id="vtkStructuredPoints"),
+        pytest.param(vtk.vtkUniformGrid, id="vtkUniformGrid"),
+    ],
+)
+def test_grid_data(data_object_type: Callable[[], vtk.vtkImageData]) -> None:
+    vtk_data = data_object_type()
+    vtk_data.SetDimensions(3, 4, 7)
+    vtk_data.SetOrigin(12.0, 10.0, -8.0)
+    vtk_data.SetSpacing(1.5, 2.5, 5.0)
+
+    grid_data = get_vtk_image_data(vtk_data)
+    assert isinstance(grid_data, RegularGridData)
+    assert grid_data.origin == [12.0, 10.0, -8.0]
+    assert grid_data.cell_size == [1.5, 2.5, 5.0]
+    assert grid_data.bounding_box == BoundingBox_V1_0_1(
+        min_x=12.0, max_x=15.0, min_y=10.0, max_y=17.5, min_z=-8.0, max_z=22.0
+    )
+    assert grid_data.size == [2, 3, 6]
+    assert grid_data.rotation == Rotation_V1_1_0(dip_azimuth=0.0, dip=0.0, pitch=0.0)
+    assert grid_data.cell_attributes == []
+    assert grid_data.vertex_attributes == []
 
 
 def test_rotated_and_extent() -> None:
